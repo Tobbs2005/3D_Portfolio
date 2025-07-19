@@ -187,8 +187,8 @@ loader.load("/models/Room_Profolio.glb", (glb) => {
 
 // Camera
 const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 1000);
-camera.position.set(2, 2, 5);
-camera.lookAt(0, 0, 0);
+camera.position.set(26.21131907253588, 20.195938194296943, 26.82068416591988);
+
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
@@ -199,6 +199,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
+controls.target.set(-0.6388761849161843, 4.685146455099664, -1.8199404781491306);
 
 // Resize Handling
 window.addEventListener("resize", () => {
