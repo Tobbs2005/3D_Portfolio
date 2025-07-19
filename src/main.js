@@ -105,19 +105,19 @@ const glassMaterial = new THREE.MeshPhysicalMaterial({
   videoTexture2.colorSpace = THREE.SRGBColorSpace;
   videoTexture2.flipY = false;
         
-  const imageTexture = textureLoader.load("/images/CodeEditor.png");
+  const imageTexture = textureLoader.load("/images/CodeEditor.webp");
   imageTexture.flipY = false;
   imageTexture.colorSpace = THREE.SRGBColorSpace;
 
-  const imageTexture2 = textureLoader.load("/images/LinkedIn_Photo.JPG");
+  const imageTexture2 = textureLoader.load("/images/LinkedIn_Photo.webp");
   imageTexture2.flipY = false;
   imageTexture2.colorSpace = THREE.SRGBColorSpace;
 
-  const imageTexture3 = textureLoader.load("/images/Beach_Photo.JPG");
+  const imageTexture3 = textureLoader.load("/images/Beach_Photo.webp");
   imageTexture3.flipY = false;
   imageTexture3.colorSpace = THREE.SRGBColorSpace;
 
-  const imageTexture4 = textureLoader.load("/images/Ghibli_Painting.jpg");
+  const imageTexture4 = textureLoader.load("/images/Ghibli_Painting.webp");
   imageTexture4.flipY = false;
   imageTexture4.colorSpace = THREE.SRGBColorSpace;
 
