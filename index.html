@@ -1,16 +1,192 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Ziyue Fang Portfolio</title>
+    <link rel="stylesheet" href="/src/style.scss" />
   </head>
-  <body>
-    <div id="app"></div>
+  <body class="dark-green-theme">
+    <!-- Main Experience Section -->
     <div id="experience">
       <canvas id="experience-canvas" class="experience-canvas"></canvas>
     </div>
+
+    <!-- About Modal -->
+    <div class="about modal">
+      <div class="modal-wrapper">
+        <h1 class="modal-title">Welcome to my Portfolio!</h1>
+        <div class="modal-content">
+          <div class="modal-content-wrapper">
+            <div class="about-row">
+              <img src="" alt="Profile Picture" />
+              <div class="about-paragraph">
+                Hi! My name is Ziyue Fang, and I am currently a student studying Computer Science at Columbia University.
+              </div>
+            </div>
+            <div class="about-row">
+              <img src="" alt="Experience Image" />
+              <div class="about-paragraph">
+                This project was inspired by my freshman year internship, where I worked at a video game company. I led the development of an AI writing tool, but I also picked up 3D modeling with Blender and integrated it with ThreeJS to build this website from scratch.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-exit-button">
+        <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Projects Modal -->
+    <div class="projects modal">
+      <div class="modal-wrapper">
+        <h1 class="modal-title">Projects</h1>
+        <div class="modal-content">
+          <div class="modal-content-wrapper">
+            <div class="folder" onclick="openProject('')"></div>
+
+            <!-- Hidden Modal for Project Details -->
+            <!-- Project Modal Example -->
+<div class="project-modal" id="PolyPace-modal">
+  <div class="overlay"></div>
+  <div class="project">
+    <h1></h1>
+    <img src="path_to_image_here.jpg" alt="PolyPace" />
+    <div class="tags">
+      <span>Unity</span>
+      <span>OpenCV</span>
+      <span>OpenXR</span>
+      <span>Blender</span>
+    </div>
+   
+    <a href="your_project_link_here">View this Project</a>
+  </div>
+  <!-- Close button for project modal -->
+  <button class="project-exit-button" onclick="closeModal('')">
+    <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+      <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+      <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+    </svg>
+  </button>
+</div>
+
+
+            <!-- Repeat the modal structure for other projects -->
+          </div>
+        </div>
+      </div>
+      <button class="modal-exit-button">
+        <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Education Modal -->
+    <div class="education modal">
+      <div class="modal-wrapper">
+        <h1 class="modal-title">Education</h1>
+        <div class="modal-content">
+          <div class="modal-content-wrapper">
+            <div class="education-row">
+              <img src="" alt="Columbia University" />
+              <div class="education-description">
+                <h3>Columbia University</h3>
+                <div class="education-degree">B.S. in Computer Science</div>
+                <div class="education-bullet">GPA: TBD/4.00</div>
+              </div>
+            </div>
+            <div class="education-row">
+              <img src="" alt="Vanderbilt University" />
+              <div class="education-description">
+                <h3>Vanderbilt University</h3>
+                <div class="education-degree">B.S. in Computer Science</div>
+                <div class="education-bullet">GPA: 3.97/4.00</div>
+              </div>
+            </div>
+            <div class="education-row">
+              <img src="" alt="Singapore International School" />
+              <div class="education-description">
+                <h3>Singapore International School (Hong Kong)</h3>
+                <div class="education-bullet">IB: 43/45</div>
+                <div class="education-bullet">SAT: 1550</div>
+                <div class="education-bullet">First in Computer Science HL (2024, 2023)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-exit-button">
+        <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="contact modal">
+      <div class="modal-wrapper">
+        <h1 class="modal-title">Contact</h1>
+        <div class="modal-content">
+          <div class="modal-content-wrapper">
+            <!-- Email -->
+            <div class="contact-row">
+              <img src="" alt="Email" />
+              <p><a href="mailto:tobyfang05@gmail.com" target="_blank" rel="noopener noreferrer">tobyfang05@gmail.com</a></p>
+            </div>
+            <!-- LinkedIn -->
+            <div class="contact-row">
+              <img src="" alt="LinkedIn" />
+              <p><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+            </div>
+            <!-- GitHub -->
+            <div class="contact-row">
+              <img src="" alt="GitHub" />
+              <p><a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-exit-button">
+        <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+        </svg>
+      </button>
+    </div>
+
+    <script>
+      // Open project modal
+      function openProject(projectName) {
+        const modal = document.getElementById(`${projectName}-modal`);
+        const overlay = modal.querySelector('.overlay');
+        
+        modal.style.display = 'block'; // Show the modal
+        overlay.style.display = 'block'; // Show the overlay
+      }
+
+      // Close only the overlay (keep the modal content visible)
+      function closeOverlay(projectName) {
+        const modal = document.getElementById(`${projectName}-modal`);
+        const overlay = modal.querySelector('.overlay');
+        
+        overlay.style.display = 'none';  // Hide only the overlay
+      }
+
+      // Close the entire project modal
+      function closeModal(projectName) {
+        const modal = document.getElementById(`${projectName}-modal`);
+        modal.style.display = 'none';  // Hide the entire modal
+      }
+    </script>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

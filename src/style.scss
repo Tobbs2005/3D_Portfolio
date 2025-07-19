@@ -1,31 +1,245 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-// Experience
-#experience {
+// Basic modal styles
+.modal {
+  display: none; /* Hidden by default */
+  opacity: 0; /* Start with 0 opacity */
+  transition: opacity 0.5s ease; /* Smooth transition for opacity */
   position: fixed;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 800px; /* Adjusted for a larger modal */
+  background-color: rgba(0, 40, 0, 0.85); /* Dark green with transparency */
+  color: white;
+  padding: 20px;
+  border-radius: 20px; /* Rounded corners for a cute look */
+  border: 4px solid #003300; /* Even darker green border */
+  z-index: 9999; /* Ensure it's above other content */
+}
 
-  #experience-canvas {
-    height: 100%;
-    width: 100%;
+.modal.active {
+  display: block; /* Show the modal when active */
+  opacity: 1; /* Make it visible */
+}
+
+// Exit button styling
+.modal-exit-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: white;
+  padding: 10px;
+  font-size: 24px;
+}
+
+
+// Optional styling for exit button SVG
+.exit-button-svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+// Modal title
+.modal-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+// Modal content
+.modal-content {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.modal-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
+// Styling for the rows inside the modal (e.g., for about, education)
+.about-row,
+.education-row,
+.contact-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.about-paragraph,
+.education-description,
+.contact-row p {
+  margin-left: 20px;
+}
+
+// Image inside the row
+.about-row img,
+.education-row img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+// Education specific styling
+.education-description h3 {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.education-bullet {
+  margin-top: 5px;
+}
+
+// Contact links styling
+.contact-row a {
+  color: #1e90ff;
+  text-decoration: none;
+}
+
+.contact-row a:hover {
+  text-decoration: underline;
+}
+
+// Make modal responsive
+@media (max-width: 768px) {
+  .modal {
+    width: 90%; /* Adjust for smaller screens */
   }
+
+  .modal-exit-button {
+    top: 5px;
+    right: 5px;
+  }
+
+  .modal-title {
+    font-size: 1.6rem;
+  }
+
+  .modal-content {
+    font-size: 1rem;
+  }
+
+  .about-row img,
+  .education-row img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .modal-exit-button {
+    font-size: 18px;
+  }
+}
+
+// Smooth transition for modal visibility
+.modal-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
+// Button transitions on hover
+.modal-exit-button svg {
+  transition: transform 0.3s ease;
+}
+
+.modal-exit-button:hover svg {
+  transform: rotate(45deg);
+}
+
+// For smooth handling of small font texts
+.sm-font {
+  font-size: 1rem;
+}
+
+.sm-margin-top {
+  margin-top: 12px;
+}
+
+/* Specific styles for project modals (Project modal overlay) */
+.project-modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the modal */
+  width: 80%;
+  max-width: 800px;
+  background: #dacfaa; /* Light beige background for the overlay */
+  z-index: 10000; /* Ensure it's above all other content */
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+// Project modal content for text, images, tags
+.project-modal .project {
+  text-align: center;
+}
+
+.project-modal .project h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.project-modal .project img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.project-modal .tags {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.project-modal .tags span {
+  background-color: #003300;
+  color: white;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.project-modal p {
+  margin-top: 10px;
+  font-size: 1rem;
+}
+
+.project-modal a {
+  display: inline-block;
+  margin-top: 20px;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.project-modal a:hover {
+  text-decoration: underline;
 }
