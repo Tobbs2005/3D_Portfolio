@@ -49,7 +49,7 @@
         <div class="modal-content">
           <p>Click below to view my full resume:</p>
           <div class="resume-preview">
-            <img src="/public/images/Resume.webp" alt="Resume Preview"/>
+            <img src="/images/Resume.webp" alt="Resume Preview"/>
           </div>
           <a href="/resume" target="_blank" class="resume-link">
             <button class="open-resume-button">Open Full Resume</button>
@@ -100,16 +100,27 @@
     <div class="project-info" id="converso-info">
       <div class="project">
         <h1>Converso</h1>
-        <img src="public/projects/converso/Converso.webp" alt="Converso" />
-        <img src="public/projects/converso/Converso2.webp" alt="Converso2" />
+
+
+        <img src="/projects/converso/Converso.webp" alt="Converso" class="project-image" />
+
         <div class="tags">
-          <span>Unity</span>
-          <span>OpenCV</span>
-          <span>OpenXR</span>
-          <span>Blender</span>
+          <span>React</span>
+          <span>Typescript</span>
+          <span>NextJS</span>
+          <span>Supabase</span>
+          <span>Stripe</span>
+          <span>VapiAI</span>
         </div>
-        <p>Ahhhhhh</p>
-        <a href="your_project_link_here">View this Project</a>
+        <div class="project-description">
+          This was my first project in web development, and I worked on it in preparation for my first internship. It was a great learning experience, diving into web technologies and applying what I had learned to create something tangible.
+          <br/>
+          <br/>
+          I developed a real-time AI tutoring platform where users could chat with an AI about any topic they wanted, offering a personalized learning experience. I implemented full-stack functionality, integrating user authentication, subscription management, and payments using NextJS, Supabase, and Stripe. I also deployed and maintained scalable SaaS features like rate limiting, token tracking, and user session control, ensuring the platform could handle increased usage and provide a smooth user experience.
+
+        </div>
+        <a href="your_project_link_here">Website</a>
+        <a href="your_project_link_here">GitHub</a>
       </div>
       <button class="project-exit-button" onclick="closeProjectInfo()">
         <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
@@ -119,27 +130,10 @@
       </button>
     </div>
 
-    <!-- Project Specs (project2-info) -->
-    <div class="project-info" id="project2-info">
-      <div class="project">
-        <h1>Project 2</h1>
-        <img src="public/projects/project2/Project2.webp" alt="Project 2" />
-        <img src="public/projects/project2/Project2Detail.webp" alt="Project 2 Detail" />
-        <div class="tags">
-          <span>Tag1</span>
-          <span>Tag2</span>
-        </div>
-        <p>Project 2 Description</p>
-        <a href="your_project2_link_here">View this Project</a>
-      </div>
-      <button class="project-exit-button" onclick="closeProjectInfo()">
-        <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
-          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
-          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
-        </svg>
-      </button>
-    </div>
 
+
+
+   
     <!-- Education Modal -->
     <div class="education modal">
       <div class="modal-wrapper">
