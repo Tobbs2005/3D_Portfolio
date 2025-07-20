@@ -24,6 +24,17 @@ const modals = {
   contact: document.querySelector(".modal.contact")
 }
 
+// Function to disable scrolling
+function disableScrolling() {
+  document.body.style.overflow = 'hidden';
+}
+
+// Function to enable scrolling
+function enableScrolling() {
+  document.body.style.overflow = 'auto';
+}
+
+
 let touchHappened = false;
 
 document.querySelectorAll(".modal-exit-button").forEach((button) => {
@@ -46,6 +57,7 @@ let modalOpen = false;
 
 const showModal = (modal) => {
   if(modalOpen) return;
+  disableScrolling();
   modalOpen = true;
   modal.style.display = "block";
   gsap.set(modal, {opacity: 0});
@@ -58,6 +70,7 @@ const showModal = (modal) => {
 }
 
 const hideModal = (modal) => {
+  enableScrolling();
   modalOpen = false;
   gsap.to(modal, {
     opacity: 0,

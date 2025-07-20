@@ -42,41 +42,34 @@
       </button>
     </div>
 
-    <!-- Projects Modal -->
+    <!-- Experience Modal -->
+
+    <!-- Projects Modal (File Explorer Style) -->
     <div class="projects modal">
       <div class="modal-wrapper">
         <h1 class="modal-title">Projects</h1>
         <div class="modal-content">
           <div class="modal-content-wrapper">
-            <div class="folder" onclick="openProject('')"></div>
+            <!-- Project Folders as Icons -->
+            <div class="folder-container">
+              <div class="folder" onclick="openProject('converso')">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>
+                </svg>
+                <span class="folder-name">Converso - An AI Learning Tool</span>
+              </div>
 
-            <!-- Hidden Modal for Project Details -->
-            <!-- Project Modal Example -->
-<div class="project-modal" id="PolyPace-modal">
-  <div class="overlay"></div>
-  <div class="project">
-    <h1></h1>
-    <img src="path_to_image_here.jpg" alt="PolyPace" />
-    <div class="tags">
-      <span>Unity</span>
-      <span>OpenCV</span>
-      <span>OpenXR</span>
-      <span>Blender</span>
-    </div>
-   
-    <a href="your_project_link_here">View this Project</a>
-  </div>
-  <!-- Close button for project modal -->
-  <button class="project-exit-button" onclick="closeModal('')">
-    <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
-      <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
-      <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
-    </svg>
-  </button>
-</div>
+              <!-- Repeat the above folder structure for other projects -->
+              <div class="folder" onclick="openProject('project2')">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>
+                </svg>
+                <span class="folder-name">Project 2</span>
+              </div>
 
+              <!-- Add more project folders here as needed -->
+            </div>
 
-            <!-- Repeat the modal structure for other projects -->
           </div>
         </div>
       </div>
@@ -86,6 +79,30 @@
           <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
         </svg>
       </button>
+
+
+      <!-- Project specs -->
+
+      <div class="project-modal" id="converso-modal">
+        <div class="project">
+          <h1>Converso</h1>
+          <img src="path_to_image_here.jpg" alt="Converso" />
+          <div class="tags">
+            <span>Unity</span>
+            <span>OpenCV</span>
+            <span>OpenXR</span>
+            <span>Blender</span>
+          </div>
+          <p>Ahhhhhh</p>
+          <a href="your_project_link_here">View this Project</a>
+        </div>
+        <button class="project-exit-button" onclick="closeModal('converso')">
+          <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+            <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+            <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+          </svg>
+        </button>
+      </div>
     </div>
 
     <!-- Education Modal -->
