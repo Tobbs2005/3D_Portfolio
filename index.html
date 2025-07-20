@@ -43,33 +43,48 @@
     </div>
 
     <!-- Experience Modal -->
+    <div class="experience modal" id="experience-modal">
+      <div class="modal-wrapper">
+        <h1 class="modal-title">My Resume</h1>
+        <div class="modal-content">
+          <p>Click below to view my full resume:</p>
+          <div class="resume-preview">
+            <img src="/public/images/Resume.webp" alt="Resume Preview"/>
+          </div>
+          <a href="/resume" target="_blank" class="resume-link">
+            <button class="open-resume-button">Open Full Resume</button>
+          </a>
+        </div>
+      </div>
+      <button class="modal-exit-button" onclick="closeModal('experience')">
+        <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+        </svg>
+      </button>
+    </div>
 
-    <!-- Projects Modal (File Explorer Style) -->
+    <!-- Projects Modal -->
     <div class="projects modal">
       <div class="modal-wrapper">
         <h1 class="modal-title">Projects</h1>
         <div class="modal-content">
           <div class="modal-content-wrapper">
-            <!-- Project Folders as Icons -->
             <div class="folder-container">
-              <div class="folder" onclick="openProject('converso')">
+              <div class="folder" onclick="openProjectInfo('converso-info')">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>
                 </svg>
                 <span class="folder-name">Converso - An AI Learning Tool</span>
               </div>
 
-              <!-- Repeat the above folder structure for other projects -->
-              <div class="folder" onclick="openProject('project2')">
+              <div class="folder" onclick="openProjectInfo('project2-info')">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>
                 </svg>
                 <span class="folder-name">Project 2</span>
               </div>
-
-              <!-- Add more project folders here as needed -->
             </div>
-
           </div>
         </div>
       </div>
@@ -79,30 +94,50 @@
           <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
         </svg>
       </button>
+    </div>
 
-
-      <!-- Project specs -->
-
-      <div class="project-modal" id="converso-modal">
-        <div class="project">
-          <h1>Converso</h1>
-          <img src="path_to_image_here.jpg" alt="Converso" />
-          <div class="tags">
-            <span>Unity</span>
-            <span>OpenCV</span>
-            <span>OpenXR</span>
-            <span>Blender</span>
-          </div>
-          <p>Ahhhhhh</p>
-          <a href="your_project_link_here">View this Project</a>
+    <!-- Project Specs (converso-info) -->
+    <div class="project-info" id="converso-info">
+      <div class="project">
+        <h1>Converso</h1>
+        <img src="public/projects/converso/Converso.webp" alt="Converso" />
+        <img src="public/projects/converso/Converso2.webp" alt="Converso2" />
+        <div class="tags">
+          <span>Unity</span>
+          <span>OpenCV</span>
+          <span>OpenXR</span>
+          <span>Blender</span>
         </div>
-        <button class="project-exit-button" onclick="closeModal('converso')">
-          <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
-            <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
-            <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
-          </svg>
-        </button>
+        <p>Ahhhhhh</p>
+        <a href="your_project_link_here">View this Project</a>
       </div>
+      <button class="project-exit-button" onclick="closeProjectInfo()">
+        <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Project Specs (project2-info) -->
+    <div class="project-info" id="project2-info">
+      <div class="project">
+        <h1>Project 2</h1>
+        <img src="public/projects/project2/Project2.webp" alt="Project 2" />
+        <img src="public/projects/project2/Project2Detail.webp" alt="Project 2 Detail" />
+        <div class="tags">
+          <span>Tag1</span>
+          <span>Tag2</span>
+        </div>
+        <p>Project 2 Description</p>
+        <a href="your_project2_link_here">View this Project</a>
+      </div>
+      <button class="project-exit-button" onclick="closeProjectInfo()">
+        <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+        </svg>
+      </button>
     </div>
 
     <!-- Education Modal -->
@@ -178,30 +213,27 @@
         </svg>
       </button>
     </div>
-
     <script>
-      // Open project modal
-      function openProject(projectName) {
-        const modal = document.getElementById(`${projectName}-modal`);
-        const overlay = modal.querySelector('.overlay');
-        
-        modal.style.display = 'block'; // Show the modal
-        overlay.style.display = 'block'; // Show the overlay
+      // Function to open the project info modal by setting display to "block"
+      function openProjectInfo(projectId) {
+        const projectInfo = document.getElementById(projectId);
+        if (projectInfo) {
+          // Close all project info modals first
+          closeProjectInfo();
+
+          // Set the display style to "block" for the selected project info modal
+          projectInfo.style.display = "block";
+        }
       }
 
-      // Close only the overlay (keep the modal content visible)
-      function closeOverlay(projectName) {
-        const modal = document.getElementById(`${projectName}-modal`);
-        const overlay = modal.querySelector('.overlay');
-        
-        overlay.style.display = 'none';  // Hide only the overlay
+      // Function to close all project info modals by setting display to "none"
+      function closeProjectInfo() {
+        const allProjects = document.querySelectorAll('.project-info');
+        allProjects.forEach(project => {
+          project.style.display = "none"; // Hide all project info modals
+        });
       }
 
-      // Close the entire project modal
-      function closeModal(projectName) {
-        const modal = document.getElementById(`${projectName}-modal`);
-        modal.style.display = 'none';  // Hide the entire modal
-      }
     </script>
 
     <script type="module" src="/src/main.js"></script>

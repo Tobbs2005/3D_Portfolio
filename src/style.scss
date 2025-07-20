@@ -32,6 +32,14 @@
   overflow-y: auto; /* Make the modal scrollable */
 }
 
+.modal-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
 .modal.active {
   display: block; /* Show the modal when active */
   opacity: 1; /* Make it visible */
@@ -154,8 +162,6 @@
   }
 }
 
-
-
 // Button transitions on hover
 .modal-exit-button svg,
 .project-exit-button svg {
@@ -176,8 +182,8 @@
   margin-top: 12px;
 }
 
-/* Specific styles for project modals (Project modal overlay) */
-.project-modal {
+/* Specific styles for project info (renamed from project overlay) */
+.project-info {
   display: none;
   position: fixed;
   top: 50%;
@@ -194,23 +200,23 @@
   max-height: 80vh; /* Ensure it's scrollable */
 }
 
-// Project modal content for text, images, tags
-.project-modal .project {
+// Project info content for text, images, tags
+.project-info .project {
   text-align: center;
 }
 
-.project-modal .project h1 {
+.project-info .project h1 {
   font-size: 2rem;
   margin-bottom: 20px;
 }
 
-.project-modal .project img {
+.project-info .project img {
   width: 100%;
   height: auto;
   margin-bottom: 20px;
 }
 
-.project-modal .tags {
+.project-info .tags {
   margin-top: 15px;
   display: flex;
   justify-content: center;
@@ -218,30 +224,30 @@
   flex-wrap: wrap;
 }
 
-.project-modal .tags span {
+.project-info .tags span {
   background-color: #003300;
   color: white;
   padding: 8px;
   border-radius: 5px;
 }
 
-.project-modal p {
+.project-info p {
   margin-top: 10px;
   font-size: 1rem;
 }
 
-.project-modal a {
+.project-info a {
   display: inline-block;
   margin-top: 20px;
   text-decoration: none;
   color: #007bff;
 }
 
-.project-modal a:hover {
+.project-info a:hover {
   text-decoration: underline;
 }
 
-/* Folder container for Projects modal */
+/* Folder container for Projects info */
 .folder-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* Default 4 items per row */
@@ -310,5 +316,55 @@
   }
 }
 
+/* Resume Preview Styling */
+.experience.modal .resume-preview {
+  width: 100%;
+  height: 75vh; /* Use 75% of the modal height */
+  overflow: hidden;
+  margin-bottom: 20px;
+}
 
+.experience.modal .resume-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Keep aspect ratio */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
+/* Button to open full resume */
+.open-resume-button {
+  background-color: #003300;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.open-resume-button:hover {
+  background-color: #005500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .experience.modal {
+    width: 90%; /* Adjust for smaller screens */
+    max-height: 80vh;
+  }
+
+  .experience.modal .resume-preview {
+    height: 60vh; /* Reduce preview height on smaller screens */
+  }
+}
+
+@media (min-width: 1024px) {
+  .experience.modal {
+    width: 70%; /* Increase width for large screens */
+  }
+
+  .experience.modal .resume-preview {
+    height: 75vh; /* Increase preview height for larger screens */
+  }
+}
