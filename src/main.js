@@ -56,30 +56,36 @@ document.querySelectorAll(".modal-exit-button").forEach((button) => {
 let modalOpen = false;
 
 const showModal = (modal) => {
-  if(modalOpen) return;
+  console.log(modal)
+  if (modalOpen) return;
   disableScrolling();
   modalOpen = true;
   modal.style.display = "block";
-  gsap.set(modal, {opacity: 0});
+  gsap.set(modal, { opacity: 0 });
+
+  document.body.classList.add("modal-active");
 
   gsap.to(modal, {
     opacity: 1,
     duration: 0.5,
-  })
-
+  });
 }
 
 const hideModal = (modal) => {
-  enableScrolling();
+  enableScrolling();  // Re-enable scrolling
   modalOpen = false;
+
   gsap.to(modal, {
     opacity: 0,
     duration: 0.5,
     onComplete: () => {
       modal.style.display = "none";
     },
-  })
-}
+  });
+};
+
+
+
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();

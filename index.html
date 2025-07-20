@@ -41,69 +41,95 @@
         </svg>
       </button>
     </div>
-
     <!-- Experience Modal -->
-
-    <!-- Projects Modal (File Explorer Style) -->
-    <div class="projects modal">
-      <div class="modal-wrapper">
-        <h1 class="modal-title">Projects</h1>
-        <div class="modal-content">
-          <div class="modal-content-wrapper">
-            <!-- Project Folders as Icons -->
-            <div class="folder-container">
-              <div class="folder" onclick="openProject('converso')">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>
-                </svg>
-                <span class="folder-name">Converso - An AI Learning Tool</span>
-              </div>
-
-              <!-- Repeat the above folder structure for other projects -->
-              <div class="folder" onclick="openProject('project2')">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>
-                </svg>
-                <span class="folder-name">Project 2</span>
-              </div>
-
-              <!-- Add more project folders here as needed -->
+  <div class="experience modal" id="experience-modal">
+    <div class="modal-wrapper">
+      <h1 class="modal-title">My Resume</h1>
+      <div class="modal-content">
+        <p>Click below to view my full resume:</p>
+        <div class="resume-preview-container">
+          
+          <a href="/resume" target="_blank" class="resume-link">
+            <div class="resume-preview">
+              <img src="/images/Resume.webp" alt="Resume Preview"/>
             </div>
-
-          </div>
+          </a>
         </div>
-      </div>
-      <button class="modal-exit-button">
-        <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
-          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
-          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
-        </svg>
-      </button>
-
-
-      <!-- Project specs -->
-
-      <div class="project-modal" id="converso-modal">
-        <div class="project">
-          <h1>Converso</h1>
-          <img src="path_to_image_here.jpg" alt="Converso" />
-          <div class="tags">
-            <span>Unity</span>
-            <span>OpenCV</span>
-            <span>OpenXR</span>
-            <span>Blender</span>
-          </div>
-          <p>Ahhhhhh</p>
-          <a href="your_project_link_here">View this Project</a>
-        </div>
-        <button class="project-exit-button" onclick="closeModal('converso')">
-          <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
-            <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
-            <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
-          </svg>
-        </button>
       </div>
     </div>
+    <button class="modal-exit-button" onclick="closeModal('experience')">
+      <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+        <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+      </svg>
+    </button>
+  </div>
+    <!-- Projects Modal (File Explorer Style) -->
+    <!-- Projects Modal (File Explorer Style) -->
+<div class="projects modal">
+  <div class="modal-wrapper">
+    <h1 class="modal-title">Projects</h1>
+    <div class="modal-content">
+      <div class="modal-content-wrapper">
+        <!-- Project Folders as Icons -->
+        <div class="folder-container">
+          <div class="folder" data-project-id="converso" onclick="openProjectInfo(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>
+            </svg>
+            <span class="folder-name">Converso - An AI Learning Tool</span>
+          </div>
+
+          <!-- Repeat the above folder structure for other projects -->
+          <div class="folder" onclick="openProjectInfo('project2')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>
+            </svg>
+            <span class="folder-name">Project 2</span>
+          </div>
+
+          <!-- Add more project folders here as needed -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <button class="modal-exit-button">
+    <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+      <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+      <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+    </svg>
+  </button>
+
+  <!-- Project-specific information modal (e.g., Converso info) -->
+  <div class="project-info" id="converso-info">
+    <div class="project">
+      <h1>Converso</h1>
+      <img src="/projects/converso/Converso.webp" alt="Converso" class="project-image" />
+      <div class="tags">
+        <span>React</span>
+        <span>Typescript</span>
+        <span>NextJS</span>
+        <span>Supabase</span>
+        <span>Stripe</span>
+        <span>VapiAI</span>
+      </div>
+      <div class="project-description">
+        This was my first project in web development, and I worked on it in preparation for my first internship. It was a great learning experience, diving into web technologies and applying what I had learned to create something tangible.
+        <br/><br/>
+        I developed a real-time AI tutoring platform where users could chat with an AI about any topic they wanted, offering a personalized learning experience. I implemented full-stack functionality, integrating user authentication, subscription management, and payments using NextJS, Supabase, and Stripe. I also deployed and maintained scalable SaaS features like rate limiting, token tracking, and user session control, ensuring the platform could handle increased usage and provide a smooth user experience.
+      </div>
+      <a href="your_project_link_here">Website</a>
+      <a href="your_project_link_here">GitHub</a>
+    </div>
+    <button class="project-exit-button" onclick="closeProjectInfo('converso')">
+      <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+        <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+      </svg>
+    </button>
+  </div>
+</div>
 
     <!-- Education Modal -->
     <div class="education modal">
@@ -178,29 +204,22 @@
         </svg>
       </button>
     </div>
-
     <script>
-      // Open project modal
-      function openProject(projectName) {
-        const modal = document.getElementById(`${projectName}-modal`);
-        const overlay = modal.querySelector('.overlay');
-        
-        modal.style.display = 'block'; // Show the modal
-        overlay.style.display = 'block'; // Show the overlay
+      // Function to open project info modal
+      function openProjectInfo(folderElement) {
+        const projectId = folderElement.getAttribute('data-project-id');
+        const modal = document.getElementById(`${projectId}-info`);
+        if (modal) {
+          modal.style.display = 'block';
+        }
       }
 
-      // Close only the overlay (keep the modal content visible)
-      function closeOverlay(projectName) {
-        const modal = document.getElementById(`${projectName}-modal`);
-        const overlay = modal.querySelector('.overlay');
-        
-        overlay.style.display = 'none';  // Hide only the overlay
-      }
-
-      // Close the entire project modal
-      function closeModal(projectName) {
-        const modal = document.getElementById(`${projectName}-modal`);
-        modal.style.display = 'none';  // Hide the entire modal
+      // Function to close project info modal
+      function closeProjectInfo(projectId) {
+        const modal = document.getElementById(`${projectId}-info`);
+        if (modal) {
+          modal.style.display = 'none';
+        }
       }
     </script>
 
