@@ -92,7 +92,6 @@ const pointer = new THREE.Vector2();
 const socialLinks = {
   GitHub: "https://github.com",
   Linkedin: "https://linkedin.com",
-  Resume: "",
 }
 
 // Loaders
@@ -232,6 +231,8 @@ if(currentIntersect.length > 0){
       showModal(modals.education)
     } else if(object.name.includes("Contact")) {
       showModal(modals.contact)
+    } else if(object.name.includes("Resume")) {
+      showModal(modals.experience)
     } 
   }
 }

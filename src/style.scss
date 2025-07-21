@@ -117,49 +117,6 @@
   text-align: left; /* Align paragraph text to the left */
 }
 
-/* Styling for the rows inside the modal (e.g., for about, education) */
-.about-row,
-.education-row,
-.contact-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.about-paragraph,
-.education-description,
-.contact-row p {
-  margin-left: 20px;
-}
-
-/* Image inside the row */
-.about-row img,
-.education-row img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* Education specific styling */
-.education-description h3 {
-  font-size: 1.4rem;
-  font-weight: bold;
-}
-
-.education-bullet {
-  margin-top: 5px;
-}
-
-/* Contact links styling */
-.contact-row a {
-  color: #1e90ff;
-  text-decoration: none;
-}
-
-.contact-row a:hover {
-  text-decoration: underline;
-}
 
 /* Make modal responsive */
 @media (max-width: 768px) {
@@ -496,4 +453,33 @@
   .experience.modal .resume-preview {
     height: 75vh; /* Increase preview height for larger screens */
   }
+}
+
+/* Styling for the rows inside the modal (e.g., for about, education) */
+.education-row {
+  display: flex;
+  align-items: center; /* Align the items vertically */
+  margin-bottom: 20px;
+  gap: 150px; /* Add some space between the image and description */
+}
+
+/* Styling for the image inside the education-row */
+.education-row img {
+  width: 120px; /* Adjust the width of the image as needed */
+  height: 120px; /* Set height to make it a square */
+  object-fit: cover; /* Ensure the image maintains aspect ratio while fitting in the box */
+  border-radius: 100%; /* Makes the image circular */
+  border: 4px solid #003300; /* Add a dark green border around the image */
+}
+/* Styling for the description inside the education-row */
+.education-description {
+  display: flex;
+  flex-direction: column; /* Stack the description vertically */
+  align-items: flex-start; /* Align the items to the left */
+  flex-grow: 1; /* Allow description to take up available space */
+}
+
+/* Styling for each bullet point inside the education-description */
+.education-bullet {
+  margin-bottom: 5px; /* Adds spacing between the list items */
 }
