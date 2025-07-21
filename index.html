@@ -17,26 +17,20 @@
 
   <!-- About Modal -->
   <div class="about modal">
-    <div class="modal-wrapper">
-      <h1 class="modal-title">Welcome to my Portfolio!</h1>
-      <div class="modal-content">
-        <div class="modal-content-wrapper">
-          <div class="about-row">
-            <img src="" alt="Profile Picture" />
-            <div class="about-paragraph">
-              Hi! My name is Ziyue Fang, and I am currently a student studying Computer Science at Columbia University.
-            </div>
-          </div>
-          <div class="about-row">
-            <img src="" alt="Experience Image" />
-            <div class="about-paragraph">
-              This project was inspired by my freshman year internship, where I worked at a video game company. I led
-              the development of an AI writing tool, but I also picked up 3D modeling with Blender and integrated it
-              with ThreeJS to build this website from scratch.
-            </div>
-          </div>
-        </div>
+    <h1 class="modal-title">Welcome to my Portfolio!</h1>
+    <div class="about-row">
+      <img src="/icons/about/Picture.webp" alt="Profile Picture" />
+      <div class="about-paragraph">
+        Hi! My name is Ziyue Fang, and I am currently a student studying Computer Science at Columbia University.
       </div>
+    </div>
+    <div class="about-row">
+      <div class="about-paragraph">
+        This project was inspired by my freshman year internship, where I worked at a video game company. I led
+        the development of an AI writing tool, but I also picked up 3D modeling with Blender and integrated it
+        with ThreeJS to build this website from scratch.
+      </div>
+      <img src="/icons/about/Zoomob.webp" alt="Experience Image" />
     </div>
     <button class="modal-exit-button">
       <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
@@ -157,31 +151,31 @@
 
   <!-- Education Modal -->
   <div class="education modal">
-      <h1 class="modal-title">Education</h1>
-          <div class="education-row">
-            <img src="/icons/education/Columbia.webp" alt="Columbia University" />
-            <div class="education-description">
-              <h3>Columbia University</h3>
-              <div class="education-degree">B.S. in Computer Science</div>
-              <div class="education-bullet">GPA: TBD/4.00</div>
-            </div>
-          </div>
-          <div class="education-row">
-            <img src="/icons/education/Vanderbilt.webp" alt="Vanderbilt University" />
-            <div class="education-description">
-              <h3>Vanderbilt University</h3>
-              <div class="education-degree">B.S. in Computer Science</div>
-              <div class="education-bullet">GPA: 3.97/4.00</div>
-            </div>
-          </div>
-          <div class="education-row">
-            <img src="/icons/education/SIS.webp" alt="Singapore International School" />
-            <div class="education-description">
-              <h3>Singapore International School (Hong Kong)</h3>
-              <div class="education-bullet">IB: 43/45</div>
-              <div class="education-bullet">SAT: 1550</div>
-              <div class="education-bullet">First in Computer Science HL (2024, 2023)</div>
-            </div>
+    <h1 class="modal-title">Education</h1>
+    <div class="education-row">
+      <img src="/icons/education/Columbia.webp" alt="Columbia University" />
+      <div class="education-description">
+        <h3>Columbia University</h3>
+        <div class="education-degree">B.S. in Computer Science</div>
+        <li class="education-bullet">GPA: TBD/4.00</li>
+      </div>
+    </div>
+    <div class="education-row">
+      <img src="/icons/education/Vanderbilt.webp" alt="Vanderbilt University" />
+      <div class="education-description">
+        <h3>Vanderbilt University</h3>
+        <div class="education-degree">B.S. in Computer Science</div>
+        <li class="education-bullet">GPA: 3.97/4.00</li>
+      </div>
+    </div>
+    <div class="education-row">
+      <img src="/icons/education/SIS.webp" alt="Singapore International School" />
+      <div class="education-description">
+        <h3>Singapore International School (Hong Kong)</h3>
+        <li class="education-bullet">IB: 43/45</li>
+        <li class="education-bullet">SAT: 1550</li>
+        <li class="education-bullet">First in Computer Science HL (2024, 2023)</li>
+      </div>
     </div>
     <button class="modal-exit-button">
       <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
@@ -195,29 +189,31 @@
 
   <!-- Contact Modal -->
   <div class="contact modal">
-    <div class="modal-wrapper">
-      <h1 class="modal-title">Contact</h1>
-      <div class="modal-content">
-        <div class="modal-content-wrapper">
-          <!-- Email -->
-          <div class="contact-row">
-            <img src="" alt="Email" />
-            <p><a href="mailto:tobyfang05@gmail.com" target="_blank" rel="noopener noreferrer">tobyfang05@gmail.com</a>
-            </p>
-          </div>
-          <!-- LinkedIn -->
-          <div class="contact-row">
-            <img src="" alt="LinkedIn" />
-            <p><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            </p>
-          </div>
-          <!-- GitHub -->
-          <div class="contact-row">
-            <img src="" alt="GitHub" />
-            <p><a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">GitHub</a></p>
-          </div>
-        </div>
-      </div>
+    <h1 class="modal-title">Contact</h1>
+    <!-- Email -->
+    <div class="contact-row">
+      <img src="" alt="Email" />
+      <p><a href="mailto:tobyfang05@gmail.com" target="_blank" rel="noopener noreferrer">tobyfang05@gmail.com</a>
+      </p>
+    </div>
+    <!-- LinkedIn -->
+    <div class="contact-row">
+      <svg class="contact-icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px"
+        height="24px">
+        <path fill="#000000"
+          d="M18.44 3.06H5.56a2.507 2.507 0 0 0-2.5 2.5v12.88a2.507 2.507 0 0 0 2.5 2.5h12.88a2.5 2.5 0 0 0 2.5-2.5V5.56a2.5 2.5 0 0 0-2.5-2.5m1.5 15.38a1.511 1.511 0 0 1-1.5 1.5H5.56a1.511 1.511 0 0 1-1.5-1.5V5.56a1.511 1.511 0 0 1 1.5-1.5h12.88a1.511 1.511 0 0 1 1.5 1.5Z" />
+        <path fill="#000000" d="M6.376 10.748a1 1 0 1 1 2 0v6.5a1 1 0 0 1-2 0Z" />
+        <circle cx="7.376" cy="6.744" r="1" fill="#000000" />
+        <path fill="#000000"
+          d="M17.62 13.37v3.88a1 1 0 1 1-2 0v-3.88a1.615 1.615 0 1 0-3.23 0v3.88a1 1 0 0 1-2 0v-6.5a1.016 1.016 0 0 1 1-1a.94.94 0 0 1 .84.47a3.609 3.609 0 0 1 5.39 3.15" />
+      </svg>
+
+      <p><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+    </div>
+    <!-- GitHub -->
+    <div class="contact-row">
+      <img src="" alt="GitHub" />
+      <p><a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">GitHub</a></p>
     </div>
     <button class="modal-exit-button">
       <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
@@ -227,6 +223,8 @@
           transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
       </svg>
     </button>
+  </div>
+
   </div>
   <script>
     // Function to open project info modal

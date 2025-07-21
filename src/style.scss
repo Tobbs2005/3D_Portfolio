@@ -90,6 +90,67 @@
   justify-content: center; /* Align items to the top */
 }
 
+// About section
+/* Styling for the rows inside the modal (e.g., for about, education) */
+.about-row {
+  display: flex;
+  align-items: center; /* Align the items vertically */
+  margin-bottom: 20px;
+  gap: 20px; /* Add space between the image and description */
+  transition: transform 0.5s ease;
+  width: 100%; /* Ensure it takes full width */
+  position: relative; /* Ensures scaling effect works across entire row */
+  padding: 10px 0; /* Adds clickable padding space */
+  overflow: visible; /* Make sure scaling doesn't clip content */
+}
+
+/* Hover effect for entire row */
+.about-row:hover {
+  transform: scale(1.03); /* Scale the row */
+  transform-origin: center; /* Scale from the center */
+}
+
+/* Styling for the image inside the about-row */
+.about-row img {
+  width: 120px; /* Adjust the width of the image */
+  height: 120px; /* Set the height to make it a square */
+  object-fit: cover; /* Ensure the image maintains aspect ratio while fitting in the box */
+  border-radius: 50%; /* Makes the image circular */
+  border: 4px solid #003300; /* Add a dark green border around the image */
+  flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+/* Styling for the description inside the about-row */
+.about-paragraph {
+  display: flex;
+  flex-direction: column; /* Stack the description vertically */
+  align-items: flex-start; /* Align the items to the left */
+  flex-grow: 1; /* Allow description to take up available space */
+  font-size: 1.1rem; /* Adjust font size */
+  line-height: 1.6; /* Improve readability by spacing lines */
+  color: white; /* Ensure text color is white */
+  text-align: justify; /* Justify the text for better alignment */
+  flex: 1; /* Ensure it fills available space */
+  padding-right: 10px; /* Optional: Adds space to the right of the text */
+}
+
+/* Optional: Add space between paragraphs */
+.about-paragraph p {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+/* Add bullets for any paragraph items if desired (use similar bullet style as education) */
+.about-paragraph ul {
+  padding-left: 20px;
+}
+
+.about-paragraph li {
+  margin-bottom: 5px;
+  list-style-type: disc;
+}
+
+
 /* Resume preview section */
 .resume-preview {
   width: 100%; /* Ensure the preview image takes full width */
@@ -103,10 +164,6 @@
   object-fit: contain; /* Maintain aspect ratio */
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.resume-preview img:hover {
-  background-color: #002300;
 }
 
 
@@ -137,11 +194,6 @@
     font-size: 1rem;
   }
 
-  .about-row img,
-  .education-row img {
-    width: 80px;
-    height: 80px;
-  }
 
   .modal-exit-button {
     font-size: 18px;
@@ -203,37 +255,22 @@
 .project-info .project img {
   width: 100%;
   height: auto;
-}
-.project-info .tags {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  transition: transform 0.5s ease;
 }
 
-.project-info .tags span {
-  background-color: #003300;
-  color: white;
-  padding: 8px;
-  border-radius: 5px;
+.project-info .project img:hover {
+  transform: scale(1.03);
 }
+
+
+
+
 
 .project-info p {
   margin-top: 10px;
   font-size: 1rem;
 }
 
-.project-info a {
-  display: inline-block;
-  margin-top: 20px;
-  text-decoration: none;
-  color: #007bff;
-}
-
-.project-info a:hover {
-  text-decoration: underline;
-}
 
 /* Tags and content styling */
 .project-info .tags {
@@ -250,7 +287,14 @@
   color: white;
   padding: 8px;
   border-radius: 5px;
+  transition: transform 0.5s ease;
 }
+
+.project-info .tags span:hover {
+  transform: scale(1.15);
+  
+}
+
 
 .project-info a {
   display: inline-block;
@@ -261,11 +305,14 @@
   padding: 10px 20px; /* Add padding for button look */
   border-radius: 5px; /* Rounded corners */
   text-align: center;
+  margin: 5px;
+  transition: transform 0.5s ease;
 }
 
 .project-info a:hover {
   background-color: #441600; /* Darker green on hover */
   text-decoration: none; /* Remove underline on hover */
+  transform: scale(1.10);
 }
 
 .project-image {
@@ -455,13 +502,21 @@
   }
 }
 
-/* Styling for the rows inside the modal (e.g., for about, education) */
+/* Styling for the rows inside the modal (education) */
 .education-row {
   display: flex;
   align-items: center; /* Align the items vertically */
   margin-bottom: 20px;
   gap: 150px; /* Add some space between the image and description */
+
+  transition: transform 0.5s ease;
 }
+
+.education-row:hover{
+  transform: scale(1.05);
+}
+
+
 
 /* Styling for the image inside the education-row */
 .education-row img {
@@ -479,7 +534,112 @@
   flex-grow: 1; /* Allow description to take up available space */
 }
 
+.education-degree {
+  font: bold;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
 /* Styling for each bullet point inside the education-description */
 .education-bullet {
   margin-bottom: 5px; /* Adds spacing between the list items */
+  position: relative;
+  padding-left: 20px; /* Adds space for the bullet */
 }
+
+/* Add a custom bullet point using ::before */
+.education-bullet::before {
+  content: '\2022'; /* Unicode character for a bullet */
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 20px; /* Adjust bullet size */
+  color: black; /* Bullet color */
+}
+
+
+/* Contact Modal Styles */
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: linear-gradient(145deg, #f0f0f0, #376e41); /* Soft background gradient */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-width: 350px; /* Limit width for card */
+  padding: 20px;
+  color: #333;
+  gap: 15px;
+  margin: 20px auto;
+
+  .modal-exit-button {
+    color:#003300;
+  }
+}
+
+.contact-row {
+  display: flex;
+  align-items: center; /* Align the items vertically */
+  gap: 10px; /* Add space between the image and text */
+  width: 100%; /* Ensure each row takes up full width */
+  transition: transform 0.5s ease;
+}
+
+.contact-row:hover {
+  transform: scale(1.05);
+}
+
+.contact-row img {
+  width: 30px; /* Adjust icon size */
+  height: 30px;
+  object-fit: cover; /* Ensure the image maintains aspect ratio */
+  border-radius: 50%; /* Makes the image circular */
+  border: 2px solid #003300; /* Add a dark green border around the image */
+}
+
+.contact-row p {
+  font-size: 1.2rem; /* Larger text size for paragraphs */
+  color: #333; /* Dark text for readability */
+  margin: 0; /* Remove default margin */
+}
+
+.contact-row a {
+  text-decoration: none;
+  color: #003300; /* Blue for links */
+  font-weight: bold;
+}
+
+.contact-row a:hover {
+  text-decoration: underline;
+}
+
+
+
+/* Make modal responsive */
+@media (max-width: 768px) {
+  .contact {
+    padding: 15px;
+    max-width: 90%;
+  }
+
+  .modal-title {
+    font-size: 1.6rem;
+  }
+
+  .contact-row img {
+    width: 50px; /* Adjust image size for smaller screens */
+    height: 50px;
+  }
+
+  .contact-row p {
+    font-size: 1rem; /* Reduce font size for smaller screens */
+  }
+}
+
+
+
+
+.contact-icon {
+  width: 40px; /* Adjust width as needed */
+  height: 40px; /* Adjust height as needed */
+}
+
