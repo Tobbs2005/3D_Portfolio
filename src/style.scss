@@ -79,6 +79,12 @@
   font-weight: bold;
   margin-bottom: 20px;
   text-align: left; /* Align the title to the left */
+  transition: transform 0.5s ease;
+  transform-origin: left center;
+}
+
+.modal-title:hover{
+  transform: scale(1.03);
 }
 
 /* Modal content */
@@ -198,6 +204,11 @@
   .modal-exit-button {
     font-size: 18px;
   }
+}.modal-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: left; /* Align the title to the left */
 }
 
 // Button transitions on hover
@@ -546,16 +557,6 @@
   padding-left: 20px; /* Adds space for the bullet */
 }
 
-/* Add a custom bullet point using ::before */
-.education-bullet::before {
-  content: '\2022'; /* Unicode character for a bullet */
-  position: absolute;
-  left: 0;
-  top: 0;
-  font-size: 20px; /* Adjust bullet size */
-  color: black; /* Bullet color */
-}
-
 
 /* Contact Modal Styles */
 .contact {
@@ -574,6 +575,18 @@
   .modal-exit-button {
     color:#003300;
   }
+}
+
+.contact-title {
+  margin-bottom: 10px;
+  color:#003300;
+  font-size: 1.2rem; /* Larger text size for paragraphs */
+  color: #333; /* Dark text for readability */
+  transition: transform 0.5s ease
+}
+
+.contact-title:hover {
+  transform: scale(1.03);
 }
 
 .contact-row {
@@ -614,32 +627,8 @@
 
 
 
-/* Make modal responsive */
-@media (max-width: 768px) {
-  .contact {
-    padding: 15px;
-    max-width: 90%;
-  }
-
-  .modal-title {
-    font-size: 1.6rem;
-  }
-
-  .contact-row img {
-    width: 50px; /* Adjust image size for smaller screens */
-    height: 50px;
-  }
-
-  .contact-row p {
-    font-size: 1rem; /* Reduce font size for smaller screens */
-  }
-}
 
 
 
 
-.contact-icon {
-  width: 40px; /* Adjust width as needed */
-  height: 40px; /* Adjust height as needed */
-}
 
