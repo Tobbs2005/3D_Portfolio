@@ -1,57 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ziyue Fang Portfolio</title>
-    <link rel="stylesheet" href="/src/style.scss" />
-  </head>
-  <body class="dark-green-theme">
-    <!-- Main Experience Section -->
-    <div id="experience">
-      <canvas id="experience-canvas" class="experience-canvas"></canvas>
-    </div>
 
-    <!-- About Modal -->
-    <div class="about modal">
-      <div class="modal-wrapper">
-        <h1 class="modal-title">Welcome to my Portfolio!</h1>
-        <div class="modal-content">
-          <div class="modal-content-wrapper">
-            <div class="about-row">
-              <img src="" alt="Profile Picture" />
-              <div class="about-paragraph">
-                Hi! My name is Ziyue Fang, and I am currently a student studying Computer Science at Columbia University.
-              </div>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ziyue Fang Portfolio</title>
+  <link rel="stylesheet" href="/src/style.scss" />
+</head>
+
+<body class="dark-green-theme">
+  <!-- Main Experience Section -->
+  <div id="experience">
+    <canvas id="experience-canvas" class="experience-canvas"></canvas>
+  </div>
+
+  <!-- About Modal -->
+  <div class="about modal">
+    <div class="modal-wrapper">
+      <h1 class="modal-title">Welcome to my Portfolio!</h1>
+      <div class="modal-content">
+        <div class="modal-content-wrapper">
+          <div class="about-row">
+            <img src="" alt="Profile Picture" />
+            <div class="about-paragraph">
+              Hi! My name is Ziyue Fang, and I am currently a student studying Computer Science at Columbia University.
             </div>
-            <div class="about-row">
-              <img src="" alt="Experience Image" />
-              <div class="about-paragraph">
-                This project was inspired by my freshman year internship, where I worked at a video game company. I led the development of an AI writing tool, but I also picked up 3D modeling with Blender and integrated it with ThreeJS to build this website from scratch.
-              </div>
+          </div>
+          <div class="about-row">
+            <img src="" alt="Experience Image" />
+            <div class="about-paragraph">
+              This project was inspired by my freshman year internship, where I worked at a video game company. I led
+              the development of an AI writing tool, but I also picked up 3D modeling with Blender and integrated it
+              with ThreeJS to build this website from scratch.
             </div>
           </div>
         </div>
       </div>
-      <button class="modal-exit-button">
-        <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
-          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
-          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
-        </svg>
-      </button>
     </div>
-    <!-- Experience Modal -->
+    <button class="modal-exit-button">
+      <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+      </svg>
+    </button>
+  </div>
+  <!-- Experience Modal -->
   <div class="experience modal" id="experience-modal">
     <div class="modal-wrapper">
       <h1 class="modal-title">My Resume</h1>
       <div class="modal-content">
         <p>Click below to view my full resume:</p>
         <div class="resume-preview-container">
-          
+
           <a href="/resume" target="_blank" class="resume-link">
             <div class="resume-preview">
-              <img src="/images/Resume.webp" alt="Resume Preview"/>
+              <img src="/images/Resume.webp" alt="Resume Preview" />
             </div>
           </a>
         </div>
@@ -59,47 +65,58 @@
     </div>
     <button class="modal-exit-button" onclick="closeModal('experience')">
       <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
-        <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
-        <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
       </svg>
     </button>
   </div>
-    <!-- Projects Modal (File Explorer Style) -->
-    <!-- Projects Modal (File Explorer Style) -->
-<div class="projects modal">
-  <div class="modal-wrapper">
-    <h1 class="modal-title">Projects</h1>
-    <div class="modal-content">
-      <div class="modal-content-wrapper">
-        <!-- Project Folders as Icons -->
-        <div class="folder-container">
-          <div class="folder" data-project-id="converso" onclick="openProjectInfo(this)">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>
-            </svg>
-            <span class="folder-name">Converso - An AI Learning Tool</span>
+  <!-- Projects Modal (File Explorer Style) -->
+  <!-- Projects Modal (File Explorer Style) -->
+  <div class="projects modal">
+    <div class="modal-wrapper">
+      <h1 class="modal-title">Projects</h1>
+      <div class="modal-content">
+        <div class="modal-content-wrapper">
+          <!-- Project Folders as Icons -->
+          <div class="folder-container">
+            <div class="folder" data-project-id="converso" onclick="openProjectInfo(this)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+              </svg>
+              <span class="folder-name">Converso - An AI Learning Tool</span>
+            </div>
+
+            <!-- Repeat the above folder structure for other projects -->
+            <div class="folder" onclick="openProjectInfo('project2')">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+              </svg>
+              <span class="folder-name">Project 2</span>
+            </div>
+
+            <!-- Add more project folders here as needed -->
           </div>
 
-          <!-- Repeat the above folder structure for other projects -->
-          <div class="folder" onclick="openProjectInfo('project2')">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>
-            </svg>
-            <span class="folder-name">Project 2</span>
-          </div>
-
-          <!-- Add more project folders here as needed -->
         </div>
-
       </div>
     </div>
+    <button class="modal-exit-button">
+      <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+      </svg>
+    </button>
+
+
   </div>
-  <button class="modal-exit-button">
-    <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
-      <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
-      <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
-    </svg>
-  </button>
 
   <!-- Project-specific information modal (e.g., Converso info) -->
   <div class="project-info" id="converso-info">
@@ -115,114 +132,128 @@
         <span>VapiAI</span>
       </div>
       <div class="project-description">
-        This was my first project in web development, and I worked on it in preparation for my first internship. It was a great learning experience, diving into web technologies and applying what I had learned to create something tangible.
-        <br/><br/>
-        I developed a real-time AI tutoring platform where users could chat with an AI about any topic they wanted, offering a personalized learning experience. I implemented full-stack functionality, integrating user authentication, subscription management, and payments using NextJS, Supabase, and Stripe. I also deployed and maintained scalable SaaS features like rate limiting, token tracking, and user session control, ensuring the platform could handle increased usage and provide a smooth user experience.
+        This was my first project in web development, and I worked on it in preparation for my first internship. It was
+        a great learning experience, diving into web technologies and applying what I had learned to create something
+        tangible.
+        <br /><br />
+        I developed a real-time AI tutoring platform where users could chat with an AI about any topic they wanted,
+        offering a personalized learning experience. I implemented full-stack functionality, integrating user
+        authentication, subscription management, and payments using NextJS, Supabase, and Stripe. I also deployed and
+        maintained scalable SaaS features like rate limiting, token tracking, and user session control, ensuring the
+        platform could handle increased usage and provide a smooth user experience.
       </div>
       <a href="your_project_link_here">Website</a>
       <a href="your_project_link_here">GitHub</a>
     </div>
     <button class="project-exit-button" onclick="closeProjectInfo('converso')">
       <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
-        <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
-        <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
       </svg>
     </button>
   </div>
-</div>
 
-    <!-- Education Modal -->
-    <div class="education modal">
-      <div class="modal-wrapper">
-        <h1 class="modal-title">Education</h1>
-        <div class="modal-content">
-          <div class="modal-content-wrapper">
-            <div class="education-row">
-              <img src="" alt="Columbia University" />
-              <div class="education-description">
-                <h3>Columbia University</h3>
-                <div class="education-degree">B.S. in Computer Science</div>
-                <div class="education-bullet">GPA: TBD/4.00</div>
-              </div>
+  <!-- Education Modal -->
+  <div class="education modal">
+    <div class="modal-wrapper">
+      <h1 class="modal-title">Education</h1>
+      <div class="modal-content">
+        <div class="modal-content-wrapper">
+          <div class="education-row">
+            <img src="" alt="Columbia University" />
+            <div class="education-description">
+              <h3>Columbia University</h3>
+              <div class="education-degree">B.S. in Computer Science</div>
+              <div class="education-bullet">GPA: TBD/4.00</div>
             </div>
-            <div class="education-row">
-              <img src="" alt="Vanderbilt University" />
-              <div class="education-description">
-                <h3>Vanderbilt University</h3>
-                <div class="education-degree">B.S. in Computer Science</div>
-                <div class="education-bullet">GPA: 3.97/4.00</div>
-              </div>
+          </div>
+          <div class="education-row">
+            <img src="" alt="Vanderbilt University" />
+            <div class="education-description">
+              <h3>Vanderbilt University</h3>
+              <div class="education-degree">B.S. in Computer Science</div>
+              <div class="education-bullet">GPA: 3.97/4.00</div>
             </div>
-            <div class="education-row">
-              <img src="" alt="Singapore International School" />
-              <div class="education-description">
-                <h3>Singapore International School (Hong Kong)</h3>
-                <div class="education-bullet">IB: 43/45</div>
-                <div class="education-bullet">SAT: 1550</div>
-                <div class="education-bullet">First in Computer Science HL (2024, 2023)</div>
-              </div>
+          </div>
+          <div class="education-row">
+            <img src="" alt="Singapore International School" />
+            <div class="education-description">
+              <h3>Singapore International School (Hong Kong)</h3>
+              <div class="education-bullet">IB: 43/45</div>
+              <div class="education-bullet">SAT: 1550</div>
+              <div class="education-bullet">First in Computer Science HL (2024, 2023)</div>
             </div>
           </div>
         </div>
       </div>
-      <button class="modal-exit-button">
-        <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
-          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
-          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
-        </svg>
-      </button>
     </div>
+    <button class="modal-exit-button">
+      <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+      </svg>
+    </button>
+  </div>
 
-    <!-- Contact Modal -->
-    <div class="contact modal">
-      <div class="modal-wrapper">
-        <h1 class="modal-title">Contact</h1>
-        <div class="modal-content">
-          <div class="modal-content-wrapper">
-            <!-- Email -->
-            <div class="contact-row">
-              <img src="" alt="Email" />
-              <p><a href="mailto:tobyfang05@gmail.com" target="_blank" rel="noopener noreferrer">tobyfang05@gmail.com</a></p>
-            </div>
-            <!-- LinkedIn -->
-            <div class="contact-row">
-              <img src="" alt="LinkedIn" />
-              <p><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
-            </div>
-            <!-- GitHub -->
-            <div class="contact-row">
-              <img src="" alt="GitHub" />
-              <p><a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">GitHub</a></p>
-            </div>
+  <!-- Contact Modal -->
+  <div class="contact modal">
+    <div class="modal-wrapper">
+      <h1 class="modal-title">Contact</h1>
+      <div class="modal-content">
+        <div class="modal-content-wrapper">
+          <!-- Email -->
+          <div class="contact-row">
+            <img src="" alt="Email" />
+            <p><a href="mailto:tobyfang05@gmail.com" target="_blank" rel="noopener noreferrer">tobyfang05@gmail.com</a>
+            </p>
+          </div>
+          <!-- LinkedIn -->
+          <div class="contact-row">
+            <img src="" alt="LinkedIn" />
+            <p><a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </p>
+          </div>
+          <!-- GitHub -->
+          <div class="contact-row">
+            <img src="" alt="GitHub" />
+            <p><a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">GitHub</a></p>
           </div>
         </div>
       </div>
-      <button class="modal-exit-button">
-        <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
-          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
-          <rect width="115.92" height="17.889" rx="8.94448" transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
-        </svg>
-      </button>
     </div>
-    <script>
-      // Function to open project info modal
-      function openProjectInfo(folderElement) {
-        const projectId = folderElement.getAttribute('data-project-id');
-        const modal = document.getElementById(`${projectId}-info`);
-        if (modal) {
-          modal.style.display = 'block';
-        }
+    <button class="modal-exit-button">
+      <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+      </svg>
+    </button>
+  </div>
+  <script>
+    // Function to open project info modal
+    function openProjectInfo(folderElement) {
+      const projectId = folderElement.getAttribute('data-project-id');
+      const modal = document.getElementById(`${projectId}-info`);
+      if (modal) {
+        modal.style.display = 'block';
       }
+    }
 
-      // Function to close project info modal
-      function closeProjectInfo(projectId) {
-        const modal = document.getElementById(`${projectId}-info`);
-        if (modal) {
-          modal.style.display = 'none';
-        }
+    // Function to close project info modal
+    function closeProjectInfo(projectId) {
+      const modal = document.getElementById(`${projectId}-info`);
+      if (modal) {
+        modal.style.display = 'none';
       }
-    </script>
+    }
+  </script>
 
-    <script type="module" src="/src/main.js"></script>
-  </body>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>

@@ -85,8 +85,6 @@ const hideModal = (modal) => {
 };
 
 
-
-
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 
