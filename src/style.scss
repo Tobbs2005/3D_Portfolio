@@ -604,3 +604,59 @@
 .custom-scrollbar::-webkit-scrollbar-corner {
   background-color: transparent;
 }
+
+
+
+
+@media (max-width: 768px) {
+  .modal.about {
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-height: 90vh;
+    height: auto;
+    overflow-y: unset;
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  .about-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .about-row img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+  }
+
+  .about-paragraph {
+    align-items: center;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .about-paragraph p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .about-paragraph ul {
+    text-align: left;
+    padding-left: 1.2rem;
+    margin: 0 auto;
+  }
+
+  .about-paragraph li {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+}
