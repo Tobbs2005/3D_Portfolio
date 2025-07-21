@@ -31,21 +31,6 @@
   overflow-y: auto; /* Make the modal scrollable */
 }
 
-.modal-content-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow-y: auto;
-}
-
-.modal-content-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow-y: auto;
-}
 
 .modal.active {
   display: block; /* Show the modal when active */
@@ -181,37 +166,6 @@
 }
 
 
-/* Make modal responsive */
-@media (max-width: 768px) {
-  .modal {
-    width: 90%; /* Adjust for smaller screens */
-  }
-
-  .modal-exit-button {
-    top: 5px;
-    right: 5px;
-  }
-
-  .modal-title {
-    font-size: 1.6rem;
-  }
-
-  .modal-content {
-    font-size: 1rem;
-  }
-
-
-  .modal-exit-button {
-    font-size: 18px;
-  }
-}.modal-title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: left; /* Align the title to the left */
-}
-
-// Button transitions on hover
 
 /* Button transitions on hover */
 .modal-exit-button svg,
@@ -233,6 +187,16 @@
   margin-top: 12px;
 }
 
+
+.project-title {
+  color: #003300;
+  transition: transform 0.5s ease;
+  justify-self: center;
+}
+
+.project-title:hover {
+  transform: scale(1.03);
+}
 
 
 /* Specific styles for project info */
@@ -441,6 +405,32 @@
   color: #ffffff;
 }
 
+/* Hide the open folder image by default */
+.folder-icon.open {
+  display: none;
+}
+
+/* On hover, show open folder and hide closed folder */
+.folder:hover .folder-icon.closed {
+  display: none;
+}
+
+.folder:hover .folder-icon.open {
+  display: inline-block;
+}
+
+.folder-icon {
+  width: 100px;
+  height: 90px;
+  transition: transform 0.3s ease;
+}
+
+/* Optional: slight scale on hover */
+.folder:hover .folder-icon {
+  transform: scale(1.05);
+}
+
+
 /* Responsive layout for folder container */
 @media (max-width: 1024px) {
   .folder-container {
@@ -491,27 +481,6 @@
   background: #003800;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .experience.modal {
-    width: 90%; /* Adjust for smaller screens */
-    max-height: 80vh;
-  }
-
-  .experience.modal .resume-preview {
-    height: 60vh; /* Reduce preview height on smaller screens */
-  }
-}
-
-@media (min-width: 1024px) {
-  .experience.modal {
-    width: 70%; /* Increase width for large screens */
-  }
-
-  .experience.modal .resume-preview {
-    height: 75vh; /* Increase preview height for larger screens */
-  }
-}
 
 /* Styling for the rows inside the modal (education) */
 .education-row {
