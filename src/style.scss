@@ -73,6 +73,14 @@
   overflow-y: auto;
 }
 
+.modal-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
 .modal.active {
   display: block; /* Show the modal when active */
   opacity: 1; /* Make it visible */
@@ -217,6 +225,8 @@
   }
 }
 
+// Button transitions on hover
+
 /* Button transitions on hover */
 .modal-exit-button svg,
 .project-exit-button svg {
@@ -244,8 +254,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   width: 80%;
   max-width: 800px;
+  background: #dacfaa;
   background: #dacfaa;
   z-index: 10000; /* Ensure it's above all other content */
   padding: 20px;
@@ -264,13 +276,13 @@
   font-size: 2rem;
   margin-bottom: 20px;
   color: #003300;
+  color: #003300;
 }
 
 .project-info .project img {
   width: 100%;
   height: auto;
 }
-
 .project-info .tags {
   margin-top: 15px;
   display: flex;
