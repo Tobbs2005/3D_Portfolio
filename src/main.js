@@ -54,22 +54,26 @@ document.querySelectorAll(".modal-exit-button").forEach((button) => {
 })
 
 let modalOpen = false;
-
 const showModal = (modal) => {
-  console.log(modal)
+  console.log(modal);
   if (modalOpen) return;
+
   disableScrolling();
   modalOpen = true;
-  modal.style.display = "block";
-  gsap.set(modal, { opacity: 0 });
 
+  // Add the "active" class for CSS control
+  modal.classList.add("active");
   document.body.classList.add("modal-active");
 
+  // Set initial opacity to 0
+  gsap.set(modal, { opacity: 0 });
+
+  // Animate to visible
   gsap.to(modal, {
     opacity: 1,
     duration: 0.5,
   });
-}
+};
 
 const hideModal = (modal) => {
   enableScrolling();  // Re-enable scrolling
