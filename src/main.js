@@ -239,6 +239,14 @@ const wineMaterial = new THREE.MeshPhysicalMaterial({
   depthWrite: false
 })
 
+const hitboxMaterial = new THREE.MeshPhysicalMaterial({
+  transparent: true,   // Enable transparency
+  opacity: 0,          // Set opacity to 0 (fully transparent)
+  depthWrite: false,   // Ensure it doesn't interfere with other objects in the depth buffer
+  depthTest: false,    // Ensure it doesn't block raycasting
+  side: THREE.DoubleSide,  // Make both sides of the geometry invisible
+})
+
 
 const videoElement = document.createElement("video");
 videoElement.src = "/textures/video/Screen.mp4";
@@ -319,9 +327,14 @@ let raycasterObjects = [];
 let currentIntersect = [];
 let currentHoveredObject = null;
 
+// Hitbox logic
+
+
+
+  const hitboxToObjectMap = new Map();
 
 // Load GLTF Model
-loader.load("/models/Room_Profolio.glb", (glb) => {
+loader.load("/models/Room_Profolio_v2.glb", (glb) => {
   glb.scene.traverse(child => {
     if (child.isMesh) {
       if (child.name.includes("Raycast")) {
@@ -332,6 +345,8 @@ loader.load("/models/Room_Profolio.glb", (glb) => {
         child.userData.initialPosition = new THREE.Euler().copy(child.position);
         child.userData.initialRotation = new THREE.Euler().copy(child.rotation);
       }
+
+
 
 
       if (child.name.includes("Wine")) {
@@ -368,6 +383,13 @@ loader.load("/models/Room_Profolio.glb", (glb) => {
         child.material = new THREE.MeshBasicMaterial({
           map: imageTexture5
         });
+      } else  if (child.name.includes('Hitbox')) {
+             
+        child.material = hitboxMaterial;
+        console.log(`Material applied to hitbox: `, child.material);
+        const objectUnderneathName =  child.name.replace('Hitbox', 'Object');
+        const objectUnderneath = glb.scene.getObjectByName(objectUnderneathName);
+        hitboxToObjectMap.set(child, objectUnderneath);
       } else {
         Object.keys(textureMap).forEach(textureKey => {
           if (child.name.includes(textureKey)) {
@@ -461,6 +483,9 @@ function playHoverAnimation(object, isHovering) {
   }
 }
 
+
+  
+
 // Animation Loop
 const render = () => {
   controls.update();
@@ -472,6 +497,10 @@ const render = () => {
     mushroomMesh.position.y = baseY + Math.sin(elapsedTime * 2) * 0.1;
   }
 
+
+
+
+  
   //Raycaster
 
   // update the picking ray with the camera and pointer position
@@ -480,11 +509,7 @@ const render = () => {
   // calculate objects intersecting the picking ray
   currentIntersect = raycaster.intersectObjects(raycasterObjects);
 
-  for (let i = 0; i < currentIntersect.length; i++) {
-
-    // Raycaster interactions
-
-  }
+  
   if (currentIntersect.length > 0) {
     const currentIntersectObject = currentIntersect[0].object;
 
@@ -494,8 +519,16 @@ const render = () => {
         if(currentHoveredObject){
           playHoverAnimation(currentHoveredObject, false);
         }
+        
         playHoverAnimation(currentIntersectObject, true);
         currentHoveredObject = currentIntersectObject;
+
+        //if its a hitbox
+        const objectUnderHitbox = hitboxToObjectMap.get(currentIntersectObject);
+        if (objectUnderHitbox) {
+          playHoverAnimation(objectUnderHitbox, true);  // Play animation on the actual object
+        }
+        
       }
     }
 
@@ -506,10 +539,18 @@ const render = () => {
     } 
   } else {
     if(currentHoveredObject){
-          playHoverAnimation(currentHoveredObject, false);
-          currentHoveredObject = null;
+      playHoverAnimation(currentHoveredObject, false);
+      
+
+      //if hitbox
+      const objectUnderHitbox = hitboxToObjectMap.get(currentHoveredObject);
+        if (objectUnderHitbox) {
+          playHoverAnimation(objectUnderHitbox, false);  // Play animation on the actual object
         }
-      document.body.style.cursor = "default";
+
+        currentHoveredObject = null;
+    }
+    document.body.style.cursor = "default";
   }
 
 
