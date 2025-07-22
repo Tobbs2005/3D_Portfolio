@@ -241,10 +241,9 @@ const wineMaterial = new THREE.MeshPhysicalMaterial({
 
 const hitboxMaterial = new THREE.MeshPhysicalMaterial({
   transparent: true,   // Enable transparency
-  opacity: 0,          // Set opacity to 0 (fully transparent)
+  opacity: 0.5,          // Set opacity to 0 (fully transparent)
   depthWrite: false,   // Ensure it doesn't interfere with other objects in the depth buffer
   depthTest: false,    // Ensure it doesn't block raycasting
-  side: THREE.DoubleSide,  // Make both sides of the geometry invisible
 })
 
 
@@ -334,7 +333,7 @@ let currentHoveredObject = null;
   const hitboxToObjectMap = new Map();
 
 // Load GLTF Model
-loader.load("/models/Room_Profolio_v2.glb", (glb) => {
+loader.load("/models/Room_Profolio_v3.glb", (glb) => {
   glb.scene.traverse(child => {
     if (child.isMesh) {
       if (child.name.includes("Raycast")) {
@@ -386,7 +385,7 @@ loader.load("/models/Room_Profolio_v2.glb", (glb) => {
       } else  if (child.name.includes('Hitbox')) {
              
         child.material = hitboxMaterial;
-        console.log(`Material applied to hitbox: `, child.material);
+
         const objectUnderneathName =  child.name.replace('Hitbox', 'Object');
         const objectUnderneath = glb.scene.getObjectByName(objectUnderneathName);
         hitboxToObjectMap.set(child, objectUnderneath);
@@ -443,9 +442,13 @@ window.addEventListener("resize", () => {
 
 
 function playHoverAnimation(object, isHovering) {
+
+  if(object.name.includes("Hitbox")) return;
   gsap.killTweensOf(object.scale);
   gsap.killTweensOf(object.rotation);
   gsap.killTweensOf(object.position);
+  
+
   if(isHovering) {
     gsap.to(object.scale, {
       x: object.userData.initialScale.x * 1.2,
@@ -485,7 +488,7 @@ function playHoverAnimation(object, isHovering) {
 
 
   
-
+let objectUnderHitbox = undefined;
 // Animation Loop
 const render = () => {
   controls.update();
@@ -515,18 +518,24 @@ const render = () => {
 
     if(currentIntersectObject.name.includes("Hover")){
       if(currentIntersectObject !== currentHoveredObject) {
-
+        //when new object hovered without hovering air
         if(currentHoveredObject){
+          objectUnderHitbox = hitboxToObjectMap.get(currentHoveredObject);
           playHoverAnimation(currentHoveredObject, false);
+          if(objectUnderHitbox) {
+            playHoverAnimation(objectUnderHitbox, false);
+          }
         }
-        
-        playHoverAnimation(currentIntersectObject, true);
         currentHoveredObject = currentIntersectObject;
-
+        
+        
+        objectUnderHitbox = hitboxToObjectMap.get(currentHoveredObject);
         //if its a hitbox
-        const objectUnderHitbox = hitboxToObjectMap.get(currentIntersectObject);
         if (objectUnderHitbox) {
           playHoverAnimation(objectUnderHitbox, true);  // Play animation on the actual object
+        }
+        else {
+          playHoverAnimation(currentIntersectObject, true);
         }
         
       }
