@@ -79,11 +79,16 @@ const hideModal = (modal) => {
   enableScrolling();  // Re-enable scrolling
   modalOpen = false;
 
+  // Remove the "active" class before fading out the modal
+  modal.classList.remove("active");
+  document.body.classList.remove("modal-active");
+
+  // Animate the opacity to 0
   gsap.to(modal, {
     opacity: 0,
     duration: 0.5,
     onComplete: () => {
-      modal.style.display = "none";
+      modal.style.display = "none";  // Hide the modal after animation
     },
   });
 };
@@ -311,9 +316,10 @@ if(currentIntersect.length > 0){
 
 let mushroomMesh = null;
 let raycasterObjects = [];
-
-
 let currentIntersect = [];
+let currentHoveredObject = null;
+
+
 // Load GLTF Model
 loader.load("/models/Room_Profolio.glb", (glb) => {
   glb.scene.traverse(child => {
@@ -321,6 +327,13 @@ loader.load("/models/Room_Profolio.glb", (glb) => {
       if (child.name.includes("Raycast")) {
         raycasterObjects.push(child);
       }
+      if (child.name.includes("Hover")) {
+        child.userData.initialScale = new THREE.Vector3().copy(child.scale);
+        child.userData.initialPosition = new THREE.Euler().copy(child.position);
+        child.userData.initialRotation = new THREE.Euler().copy(child.rotation);
+      }
+
+
       if (child.name.includes("Wine")) {
         child.material = wineMaterial
       }
@@ -406,6 +419,48 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
+
+function playHoverAnimation(object, isHovering) {
+  gsap.killTweensOf(object.scale);
+  gsap.killTweensOf(object.rotation);
+  gsap.killTweensOf(object.position);
+  if(isHovering) {
+    gsap.to(object.scale, {
+      x: object.userData.initialScale.x * 1.2,
+      y: object.userData.initialScale.y * 1.2,
+      z: object.userData.initialScale.z * 1.2,
+
+      duration: 0.3,
+      ease: "bounce.out(1.8)",
+    })
+
+
+    gsap.to(object.rotation, {
+      x: object.userData.initialRotation.x + Math.PI / 8,
+
+      duration: 0.3,
+      ease: "bounce.out(1.8)",
+    })
+  } else {
+    gsap.to(object.scale, {
+      x: object.userData.initialScale.x,
+      y: object.userData.initialScale.y,
+      z: object.userData.initialScale.z,
+
+      duration: 0.3,
+      ease: "bounce.out(1.8)",
+    })
+
+
+    gsap.to(object.rotation, {
+      x: object.userData.initialRotation.x,
+
+      duration: 0.3,
+      ease: "bounce.out(1.8)",
+    })
+  }
+}
+
 // Animation Loop
 const render = () => {
   controls.update();
@@ -432,11 +487,28 @@ const render = () => {
   }
   if (currentIntersect.length > 0) {
     const currentIntersectObject = currentIntersect[0].object;
+
+    if(currentIntersectObject.name.includes("Hover")){
+      if(currentIntersectObject !== currentHoveredObject) {
+
+        if(currentHoveredObject){
+          playHoverAnimation(currentHoveredObject, false);
+        }
+        playHoverAnimation(currentIntersectObject, true);
+        currentHoveredObject = currentIntersectObject;
+      }
+    }
+
+
     if (currentIntersectObject.name.includes("Pointer")) {
       if(!modalOpen) document.body.style.cursor = "pointer";
       
     } 
   } else {
+    if(currentHoveredObject){
+          playHoverAnimation(currentHoveredObject, false);
+          currentHoveredObject = null;
+        }
       document.body.style.cursor = "default";
   }
 
