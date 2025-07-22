@@ -353,7 +353,7 @@ let currentHoveredObject = null;
   const hitboxToObjectMap = new Map();
 
 // Load GLTF Model
-loader.load("/models/Room_Profolio_v3.glb", (glb) => {
+loader.load("/models/Room_Portfolio.glb", (glb) => {
   glb.scene.traverse(child => {
     if (child.isMesh) {
       if (child.name.includes("Raycast")) {
@@ -460,49 +460,80 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
-
 function playHoverAnimation(object, isHovering) {
-
-  if(object.name.includes("Hitbox")) return;
+  if (object.name.includes("Hitbox")) return;
+  
+  // Kill previous tweens to prevent conflicting animations
   gsap.killTweensOf(object.scale);
   gsap.killTweensOf(object.rotation);
   gsap.killTweensOf(object.position);
+
+  // Default scaling effect
+  const scaleFactor = 1.3;
   
-
-  if(isHovering) {
+  // Handle hover in
+  if (isHovering) {
+    // Scale animation
     gsap.to(object.scale, {
-      x: object.userData.initialScale.x * 1.2,
-      y: object.userData.initialScale.y * 1.2,
-      z: object.userData.initialScale.z * 1.2,
+      x: object.userData.initialScale.x * scaleFactor,
+      y: object.userData.initialScale.y * scaleFactor,
+      z: object.userData.initialScale.z * scaleFactor,
+      duration: 0.5,
+      ease: "back.out(2)",
+    });
 
-      duration: 0.3,
-      ease: "bounce.out(1.8)",
-    })
-
-
-    gsap.to(object.rotation, {
-      x: object.userData.initialRotation.x + Math.PI / 8,
-
-      duration: 0.3,
-      ease: "bounce.out(1.8)",
-    })
-  } else {
+    // Rotation based on object name
+    if (object.name.includes("Hover2")) {
+      gsap.to(object.rotation, {
+        x: object.userData.initialRotation.x + Math.PI / 8, // Rotate on X axis by PI/8
+        duration: 0.5,
+      ease: "back.out(2)",
+      });
+    } else if (object.name.includes("Hover3")) {
+      gsap.to(object.rotation, {
+        x: object.userData.initialRotation.x + Math.random() * Math.PI / 16, 
+        y: object.userData.initialRotation.y + Math.random() * Math.PI / 16,
+        z: object.userData.initialRotation.z + Math.random() * Math.PI / 16,
+        duration: 0.5,
+      ease: "back.out(2)",
+      });
+    } else if (object.name.includes("Hover4")) {
+      gsap.to(object.rotation, {
+        x: object.userData.initialRotation.x + Math.random() * Math.PI / 16,
+        y: object.userData.initialRotation.y + Math.random() * Math.PI / 16,
+        z: object.userData.initialRotation.z + Math.random() * Math.PI / 16,
+        duration: 0.5,
+      ease: "back.out(2)",
+      });
+    } else if (object.name.includes("Hover5")) {
+      gsap.to(object.rotation, {
+        x: object.userData.initialRotation.x + Math.random() * Math.PI / 16,
+        y: object.userData.initialRotation.y + Math.random() * Math.PI / 16,
+        z: object.userData.initialRotation.z + Math.random() * Math.PI / 16,
+        duration: 0.5,
+      ease: "back.out(2)",
+      });
+    }
+  } 
+  // Handle hover out (return to original state)
+  else {
+    // Scale animation to return to original scale
     gsap.to(object.scale, {
       x: object.userData.initialScale.x,
       y: object.userData.initialScale.y,
       z: object.userData.initialScale.z,
+      duration: 0.5,
+      ease: "back.out(2)",
+    });
 
-      duration: 0.3,
-      ease: "bounce.out(1.8)",
-    })
-
-
+    // Rotation animation to return to original rotation
     gsap.to(object.rotation, {
       x: object.userData.initialRotation.x,
-
-      duration: 0.3,
-      ease: "bounce.out(1.8)",
-    })
+      y: object.userData.initialRotation.y,
+      z: object.userData.initialRotation.z,
+      duration: 0.5,
+      ease: "back.out(2)",
+    });
   }
 }
 
