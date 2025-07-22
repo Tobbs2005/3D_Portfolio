@@ -311,6 +311,8 @@ const imageTexture5 = textureLoader.load("/images/Cats.webp");
 imageTexture5.flipY = false;
 imageTexture5.colorSpace = THREE.SRGBColorSpace;
 
+const meowAudio = new Audio('/audio/Meow.mp3');
+
 function handleRaycasterInteraction() {
 if(currentIntersect.length > 0){
     const object = currentIntersect[0].object;
@@ -324,6 +326,10 @@ if(currentIntersect.length > 0){
           newWindow.rel = "noopener noreferrer"
         }
     });
+
+    if (object.name.includes("Cat")) {
+      meowAudio.play(); 
+    }
 
     if(object.name.includes("About")) {
       showModal(modals.about)
