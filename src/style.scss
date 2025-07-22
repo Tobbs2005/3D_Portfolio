@@ -32,9 +32,18 @@
 }
 
 
-.modal.active {
-  display: block; /* Show the modal when active */
-  opacity: 1; /* Make it visible */
+.overlay {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: none;
+  background-color: rgba(32, 32, 32, 0.2);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 /* Exit button styling */

@@ -53,45 +53,65 @@ document.querySelectorAll(".modal-exit-button").forEach((button) => {
   }, {passive: false})
 })
 
+const overlay = document.querySelector(".overlay");
+
 let modalOpen = false;
 const showModal = (modal) => {
-  console.log(modal);
-  if (modalOpen) return;
+  if(modalOpen) return;
+  modal.style.display = "block";
+  overlay.style.display = "block";
 
-  disableScrolling();
   modalOpen = true;
+  controls.enabled = false;
 
-  // Add the "active" class for CSS control
-  modal.classList.add("active");
-  document.body.classList.add("modal-active");
+  if (currentHoveredObject) {
+    playHoverAnimation(currentHoveredObject, false);
+    currentHoveredObject = null;
+  }
+  document.body.style.cursor = "default";
 
-  // Set initial opacity to 0
-  gsap.set(modal, { opacity: 0 });
+  gsap.set(modal, {
+    opacity: 0,
+    scale: 0,
+  });
+  gsap.set(overlay, {
+    opacity: 0,
+  });
 
-  // Animate to visible
-  gsap.to(modal, {
+  gsap.to(overlay, {
     opacity: 1,
     duration: 0.5,
+  });
+
+  gsap.to(modal, {
+    opacity: 1,
+    scale: 1,
+    duration: 0.5,
+    ease: "back.out(2)",
   });
 };
 
 const hideModal = (modal) => {
-  enableScrolling();  // Re-enable scrolling
   modalOpen = false;
+  controls.enabled = true;
 
-  // Remove the "active" class before fading out the modal
-  modal.classList.remove("active");
-  document.body.classList.remove("modal-active");
-
-  // Animate the opacity to 0
-  gsap.to(modal, {
+  gsap.to(overlay, {
     opacity: 0,
     duration: 0.5,
+  });
+
+  gsap.to(modal, {
+    opacity: 0,
+    scale: 0,
+    duration: 0.5,
+    ease: "back.in(2)",
     onComplete: () => {
-      modal.style.display = "none";  // Hide the modal after animation
+      modal.style.display = "none";
+      overlay.style.display = "none";
     },
   });
 };
+
 
 document.querySelectorAll('.folder').forEach(folder => {
   folder.addEventListener('click', () => {
