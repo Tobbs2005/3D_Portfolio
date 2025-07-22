@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-    <button class="modal-exit-button" onclick="closeModal('experience')">
+    <button class="modal-exit-button">
       <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
         <rect width="115.92" height="17.889" rx="8.94448"
           transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
@@ -71,11 +71,12 @@
     <h1 class="modal-title">Projects</h1>
     <!-- Project Folders as Icons -->
     <div class="folder-container">
-      <div class="folder" data-project-id="converso" onclick="openProjectInfo(this)">
+      <div class="folder" data-project-id="converso">
         <img src="/projects/converso/FolderClosed.webp" class="folder-icon closed" />
         <img src="/projects/converso/FolderOpen.webp" class="folder-icon open" />
         <span class="folder-name">Converso - An AI Learning Tool</span>
       </div>
+
     
       <!-- Add more project folders here as needed -->
     </div>
@@ -123,7 +124,7 @@
       <a href="your_project_link_here">Website</a>
       <a href="your_project_link_here">GitHub</a>
     </div>
-    <button class="project-exit-button" onclick="closeProjectInfo('converso')">
+    <button class="project-exit-button">
       <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
         <rect width="115.92" height="17.889" rx="8.94448"
           transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
@@ -215,24 +216,7 @@
   </div>
 
   </div>
-  <script>
-    // Function to open project info modal
-    function openProjectInfo(folderElement) {
-      const projectId = folderElement.getAttribute('data-project-id');
-      const modal = document.getElementById(`${projectId}-info`);
-      if (modal) {
-        modal.style.display = 'block';
-      }
-    }
 
-    // Function to close project info modal
-    function closeProjectInfo(projectId) {
-      const modal = document.getElementById(`${projectId}-info`);
-      if (modal) {
-        modal.style.display = 'none';
-      }
-    }
-  </script>
 
   <script type="module" src="/src/main.js"></script>
 </body>

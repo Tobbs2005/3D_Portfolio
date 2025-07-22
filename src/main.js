@@ -88,6 +88,74 @@ const hideModal = (modal) => {
   });
 };
 
+document.querySelectorAll('.folder').forEach(folder => {
+  folder.addEventListener('click', () => {
+    const projectId = folder.getAttribute('data-project-id');
+    const modal = document.getElementById(`${projectId}-info`);
+    if (modal) {
+      modal.style.display = 'block';
+      modal.style.opacity = '1';
+      modal.style.zIndex = '10000';
+      modal.classList.add('active');
+      document.body.classList.add('info-active');
+    }
+  });
+
+  // Optional fallback for touch if click fails
+  folder.addEventListener('touchend', () => {
+    folder.click();
+  }, { passive: true });
+});
+
+
+document.querySelectorAll(".project-exit-button").forEach((button) => {
+  button.addEventListener("touchend", (e) => {
+    touchHappened
+    e.preventDefault();
+    const modal = e.target.closest(".project-info");
+    closeProjectInfo(modal);
+  }, { passive: false });
+
+  button.addEventListener("click", (e) => {
+    if (touchHappened) return;
+    e.preventDefault();
+    const modal = e.target.closest(".project-info");
+    closeProjectInfo(modal);
+  }, { passive: false });
+});
+
+// Function to close project info
+function closeProjectInfo(modal) {
+  modal.classList.remove("active");
+  document.body.classList.remove("info-active");
+  modal.style.display = "none";  // Ensure modal is hidden after closing
+  // Add any additional logic needed for closing the project info
+}
+
+
+
+
+
+window.addEventListener("mousemove", (e) => {
+  touchHappened = false;
+  pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+  pointer.y = - (e.clientY / window.innerHeight) * 2 + 1;
+});
+
+window.addEventListener("touchstart", (e) => {
+  if (!modalOpen) e.preventDefault()
+  pointer.x = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+  pointer.y = - (e.touches[0].clientY / window.innerHeight) * 2 + 1;
+}, {passive: false});
+
+window.addEventListener("touchend", (e) => {
+  if (!modalOpen) e.preventDefault()
+  handleRaycasterInteraction()
+}, {passive: false});
+
+window.addEventListener("click", handleRaycasterInteraction);
+
+
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -240,25 +308,6 @@ if(currentIntersect.length > 0){
     } 
   }
 }
-
-window.addEventListener("mousemove", (e) => {
-  touchHappened = false;
-  pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-  pointer.y = - (e.clientY / window.innerHeight) * 2 + 1;
-});
-
-window.addEventListener("touchstart", (e) => {
-  e.preventDefault()
-  pointer.x = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
-  pointer.y = - (e.touches[0].clientY / window.innerHeight) * 2 + 1;
-}, {passive: false});
-
-window.addEventListener("touchend", (e) => {
-  e.preventDefault()
-  handleRaycasterInteraction()
-}, {passive: false});
-
-window.addEventListener("click", handleRaycasterInteraction);
 
 let mushroomMesh = null;
 let raycasterObjects = [];
