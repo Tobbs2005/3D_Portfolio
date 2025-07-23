@@ -4,6 +4,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import gsap from "gsap";
+import { Howl } from "howler";
+
 
 const clock = new THREE.Clock();
 
@@ -13,6 +15,39 @@ const scene = new THREE.Scene();
 const sizes = {
   width: window.innerWidth,
   height: window.innerHeight
+};
+
+let isMusicFaded = false;
+const MUSIC_FADE_TIME = 500;
+const BACKGROUND_MUSIC_VOLUME = 1;
+const FADED_VOLUME = 0;
+
+const backgroundMusic = new Howl({
+  src: ["public/audio/Background.mp3"],
+  loop: true,
+  volume: 1,
+});
+
+const fadeOutBackgroundMusic = () => {
+  if (!isMuted && !isMusicFaded) {
+    backgroundMusic.fade(
+      backgroundMusic.volume(),
+      FADED_VOLUME,
+      MUSIC_FADE_TIME
+    );
+    isMusicFaded = true;
+  }
+};
+
+const fadeInBackgroundMusic = () => {
+  if (!isMuted && isMusicFaded) {
+    backgroundMusic.fade(
+      FADED_VOLUME,
+      BACKGROUND_MUSIC_VOLUME,
+      MUSIC_FADE_TIME
+    );
+    isMusicFaded = false;
+  }
 };
 
 
@@ -40,9 +75,10 @@ manager.onLoad = function () {
     loadingScreenButton.style.background = "#441600";
     loadingScreenButton.style.color = "#514b48";
     loadingScreenButton.style.boxShadow = "none";
-    loadingScreenButton.textContent = "~ Welcome to my room ~";
+    loadingScreenButton.textContent = "~ Welcome ~";
     loadingScreen.style.background = "#441600";
     isDisabled = true;
+    backgroundMusic.play();
 
     playReveal();
   }
@@ -348,7 +384,6 @@ const hitboxMaterial = new THREE.MeshPhysicalMaterial({
   depthWrite: false,   // Ensure it doesn't interfere with other objects in the depth buffer
   depthTest: false,    // Ensure it doesn't block raycasting
 })
-
 
 const videoElement = document.createElement("video");
 videoElement.src = "/textures/video/Screen.mp4";
