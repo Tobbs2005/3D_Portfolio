@@ -140,15 +140,6 @@
   font-size: 1.5rem;
 }
 
-/* Add bullets for any paragraph items if desired (use similar bullet style as education) */
-.about-paragraph ul {
-  padding-left: 20px;
-}
-
-.about-paragraph li {
-  margin-bottom: 5px;
-  list-style-type: disc;
-}
 
 
 /* Resume preview section */
@@ -156,6 +147,7 @@
   width: 100%; /* Ensure the preview image takes full width */
   height: 75vh; /* Use 75% of the modal height */
   margin-bottom: 20px; /* Space between image and button */
+  margin-top: 20px;
 }
 
 .resume-preview img {
@@ -616,21 +608,6 @@
 }
 
 
-//Styles for smalls creens
-
-@media (max-width: 768px) {
-  .modal {
-    width: 90vw; /* Take up most of the screen width */
-    height: auto; /* Allow height to adjust to content */
-    max-height: 90vh; /* Prevent from going off screen */
-    padding: 15px; /* Slightly smaller padding */
-    border-radius: 12px; /* Softer corner radius for mobile */
-    overflow-y: auto; /* Enable vertical scroll inside modal */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
 
 
 
@@ -738,3 +715,82 @@
 
 
 
+
+//Styles for smalls creens
+
+@media (max-width: 768px) {
+  .modal {
+    width: 90vw; /* Take up most of the screen width */
+    height: auto; /* Allow height to adjust to content */
+    max-height: 90vh; /* Prevent from going off screen */
+    padding: 15px; /* Slightly smaller padding */
+    border-radius: 12px; /* Softer corner radius for mobile */
+    overflow-y: auto; /* Enable vertical scroll inside modal */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+
+  /* Styling for the description inside the about-row */
+.about-paragraph {
+  display: flex;
+  flex-direction: column; /* Stack the description vertically */
+  align-items: flex-start; /* Align the items to the left */
+  flex-grow: 1; /* Allow description to take up available space */
+  font-size: 0.8rem; /* Adjust font size */
+  line-height: 1.6; /* Improve readability by spacing lines */
+  color: white; /* Ensure text color is white */
+  text-align: left;
+  flex: 1; /* Ensure it fills available space */
+  padding-right: 10px; /* Optional: Adds space to the right of the text */
+}
+
+  /* Optional: Add space between paragraphs */
+  .about-paragraph p {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+  }
+
+  .experience.modal {
+    width: 90vw; 
+    height: auto; /* Allow height to adjust to content */
+    max-height: 70vh; 
+    padding: 15px; 
+    border-radius: 12px; 
+    overflow-y: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+
+  .resume-link {
+    display: block;
+    margin-top: 0;
+  }
+
+  .resume-preview {
+    max-height: 100vw;
+    display: block; 
+    padding: 0;
+  }
+
+  .resume-preview img {
+    display: block; 
+    padding: 0;
+    width: 100%;
+    object-fit: cover; /* Or cover */
+  }
+
+  .education-row {
+    display: flex;
+    align-items: center; /* Align the items vertically */
+    margin-bottom: 20px;
+    gap: 50px; /* Add some space between the image and description */
+
+    transition: transform 0.5s ease;
+  }
+
+
+}
