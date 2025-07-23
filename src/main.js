@@ -311,9 +311,9 @@ const socialLinks = {
 }
 
 // Loaders
-const textureLoader = new THREE.TextureLoader();
+const textureLoader = new THREE.TextureLoader(manager);
 
-const dracoLoader = new DRACOLoader();
+const dracoLoader = new DRACOLoader(manager);
 dracoLoader.setDecoderPath('/draco/');
 
 const loader = new GLTFLoader(manager);
