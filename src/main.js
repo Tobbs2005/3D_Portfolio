@@ -17,41 +17,8 @@ const sizes = {
   height: window.innerHeight
 };
 
-let isMusicFaded = false;
-const MUSIC_FADE_TIME = 500;
-const BACKGROUND_MUSIC_VOLUME = 1;
-const FADED_VOLUME = 0;
 
-const backgroundMusic = new Howl({
-  src: ["public/audio/Background.mp3"],
-  loop: true,
-  volume: 1,
-});
-
-const fadeOutBackgroundMusic = () => {
-  if (!isMuted && !isMusicFaded) {
-    backgroundMusic.fade(
-      backgroundMusic.volume(),
-      FADED_VOLUME,
-      MUSIC_FADE_TIME
-    );
-    isMusicFaded = true;
-  }
-};
-
-const fadeInBackgroundMusic = () => {
-  if (!isMuted && isMusicFaded) {
-    backgroundMusic.fade(
-      FADED_VOLUME,
-      BACKGROUND_MUSIC_VOLUME,
-      MUSIC_FADE_TIME
-    );
-    isMusicFaded = false;
-  }
-};
-
-
-  const manager = new THREE.LoadingManager();
+const manager = new THREE.LoadingManager();
 
 const loadingScreen = document.querySelector(".loading-screen");
 const loadingScreenButton = document.querySelector(".loading-screen-button");
@@ -430,6 +397,10 @@ imageTexture5.flipY = false;
 imageTexture5.colorSpace = THREE.SRGBColorSpace;
 
 const meowAudio = new Audio('/audio/Meow.mp3');
+const backgroundMusic = new Audio("/audio/Background.mp3");
+backgroundMusic.loop = true;
+backgroundMusic.volume = 0.5;
+
 
 function handleRaycasterInteraction() {
 if (modalOpen) return;
