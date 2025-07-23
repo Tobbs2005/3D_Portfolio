@@ -15,6 +15,92 @@ const sizes = {
   height: window.innerHeight
 };
 
+
+  const manager = new THREE.LoadingManager();
+
+const loadingScreen = document.querySelector(".loading-screen");
+const loadingScreenButton = document.querySelector(".loading-screen-button");
+
+manager.onLoad = function () {
+  loadingScreenButton.style.border = "8px solid #003800";
+  loadingScreenButton.style.background = "#0b470b";
+  loadingScreenButton.style.color = "#e6dede";
+  loadingScreenButton.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
+  loadingScreenButton.textContent = "Enter!";
+  loadingScreenButton.style.cursor = "pointer";
+  loadingScreenButton.style.transition =
+    "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
+  let isDisabled = false;
+
+  function handleEnter() {
+    if (isDisabled) return;
+
+    loadingScreenButton.style.cursor = "default";
+    loadingScreenButton.style.border = "8px solid #514b48";
+    loadingScreenButton.style.background = "#441600";
+    loadingScreenButton.style.color = "#514b48";
+    loadingScreenButton.style.boxShadow = "none";
+    loadingScreenButton.textContent = "~ Welcome to my room ~";
+    loadingScreen.style.background = "#441600";
+    isDisabled = true;
+
+    playReveal();
+  }
+
+  loadingScreenButton.addEventListener("mouseenter", () => {
+    loadingScreenButton.style.transform = "scale(1.3)";
+  });
+
+  loadingScreenButton.addEventListener("touchend", (e) => {
+    touchHappened = true;
+    e.preventDefault();
+    handleEnter();
+  });
+
+  loadingScreenButton.addEventListener("click", (e) => {
+    if (touchHappened) return;
+    handleEnter();
+  });
+
+  loadingScreenButton.addEventListener("mouseleave", () => {
+    loadingScreenButton.style.transform = "none";
+  });
+
+
+};
+
+function playReveal() {
+  const tl = gsap.timeline();
+
+  tl.to(loadingScreen, {
+    scale: 0.3, 
+    opacity: 0.7,  
+    duration: 1.2,
+    delay: 0.25,
+    ease: "power3.out",  // Smooth easing for a clean exit
+  }).to(
+    loadingScreen,
+    {
+      scale: 0,  
+      y: "-150vh", 
+      transform: "perspective(1200px) rotateX(45deg) rotateY(30deg) rotateX(45deg) scale3d(1.5, 0.5, 1)",  
+      opacity: 0,  
+      duration: 1.5,  
+      ease: "power4.inOut",  
+      onComplete: () => {
+        isModalOpen = false;
+        playIntroAnimation();
+        loadingScreen.remove();
+      },
+    },
+    "-=0.1"
+  );
+}
+
+
+
+
+
 const modals = {
   about: document.querySelector(".modal.about"),
   education: document.querySelector(".modal.education"),
@@ -197,7 +283,7 @@ const textureLoader = new THREE.TextureLoader();
 const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath('/draco/');
 
-const loader = new GLTFLoader();
+const loader = new GLTFLoader(manager);
 loader.setDRACOLoader(dracoLoader);
 
 const environmentMap = new THREE.CubeTextureLoader()
@@ -261,7 +347,7 @@ const wineMaterial = new THREE.MeshPhysicalMaterial({
 
 const hitboxMaterial = new THREE.MeshPhysicalMaterial({
   transparent: true,   // Enable transparency
-  opacity: 0.5,          // Set opacity to 0 (fully transparent)
+  opacity: 0,          // Set opacity to 0 (fully transparent)
   depthWrite: false,   // Ensure it doesn't interfere with other objects in the depth buffer
   depthTest: false,    // Ensure it doesn't block raycasting
 })
@@ -285,7 +371,7 @@ videoElement2.loop = true;
 videoElement2.muted = true;
 videoElement2.playsInline = true;
 videoElement2.autoplay = true;
-videoElement.play();
+videoElement2.play();
 
 const videoTexture2 = new THREE.VideoTexture(videoElement2);
 videoTexture2.colorSpace = THREE.SRGBColorSpace;
@@ -556,7 +642,6 @@ const render = () => {
     const baseY = 8.818815231323242;
     mushroomMesh.position.y = baseY + Math.sin(elapsedTime * 2) * 0.1;
   }
-
 
 
 
