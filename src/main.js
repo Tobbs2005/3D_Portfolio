@@ -582,6 +582,19 @@ controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.target.set(-0.6388761849161843, 4.685146455099664, -1.8199404781491306);
 
+
+function adjustCameraForMobile() {
+  if (sizes.width <= 768) { // Check if the screen width is mobile size (you can adjust this threshold)
+    camera.fov = 55; // Reduce the field of view (zoom out) on mobile
+  } else {
+    camera.fov = 35; // Default FOV for larger screens
+  }
+  camera.updateProjectionMatrix(); // Update the camera's projection matrix after changing the FOV
+}
+
+// Call adjustCameraForMobile on resize and on page load
+adjustCameraForMobile();
+
 // Resize Handling
 window.addEventListener("resize", () => {
   sizes.width = window.innerWidth;
@@ -592,6 +605,7 @@ window.addEventListener("resize", () => {
 
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  adjustCameraForMobile();
 });
 
 function playHoverAnimation(object, isHovering) {
