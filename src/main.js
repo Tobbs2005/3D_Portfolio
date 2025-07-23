@@ -88,8 +88,7 @@ function playReveal() {
       duration: 1.5,  
       ease: "power4.inOut",  
       onComplete: () => {
-        isModalOpen = false;
-        playIntroAnimation();
+        modalOpen = false;
         loadingScreen.remove();
       },
     },
@@ -111,14 +110,7 @@ const modals = {
 }
 
 // Function to disable scrolling
-function disableScrolling() {
-  document.body.style.overflow = 'hidden';
-}
-
-// Function to enable scrolling
-function enableScrolling() {
-  document.body.style.overflow = 'auto';
-}
+document.body.style.overflow = 'hidden';
 
 
 let touchHappened = false;
@@ -141,13 +133,15 @@ document.querySelectorAll(".modal-exit-button").forEach((button) => {
 
 const overlay = document.querySelector(".overlay");
 
-let modalOpen = false;
+let modalOpen = true;
+let isRaycastingAllowed = true;
 const showModal = (modal) => {
   if(modalOpen) return;
   modal.style.display = "block";
   overlay.style.display = "block";
 
   modalOpen = true;
+  isRaycastingAllowed = false;
   controls.enabled = false;
 
   if (currentHoveredObject) {
@@ -196,6 +190,9 @@ const hideModal = (modal) => {
       overlay.style.display = "none";
     },
   });
+  setTimeout(() => {
+        isRaycastingAllowed = true;  
+      }, 300);  
 };
 
 
@@ -400,6 +397,8 @@ imageTexture5.colorSpace = THREE.SRGBColorSpace;
 const meowAudio = new Audio('/audio/Meow.mp3');
 
 function handleRaycasterInteraction() {
+if (modalOpen) return;
+if (!isRaycastingAllowed) return;
 if(currentIntersect.length > 0){
     const object = currentIntersect[0].object;
 
