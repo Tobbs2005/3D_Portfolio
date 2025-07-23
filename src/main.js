@@ -1,6 +1,6 @@
 import "./style.scss";
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { OrbitControls } from './utils/OrbitControls.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import gsap from "gsap";
@@ -570,6 +570,14 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 // Controls
 const controls = new OrbitControls(camera, renderer.domElement);
+
+controls.minDistance = 5;
+controls.maxDistance = 50;
+controls.minPolarAngle = 0;
+controls.maxPolarAngle = Math.PI/2;
+controls.minAzimuthAngle = 0;
+controls.maxAzimuthAngle = Math.PI/2;
+
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.target.set(-0.6388761849161843, 4.685146455099664, -1.8199404781491306);
