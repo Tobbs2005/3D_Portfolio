@@ -197,17 +197,14 @@ const hideModal = (modal) => {
       }, 300);  
 };
 
-
 document.querySelectorAll('.folder').forEach(folder => {
   folder.addEventListener('click', () => {
     const projectId = folder.getAttribute('data-project-id');
     const modal = document.getElementById(`${projectId}-info`);
     if (modal) {
-      modal.style.display = 'block';
-      modal.style.opacity = '1';
-      modal.style.zIndex = '10000';
-      modal.classList.add('active');
-      document.body.classList.add('info-active');
+      // GSAP fade-in animation
+      gsap.fromTo(modal, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5 });
+      modal.style.display = 'block'; // Ensure it's shown before animating
     }
   });
 
@@ -217,32 +214,30 @@ document.querySelectorAll('.folder').forEach(folder => {
   }, { passive: true });
 });
 
-
 document.querySelectorAll(".project-exit-button").forEach((button) => {
   button.addEventListener("touchend", (e) => {
-    touchHappened
     e.preventDefault();
     const modal = e.target.closest(".project-info");
-    closeProjectInfo(modal);
+    if (modal) {
+      // GSAP fade-out animation
+      gsap.to(modal, { opacity: 0, scale: 0.8, duration: 0.5, onComplete: () => {
+        modal.style.display = "none"; 
+      }});
+    }
   }, { passive: false });
 
   button.addEventListener("click", (e) => {
     if (touchHappened) return;
     e.preventDefault();
     const modal = e.target.closest(".project-info");
-    closeProjectInfo(modal);
+    if (modal) {
+      // GSAP fade-out animation
+      gsap.to(modal, { opacity: 0, scale: 0.8, duration: 0.5, onComplete: () => {
+        modal.style.display = "none"; 
+      }});
+    }
   }, { passive: false });
 });
-
-// Function to close project info
-function closeProjectInfo(modal) {
-  modal.classList.remove("active");
-  document.body.classList.remove("info-active");
-  modal.style.display = "none";  // Ensure modal is hidden after closing
-  // Add any additional logic needed for closing the project info
-}
-
-
 
 
 

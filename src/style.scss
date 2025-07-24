@@ -14,23 +14,22 @@
 
 /* Basic modal styles */
 .modal {
-  display: none; /* Hidden by default */
-  opacity: 0; /* Start with 0 opacity */
+  display: none;
+  opacity: 0; 
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
-  max-width: 800px; /* Adjusted for a larger modal */
-  background-color: rgba(0, 40, 0, 0.85); /* Dark green with transparency */
+  max-width: 800px; 
+  background-color: rgba(0, 40, 0, 0.85); 
   color: white;
   padding: 20px;
-  border-radius: 20px; /* Rounded corners for a cute look */
-  border: 4px solid #003300; /* Even darker green border */
-  z-index: 9999; /* Ensure it's above other content */
-  overflow-y: auto; /* Make the modal scrollable */
+  border-radius: 20px; 
+  border: 4px solid #003300;
+  z-index: 9999;
+  overflow-y: auto;
 }
-
 
 .overlay {
   height: 100vh;
@@ -60,7 +59,6 @@
   font-size: 24px;
 }
 
-/* Optional styling for exit button SVG */
 .exit-button-svg {
   width: 20px;
   height: 20px;
@@ -72,7 +70,7 @@
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 20px;
-  text-align: left; /* Align the title to the left */
+  text-align: left;
   transition: transform 0.5s ease;
   transform-origin: left center;
 }
@@ -81,57 +79,53 @@
   transform: scale(1.02);
 }
 
-/* Modal content */
 .modal-content {
   display: flex;
-  flex-direction: column;  /* Stack items vertically */
-  gap: 20px; /* Space between text, image, and button */
-  align-items: center; /* Align items to the left */
-  justify-content: center; /* Align items to the top */
+  flex-direction: column;  
+  gap: 20px; 
+  align-items: center;
+  justify-content: center;
 }
 
-// About section
-/* Styling for the rows inside the modal (e.g., for about, education) */
 .about-row {
   display: flex;
-  align-items: center; /* Align the items vertically */
+  align-items: center;
   margin-bottom: 20px;
-  gap: 20px; /* Add space between the image and description */
+  gap: 20px; 
   transition: transform 0.5s ease;
-  width: 100%; /* Ensure it takes full width */
-  position: relative; /* Ensures scaling effect works across entire row */
-  padding: 10px 0; /* Adds clickable padding space */
-  overflow: visible; /* Make sure scaling doesn't clip content */
+  width: 100%; 
+  position: relative;
+  padding: 10px 0;
+  overflow: visible; 
 }
 
-/* Hover effect for entire row */
+
 .about-row:hover {
-  transform: scale(1.03); /* Scale the row */
-  transform-origin: center; /* Scale from the center */
+  transform: scale(1.03); 
+  transform-origin: center; 
 }
 
-/* Styling for the image inside the about-row */
+
 .about-row img {
-  width: 120px; /* Adjust the width of the image */
-  height: 120px; /* Set the height to make it a square */
-  object-fit: cover; /* Ensure the image maintains aspect ratio while fitting in the box */
-  border-radius: 50%; /* Makes the image circular */
-  border: 4px solid #003300; /* Add a dark green border around the image */
-  flex-shrink: 0; /* Prevent image from shrinking */
+  width: 120px; 
+  height: 120px; 
+  object-fit: cover;
+  border-radius: 50%; 
+  border: 4px solid #003300; 
+  flex-shrink: 0; 
 }
 
-/* Styling for the description inside the about-row */
 .about-paragraph {
   display: flex;
-  flex-direction: column; /* Stack the description vertically */
-  align-items: flex-start; /* Align the items to the left */
-  flex-grow: 1; /* Allow description to take up available space */
-  font-size: 1.1rem; /* Adjust font size */
-  line-height: 1.6; /* Improve readability by spacing lines */
-  color: white; /* Ensure text color is white */
-  text-align: justify; /* Justify the text for better alignment */
-  flex: 1; /* Ensure it fills available space */
-  padding-right: 10px; /* Optional: Adds space to the right of the text */
+  flex-direction: column; 
+  align-items: flex-start;
+  flex-grow: 1;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: white;
+  text-align: justify;
+  flex: 1;
+  padding-right: 10px; 
 }
 
 /* Optional: Add space between paragraphs */
@@ -144,16 +138,16 @@
 
 /* Resume preview section */
 .resume-preview {
-  width: 100%; /* Ensure the preview image takes full width */
-  height: 75vh; /* Use 75% of the modal height */
-  margin-bottom: 20px; /* Space between image and button */
+  width: 100%; 
+  height: 75vh;
+  margin-bottom: 20px;
   margin-top: 20px;
 }
 
 .resume-preview img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Maintain aspect ratio */
+  object-fit: contain;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -163,7 +157,7 @@
 /* Ensure consistent padding and alignment for text */
 .modal-content p {
   margin: 0;
-  text-align: left; /* Align paragraph text to the left */
+  text-align: left; 
 }
 
 
@@ -287,8 +281,8 @@
 }
 
 .project-info a:hover {
-  background-color: #441600; /* Darker green on hover */
-  text-decoration: none; /* Remove underline on hover */
+  background-color: #441600;
+  text-decoration: none; 
   transform: scale(1.10);
 }
 
@@ -346,12 +340,12 @@
 /* Folder container for Projects info */
 .folder-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Default 4 items per row */
-  gap: 10px; /* Reduced gap between folders */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
   margin-top: 20px;
-  overflow-x: auto; /* Make it horizontally scrollable */
-  max-width: 100%; /* Ensure the container fits within its parent */
-  padding-bottom: 10px; /* Add some padding for aesthetic purposes */
+  overflow-x: auto; 
+  max-width: 100%;
+  padding-bottom: 10px; 
 }
 
 /* Folder Icon Styles */
@@ -365,8 +359,8 @@
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
-  width: 100%; /* Full width of the grid item */
-  min-height: 120px; /* Fixed height for the folder */
+  width: 100%; 
+  min-height: 120px; 
 }
 
 .folder:hover {
@@ -425,23 +419,23 @@
   }
 }
 .experience.modal {
-  width: 90vw;               /* Fixed width for the modal */
-  height: auto;              /* Let the height adjust based on the aspect ratio */
-  max-height: 90vh;          /* Maximum height limit */
-  aspect-ratio: 3/4;      /* Aspect ratio for the container */
+  width: 90vw;             
+  height: auto;           
+  max-height: 90vh;       
+  aspect-ratio: 3/4;    
   overflow: auto;
 }
 
 .experience.modal .resume-preview {
   overflow: hidden;
-  width: 100%;              /* Full width of the container */
-  height: auto;             /* Height adjusts based on aspect ratio */
+  width: 100%;          
+  height: auto;       
 }
 
 .experience.modal .resume-preview img {
-  width: 100%;             /* Make the image fill the container width */
-  height: 100%;            /* Make the image fill the container height */
-  object-fit: contain;     /* Ensure the image fits within the container without cropping */
+  width: 100%;      
+  height: 100%;   
+  object-fit: contain;    
   display: block;
 }
 
@@ -469,18 +463,18 @@
 
 /* Styling for the image inside the education-row */
 .education-row img {
-  width: 120px; /* Adjust the width of the image as needed */
-  height: 120px; /* Set height to make it a square */
-  object-fit: cover; /* Ensure the image maintains aspect ratio while fitting in the box */
-  border-radius: 100%; /* Makes the image circular */
-  border: 4px solid #003300; /* Add a dark green border around the image */
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 100%;
+  border: 4px solid #003300; 
 }
 /* Styling for the description inside the education-row */
 .education-description {
   display: flex;
-  flex-direction: column; /* Stack the description vertically */
-  align-items: flex-start; /* Align the items to the left */
-  flex-grow: 1; /* Allow description to take up available space */
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1; 
 }
 
 .education-degree {
@@ -490,9 +484,9 @@
 }
 /* Styling for each bullet point inside the education-description */
 .education-bullet {
-  margin-bottom: 5px; /* Adds spacing between the list items */
+  margin-bottom: 5px; 
   position: relative;
-  padding-left: 20px; /* Adds space for the bullet */
+  padding-left: 20px; 
 }
 
 
@@ -501,10 +495,10 @@
   display: none;
   flex-direction: column;
   align-items: flex-start;
-  background: linear-gradient(145deg, #f0f0f0, #376e41); /* Soft background gradient */
-  border-radius: 15px; /* Rounded corners */
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  max-width: 350px; /* Limit width for card */
+  background: linear-gradient(145deg, #f0f0f0, #376e41);
+  border-radius: 15px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); 
+  max-width: 350px;
   padding: 20px;
   color: #333;
   gap: 15px;
@@ -518,8 +512,8 @@
 .contact-title {
   margin-bottom: 10px;
   color:#003300;
-  font-size: 1.2rem; /* Larger text size for paragraphs */
-  color: #333; /* Dark text for readability */
+  font-size: 1.2rem;
+  color: #333;
   transition: transform 0.5s ease
 }
 
@@ -529,9 +523,7 @@
 
 .contact-row {
   display: flex;
-  align-items: center; /* Align the items vertically */
-  gap: 10px; /* Add space between the image and text */
-  width: 100%; /* Ensure each row takes up full width */
+  align-items: center; 
   transition: transform 0.5s ease;
 }
 
@@ -542,26 +534,28 @@
 .contact-row img {
   width: 30px; /* Adjust icon size */
   height: 30px;
-  object-fit: cover; /* Ensure the image maintains aspect ratio */
-  border-radius: 50%; /* Makes the image circular */
-  border: 2px solid #003300; /* Add a dark green border around the image */
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #003300; 
 }
 
 .contact-row p {
-  font-size: 1.2rem; /* Larger text size for paragraphs */
-  color: #333; /* Dark text for readability */
-  margin: 0; /* Remove default margin */
+  font-size: 1.2rem; 
+  color: #333;
+  margin: 0; 
 }
 
 .contact-row a {
   text-decoration: none;
-  color: #003300; /* Blue for links */
+  color: #003300;
   font-weight: bold;
 }
 
 .contact-row a:hover {
   text-decoration: underline;
 }
+
+
 
 
 
@@ -679,24 +673,24 @@
 
 /* Hide .desktop-instructions on tablet and smaller screens */
 .desktop-instructions {
-  display: block; /* Make sure it's visible by default */
+  display: block;
 }
 
 @media (max-width: 768px) {
   .desktop-instructions {
-    display: none; /* Hide on tablet and smaller screens */
+    display: none; 
   }
 }
 
 /* Show .mobile-instructions only on tablet and smaller screens */
 .mobile-instructions {
-  display: none; /* Hide by default */
+  display: none;
 }
 
 @media (max-width: 768px) {
   .mobile-instructions {
-    display: block; /* Show on tablet and smaller screens */
-    font-size: 28px; /* Set font size for mobile devices */
+    display: block; 
+    font-size: 28px; 
   }
 }
 
@@ -714,12 +708,12 @@
 
 @media (max-width: 768px) {
   .modal {
-    width: 90vw; /* Take up most of the screen width */
-    height: auto; /* Allow height to adjust to content */
-    max-height: 90vh; /* Prevent from going off screen */
-    padding: 15px; /* Slightly smaller padding */
-    border-radius: 12px; /* Softer corner radius for mobile */
-    overflow-y: auto; /* Enable vertical scroll inside modal */
+    width: 90vw; 
+    height: auto;
+    max-height: 90vh;
+    padding: 15px; 
+    border-radius: 12px;
+    overflow-y: auto;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -737,26 +731,31 @@
   /* Styling for the description inside the about-row */
   .about-paragraph {
     display: flex;
-    flex-direction: column; /* Stack the description vertically */
-    align-items: flex-start; /* Align the items to the left */
-    flex-grow: 1; /* Allow description to take up available space */
-    font-size: 0.8rem; /* Adjust font size */
-    line-height: 1.6; /* Improve readability by spacing lines */
-    color: white; /* Ensure text color is white */
-    flex: 1; /* Ensure it fills available space */
-    padding-right: 10px; /* Optional: Adds space to the right of the text */
+    flex-direction: column; 
+    align-items: flex-start;
+    flex-grow: 1; 
+    font-size: 0.8rem; 
+    line-height: 1.6;
+    color: white; 
+    flex: 1;
+    padding-right: 10px; 
   }
 
   .about-paragraph p {
     font-size: 0.6rem;
   }
 
+  .about-row{
+    margin: 0px;
+  }
+  
+
 
   .education-row {
     display: flex;
-    align-items: center; /* Align the items vertically */
+    align-items: center;
     margin-bottom: 20px;
-    gap: 50px; /* Add some space between the image and description */
+    gap: 50px; 
 
     transition: transform 0.5s ease;
     font-size: 0.8rem;
@@ -764,8 +763,8 @@
   }
 
   .education-row img {
-  max-width: 30%;  /* Adjust this value to make the image smaller (e.g., 30%) */
-  height: auto;    /* Maintain aspect ratio */
+  max-width: 30%;
+  height: auto;   
 }
 
   .project span {
@@ -781,10 +780,10 @@
   }
 
   .project-info .tags {
-  margin-top: 5px;
-  gap: 5px;
-  margin-bottom: 5px;
-}
+    margin-top: 5px;
+    gap: 5px;
+    margin-bottom: 5px;
+  }
 
   .scroll-hint {
     margin-top: 5px !important;
