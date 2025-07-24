@@ -297,7 +297,6 @@
   display: flex;
   gap: 10px;
   overflow-x: auto;
-  margin-top: 10px;
   scroll-snap-type: x mandatory;
   padding-bottom: 10px;
 
@@ -326,6 +325,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 /* Exit button */
@@ -424,33 +424,27 @@
     grid-template-columns: 1fr; /* 1 item per row on very small devices */
   }
 }
+.experience.modal {
+  width: 90vw;               /* Fixed width for the modal */
+  height: auto;              /* Let the height adjust based on the aspect ratio */
+  max-height: 90vh;          /* Maximum height limit */
+  aspect-ratio: 3/4;      /* Aspect ratio for the container */
+  overflow: auto;
+}
 
-/* Resume Preview Styling */
 .experience.modal .resume-preview {
-  width: 100%;
-  height: 75vh; /* Use 75% of the modal height */
   overflow: hidden;
-  margin-bottom: 20px;
+  width: 100%;              /* Full width of the container */
+  height: auto;             /* Height adjusts based on aspect ratio */
 }
 
 .experience.modal .resume-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Keep aspect ratio */
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;             /* Make the image fill the container width */
+  height: 100%;            /* Make the image fill the container height */
+  object-fit: contain;     /* Ensure the image fits within the container without cropping */
+  display: block;
 }
 
-/* Button to open full resume */
-.open-resume-button {
-  background-color: #003300;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-}
 
 .open-resume-button:hover {
   background: #003800;
@@ -731,57 +725,32 @@
     transform: translate(-50%, -50%);
   }
 
+  .modal p {
+    font-size: 0.7rem;
+  }
+
+  .project-description p {
+    font-size: 0.7rem;
+  }
+
 
   /* Styling for the description inside the about-row */
-.about-paragraph {
-  display: flex;
-  flex-direction: column; /* Stack the description vertically */
-  align-items: flex-start; /* Align the items to the left */
-  flex-grow: 1; /* Allow description to take up available space */
-  font-size: 0.8rem; /* Adjust font size */
-  line-height: 1.6; /* Improve readability by spacing lines */
-  color: white; /* Ensure text color is white */
-  text-align: left;
-  flex: 1; /* Ensure it fills available space */
-  padding-right: 10px; /* Optional: Adds space to the right of the text */
-}
+  .about-paragraph {
+    display: flex;
+    flex-direction: column; /* Stack the description vertically */
+    align-items: flex-start; /* Align the items to the left */
+    flex-grow: 1; /* Allow description to take up available space */
+    font-size: 0.8rem; /* Adjust font size */
+    line-height: 1.6; /* Improve readability by spacing lines */
+    color: white; /* Ensure text color is white */
+    flex: 1; /* Ensure it fills available space */
+    padding-right: 10px; /* Optional: Adds space to the right of the text */
+  }
 
-  /* Optional: Add space between paragraphs */
   .about-paragraph p {
-    margin-bottom: 10px;
-    font-size: 1.5rem;
+    font-size: 0.6rem;
   }
 
-  .experience.modal {
-    width: 90vw; 
-    height: auto; /* Allow height to adjust to content */
-    max-height: 70vh; 
-    padding: 15px; 
-    border-radius: 12px; 
-    overflow-y: auto;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-
-  .resume-link {
-    display: block;
-    margin-top: 0;
-  }
-
-  .resume-preview {
-    max-height: 100vw;
-    display: block; 
-    padding: 0;
-  }
-
-  .resume-preview img {
-    display: block; 
-    padding: 0;
-    width: 100%;
-    object-fit: cover; /* Or cover */
-  }
 
   .education-row {
     display: flex;
@@ -790,7 +759,38 @@
     gap: 50px; /* Add some space between the image and description */
 
     transition: transform 0.5s ease;
+    font-size: 0.8rem;
+
   }
+
+  .education-row img {
+  max-width: 30%;  /* Adjust this value to make the image smaller (e.g., 30%) */
+  height: auto;    /* Maintain aspect ratio */
+}
+
+  .project span {
+    font-size: 0.7rem;
+  }
+
+  .project a {
+    font-size: 0.7rem;
+  }
+
+  .project-description {
+    margin: 5px;
+  }
+
+  .project-info .tags {
+  margin-top: 5px;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+  .scroll-hint {
+    margin-top: 5px !important;
+    font-size: 0.5rem !important;
+  }
+
 
 
 }

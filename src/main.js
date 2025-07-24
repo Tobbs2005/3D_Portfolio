@@ -4,7 +4,6 @@ import { OrbitControls } from './utils/OrbitControls.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import gsap from "gsap";
-import { Howl } from "howler";
 
 
 const clock = new THREE.Clock();
