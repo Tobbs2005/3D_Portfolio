@@ -78,16 +78,30 @@
   <!-- Projects Modal (File Explorer Style) -->
   <div class="projects modal">
     <h1 class="modal-title">Projects</h1>
-    <!-- Project Folders as Icons -->
     <div class="folder-container">
+      <!-- Add stuff here -->
+      <div class="folder" data-project-id="talecrafter">
+        <img src="/projects/converso/FolderClosed.webp" class="folder-icon closed" />
+        <img src="/projects/converso/FolderOpen.webp" class="folder-icon open" />
+        <span class="folder-name">TaleCrafterAI</span>
+      </div>
+
+
       <div class="folder" data-project-id="converso">
         <img src="/projects/converso/FolderClosed.webp" class="folder-icon closed" />
         <img src="/projects/converso/FolderOpen.webp" class="folder-icon open" />
         <span class="folder-name">Converso - An AI Learning Tool</span>
       </div>
 
+
+      <div class="folder" data-project-id="3d-portfolio">
+        <img src="/projects/converso/FolderClosed.webp" class="folder-icon closed" />
+        <img src="/projects/converso/FolderOpen.webp" class="folder-icon open" />
+        <span class="folder-name">3D Room Portfolio</span>
+      </div>
+
+
     
-      <!-- Add more project folders here as needed -->
     </div>
     <button class="modal-exit-button">
       <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
@@ -100,8 +114,93 @@
     
   </div>
 
-  <!-- Project-specific information modal (e.g., Converso info) -->
-  <div class="project-info custom-scrollbar" id="converso-info">
+  <!-- Project-specific information modal -->
+
+  <div class="project-info custom-scrollbar" id="talecrafter">
+    <div class="project">
+      <h1 class="project-title">TaleCrafter</h1>
+      <!-- Scrollable Image Gallery -->
+      <div class="image-gallery">
+        <img src="/projects/3D Room Portfolio/Portfolio.jpg" alt="Portfolio Img" />
+      </div>
+
+      <div class="tags">
+        <span>NextJS</span>
+        <span>Typescript</span>
+        <span>TailwindCSS</span>
+        <span>OpenRouter</span>
+        <span>Supabase</span>
+        <span>Stripe</span>
+        <span>Google OAuth</span>
+      </div>
+      <div class="project-description">
+        <p>
+          TaleCrafterAI is a generative AI tool used for storywriters to build and write stories. I lead its development as part of my first internship at Zoomob, 
+          a video game company which recognized the difficulty in crafting novel based video games. 
+          <br/><br/>
+          With TaleCrafter, I showcase my skills building scalable SaaS products form the ground up, from designing the tech-stack, 
+          developing authentication and backend systems using Google Oauth, database and storage using Supabase, API calls to Openrouter, to building a beautiful frontend with TailwindCSS, 
+          I was tansformed from someone with zero knowledge and experience in web development into one who can now create anything I want with limitless possibility.
+        </p>
+      </div>
+      <a href="your_project_link_here">Website</a>
+      <a href="your_project_link_here">GitHub</a>
+    </div>
+    <button class="project-exit-button">
+      <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+      </svg>
+    </button>
+  </div>
+
+
+  <div class="project-info custom-scrollbar" id="3d-portfolio">
+    <div class="project">
+      <h1 class="project-title">3D Room Portfolio</h1>
+      <!-- Scrollable Image Gallery -->
+      <div class="image-gallery">
+        <img src="/projects/3D Room Portfolio/Portfolio.jpg" alt="Portfolio Img" />
+      </div>
+
+      <div class="tags">
+        <span>Blender</span>
+        <span>ThreeJS</span>
+        <span>GSAP</span>
+        <span>Vite</span>
+        <span>CSS</span>
+        <span>Javascript</span>
+      </div>
+      <div class="project-description">
+        <p>
+          Every developer needs their own portfolio to showcase their work. But why limit myself to those plain simple copy-paste portfolios? 
+          With the limitless potentials of web development, I decided to create a portfolio truely unique and personal which showcases now only my
+          work, but also who I am as a person. 
+          <br /><br />
+          This project was originally inspired through my first internship at Zoomob, a video game company. However, I was instead tasked to lead the development of TaleCrafterAI. 
+          While I didn't work on any games, I was exposed to other work through my peers and developed a keen sense of curiosity in 3D modelling. 
+          This inspired me to create this project, where I made everything from scratch including 3D modelling, textures, UV maps and texture baking. 
+          I combined this with the skills I learned in web development, combining it all with ThreeJS and animations with GSAP.
+          
+        </p>
+      </div>
+      <a href="your_project_link_here">Website</a>
+      <a href="your_project_link_here">GitHub</a>
+    </div>
+    <button class="project-exit-button">
+      <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+      </svg>
+    </button>
+  </div>
+
+
+  <div class="project-info custom-scrollbar" id="converso">
     <div class="project">
       <h1 class="project-title">Converso</h1>
       <!-- Scrollable Image Gallery -->

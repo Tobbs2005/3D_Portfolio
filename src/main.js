@@ -200,7 +200,7 @@ const hideModal = (modal) => {
 document.querySelectorAll('.folder').forEach(folder => {
   folder.addEventListener('click', () => {
     const projectId = folder.getAttribute('data-project-id');
-    const modal = document.getElementById(`${projectId}-info`);
+    const modal = document.getElementById(`${projectId}`);
     if (modal) {
       // GSAP fade-in animation
       gsap.fromTo(modal, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5 });
