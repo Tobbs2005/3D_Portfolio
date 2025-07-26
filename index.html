@@ -7,6 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ziyue Fang Portfolio</title>
   <link rel="stylesheet" href="/src/style.scss" />
+
+  <script>
+    const referenceDPI = 1.6; 
+    const scale = referenceDPI / window.devicePixelRatio;
+    document.documentElement.style.setProperty("--dpi-scale", scale);
+    document.documentElement.style.transform = `scale(${scale})`;
+    document.documentElement.style.transformOrigin = "top center";
+  </script>
+
 </head>
 
 <body class="dark-green-theme">
