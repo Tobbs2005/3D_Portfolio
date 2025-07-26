@@ -1,7 +1,3 @@
-html {
-    transform: scale(var(--dpi-scale));
-    transform-origin: top center;
-  }
 
 * {
   margin: 0;
@@ -125,7 +121,6 @@ html {
   flex-direction: column; 
   align-items: flex-start;
   flex-grow: 1;
-  font-size: 1.1rem;
   line-height: 1.6;
   color: white;
   text-align: justify;
@@ -136,7 +131,6 @@ html {
 /* Optional: Add space between paragraphs */
 .about-paragraph p {
   margin-bottom: 10px;
-  font-size: 1.5rem;
 }
 
 
@@ -672,7 +666,7 @@ html {
   color: #e6dede;
   border-radius: 1.2rem;
   border: none;
-  font-size: 42px;
+  font-size: 30px;
   
 }
 
@@ -685,7 +679,7 @@ html {
   bottom: 10%;
   max-width: 1200px;
   width: 90%;
-  font-size: 28px;
+  font-size: 24px;
   font-family: "Shifty Notes";
   color: #e6dede;
 }
