@@ -268,7 +268,7 @@ const pointer = new THREE.Vector2();
 // Social Links
 const socialLinks = {
   GitHub: "https://github.com/Tobbs2005",
-  Linkedin: "https://linkedin.com",
+  Linkedin: "https://www.linkedin.com/in/ziyue-fang-280a33314",
 }
 
 // Loaders
