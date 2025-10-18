@@ -133,7 +133,34 @@ document.querySelectorAll(".modal-exit-button").forEach((button) => {
   }, {passive: false})
 })
 
+
 const overlay = document.querySelector(".overlay");
+
+// Close any open modal (project or main modal) when clicking on the overlay
+overlay.addEventListener("click", (e) => {
+  // Close project modal if open (but do not hide overlay if a main modal is still open)
+  const openProjectModal = document.querySelector('.project-info[style*="display: block"]');
+  if (openProjectModal) {
+    gsap.to(openProjectModal, { opacity: 0, scale: 0.8, duration: 0.5, onComplete: () => {
+      openProjectModal.style.display = "none";
+      // Only hide overlay if no main modal is open
+      const openModal = document.querySelector('.modal[style*="display: block"]');
+      if (!openModal) {
+        overlay.style.display = "none";
+        overlay.style.opacity = 0;
+        modalOpen = false;
+        isRaycastingAllowed = true;
+        controls.enabled = true;
+      }
+    }});
+    return;
+  }
+  // Close main modal if open
+  const openModal = document.querySelector('.modal[style*="display: block"]');
+  if (openModal) {
+    hideModal(openModal);
+  }
+});
 
 let modalOpen = true;
 let isRaycastingAllowed = true;
