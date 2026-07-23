@@ -1,4 +1,38 @@
 
+// =====================================================================
+//  Warm-earthy design system
+//  Flat paper cream (dominant) + espresso brown (structure)
+//  + terracotta (single CTA accent). No gradient, no gloss —
+//  one warm family so cream and its accents stay in tune.
+// =====================================================================
+
+// --- Surfaces (warm paper) ---
+$card:         #efe6cf;  // flat cream card (no gradient)
+$panel:        #f7f0dd;  // note cards — a soft step up from the card
+$panel-edge:   rgba(120, 95, 55, 0.20); // hairline around panels
+
+// --- Ink (text) ---
+$ink:          #3a2c1c;  // primary body text on cream
+$ink-soft:     #7a6a4f;  // secondary text / hints
+
+// --- Accents (all warm/earthy) ---
+$head:         #4a3418;  // espresso brown: titles, icons, structure
+$tag:          #7c6544;  // kraft-brown tag chips
+$tag-hover:    #5f4c30;
+$terra:        #c0603c;  // CTA accent: buttons, links, underlines
+$terra-deep:   #a44a29;  // CTA hover
+$wood:         #a4885d;  // border / folder wood tone
+$wood-soft:    rgba(164, 136, 93, 0.30);
+
+// --- Elevation (soft + matte — no bright highlights) ---
+$card-shadow:  0 22px 50px -24px rgba(40, 28, 12, 0.55);
+$panel-shadow: 0 3px 10px -6px rgba(70, 50, 25, 0.28);
+$lift-shadow:  0 12px 24px -16px rgba(50, 34, 16, 0.38);
+
+// --- Shape ---
+$r-card:  22px;
+$r-panel: 16px;
+
 * {
   margin: 0;
   padding: 0;
@@ -13,21 +47,37 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+// =====================================================================
+//  Shared card + modal foundation
+// =====================================================================
+
+%paper-card {
+  background: $card;
+  border: 3px solid $wood;
+  border-radius: $r-card;
+  box-shadow: $card-shadow;
+  color: $ink;
+}
+
+%inset-panel {
+  background: $panel;
+  border: 1px solid $panel-edge;
+  border-radius: $r-panel;
+  box-shadow: $panel-shadow;
+}
+
 /* Basic modal styles */
 .modal {
+  @extend %paper-card;
   display: none;
-  opacity: 0; 
+  opacity: 0;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
-  max-width: 800px; 
-  background-color: rgba(0, 40, 0, 0.85); 
-  color: white;
-  padding: 20px;
-  border-radius: 20px; 
-  border: 4px solid #003300;
+  max-width: 760px;
+  padding: 30px 32px 34px;
   z-index: 9999;
   overflow-y: auto;
 }
@@ -41,125 +91,42 @@
   left: 0;
   z-index: 3;
   display: none;
-  background-color: rgba(32, 32, 32, 0.2);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background-color: rgba(18, 14, 8, 0.35);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 /* Exit button styling */
 .modal-exit-button,
 .project-exit-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: transparent;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(154, 127, 87, 0.16);
   border: none;
+  border-radius: 50%;
   cursor: pointer;
-  color: white;
-  padding: 10px;
-  font-size: 24px;
+  color: $head;
+  padding: 0;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.modal-exit-button:hover,
+.project-exit-button:hover {
+  background-color: $terra;
+  color: #fff;
 }
 
 .exit-button-svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   fill: currentColor;
 }
-
-/* Modal title */
-.modal-title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: left;
-  transition: transform 0.5s ease;
-  transform-origin: left center;
-}
-
-.modal-title:hover{
-  transform: scale(1.02);
-}
-
-.modal-content {
-  display: flex;
-  flex-direction: column;  
-  gap: 20px; 
-  align-items: center;
-  justify-content: center;
-}
-
-.about-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  gap: 20px; 
-  transition: transform 0.5s ease;
-  width: 100%; 
-  position: relative;
-  padding: 10px 0;
-  overflow: visible; 
-}
-
-
-.about-row:hover {
-  transform: scale(1.03); 
-  transform-origin: center; 
-}
-
-
-.about-row img {
-  width: 120px; 
-  height: 120px; 
-  object-fit: cover;
-  border-radius: 50%; 
-  border: 4px solid #003300; 
-  flex-shrink: 0; 
-}
-
-.about-paragraph {
-  display: flex;
-  flex-direction: column; 
-  align-items: flex-start;
-  flex-grow: 1;
-  line-height: 1.6;
-  color: white;
-  text-align: justify;
-  flex: 1;
-  padding-right: 10px; 
-}
-
-/* Optional: Add space between paragraphs */
-.about-paragraph p {
-  margin-bottom: 10px;
-}
-
-
-
-/* Resume preview section */
-.resume-preview {
-  width: 100%; 
-  height: 75vh;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-.resume-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-
-
-/* Ensure consistent padding and alignment for text */
-.modal-content p {
-  margin: 0;
-  text-align: left; 
-}
-
-
 
 /* Button transitions on hover */
 .modal-exit-button svg,
@@ -169,61 +136,205 @@
 
 .modal-exit-button:hover svg,
 .project-exit-button:hover svg {
-  transform: rotate(45deg);
+  transform: rotate(90deg);
+}
+
+/* Modal title */
+.modal-title {
+  position: relative;
+  display: inline-block;
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: $head;
+  margin-bottom: 26px;
+  padding-bottom: 12px;
+  text-align: left;
+  transition: transform 0.4s ease;
+  transform-origin: left center;
+}
+
+/* terracotta underline accent that ties green + terra together */
+.modal-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 58px;
+  height: 4px;
+  border-radius: 4px;
+  background: $terra;
+}
+
+.modal-title:hover {
+  transform: scale(1.02);
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure consistent padding and alignment for text */
+.modal-content p {
+  margin: 0;
+  text-align: left;
 }
 
 /* For smooth handling of small font texts */
-.sm-font {
-  font-size: 1rem;
+.sm-font { font-size: 1rem; }
+.sm-margin-top { margin-top: 12px; }
+
+// =====================================================================
+//  About modal
+// =====================================================================
+
+.about-row {
+  @extend %inset-panel;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  position: relative;
+  margin-bottom: 18px;
+  padding: 20px 22px;
+  overflow: visible;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-.sm-margin-top {
-  margin-top: 12px;
+.about-row:hover {
+  transform: translateY(-3px);
+  box-shadow: $lift-shadow;
 }
 
+.about-row img {
+  width: 118px;
+  height: 118px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid $wood;
+  box-shadow: 0 6px 16px -6px rgba(45, 30, 15, 0.5);
+  flex-shrink: 0;
+}
+
+.about-paragraph {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
+  flex: 1;
+  line-height: 1.7;
+  color: $ink;
+  text-align: justify;
+  padding-right: 6px;
+}
+
+.about-paragraph p {
+  margin-bottom: 10px;
+}
+
+// =====================================================================
+//  Resume / experience modal
+// =====================================================================
+
+.resume-preview {
+  width: 100%;
+  height: 75vh;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.resume-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 3px solid $wood;
+  box-shadow: $panel-shadow;
+}
+
+.experience.modal {
+  width: 90vw;
+  height: auto;
+  max-height: 90vh;
+  aspect-ratio: 3/4;
+  overflow: auto;
+}
+
+.experience.modal .resume-preview {
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+}
+
+.experience.modal .resume-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+// =====================================================================
+//  Project cards (the file-folder detail views)
+// =====================================================================
 
 .project-title {
-  color: #003300;
-  transition: transform 0.5s ease;
-  justify-self: center;
+  position: relative;
+  display: inline-block;
+  color: $head;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 22px;
+  padding-bottom: 12px;
+  transition: transform 0.4s ease;
+}
+
+.project-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 58px;
+  height: 4px;
+  border-radius: 4px;
+  background: $terra;
 }
 
 .project-title:hover {
   transform: scale(1.03);
 }
 
-
-/* Specific styles for project info */
 .project-info {
+  @extend %paper-card;
   -webkit-overflow-scrolling: touch;
   display: none;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
   width: 80%;
-  max-width: 800px;
-  background: #dacfaa;
-  z-index: 10000; /* Ensure it's above all other content */
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  max-width: 760px;
+  padding: 30px 32px 34px;
+  z-index: 10000;
   overflow-y: auto;
-  max-height: 80vh; /* Ensure it's scrollable */
+  max-height: 82vh;
   text-align: center;
-   border:#8d7958 solid;
-  border-radius: 20px;
-  border-width: 5px;
-  
 }
 
+.project-info .project {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .project-info .project h1 {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #003300;
-  color: #003300;
+  color: $head;
 }
 
 .project-info .project img {
@@ -232,92 +343,90 @@
   transition: transform 0.5s ease;
 }
 
-
-
-
-
-
 .project-info p {
   margin-top: 10px;
   font-size: 1rem;
+  color: $ink;
 }
 
-
-/* Tags and content styling */
+/* Tags — forest-green pills */
 .project-info .tags {
-  margin-top: 15px;
+  margin: 18px 0 16px;
   display: flex;
   justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 15px;
 }
 
 .project-info .tags span {
-  background-color: #003300;
-  color: white;
-  padding: 8px;
-  border-radius: 5px;
-  transition: transform 0.5s ease;
+  background-color: $tag;
+  color: #f4eedf;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px -4px rgba(50, 34, 16, 0.5);
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .project-info .tags span:hover {
-  transform: scale(1.15);
-  
+  transform: translateY(-2px) scale(1.05);
+  background-color: $tag-hover;
 }
 
-
+/* Links — terracotta buttons (the CTA accent) */
 .project-info a {
   display: inline-block;
-  margin-top: 20px;
+  margin: 6px 6px 0;
   text-decoration: none;
-  color: white; /* Button text color */
-  background-color: #551b01; 
-  padding: 10px 20px; /* Add padding for button look */
-  border-radius: 5px; /* Rounded corners */
+  color: #fff;
+  background-color: $terra;
+  padding: 11px 24px;
+  border-radius: 999px;
+  font-weight: 600;
   text-align: center;
-  margin: 5px;
-  transition: transform 0.5s ease;
+  box-shadow: 0 6px 16px -8px rgba(120, 45, 20, 0.8);
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .project-info a:hover {
-  background-color: #441600;
-  text-decoration: none; 
-  transform: scale(1.10);
+  background-color: $terra-deep;
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 10px 22px -8px rgba(120, 45, 20, 0.85);
 }
 
-
+/* Image gallery — horizontal scroll. `safe center` centers a single
+   image but falls back to the start edge when images overflow, so
+   wide galleries scroll instead of being clipped off both sides. */
 .image-gallery {
   display: flex;
-  gap: 10px;
+  gap: 14px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding-bottom: 10px;
-  
+  padding: 4px 2px 14px;
+  width: 100%;
+  justify-content: safe center;
 }
 
-
-
 .image-gallery img {
-  height: 150px;
+  height: 280px;
+  width: auto;
   flex: 0 0 auto;
   scroll-snap-align: start;
-  border-radius: 10px;
-  object-fit: cover;
-  border:#8d795858 solid;
-  border-radius: 20px;
-  border-width: 5px;
-  
+  border-radius: 16px;
+  border: 3px solid $wood;
+  box-shadow: $panel-shadow;
 }
 
 .scroll-hint {
   text-align: center;
   font-size: 14px;
-  color: #888;
-  margin-top: 5px;
+  color: $ink-soft;
+  letter-spacing: 2px;
+  margin-top: 6px;
   user-select: none;
 }
-
 
 .project-description {
   font-size: 20px;
@@ -325,82 +434,62 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-  
+  margin: 4px 0 20px;
+  color: $ink;
 }
 
-  .project-description p {
-    font-size: 1.2rem;
-  }
-
-
-/* Exit button */
-.project-exit-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  color: #003300;
-  padding: 10px;
-  font-size: 24px;
+.project-description p {
+  font-size: 1.12rem;
+  line-height: 1.7;
+  color: $ink;
 }
 
-/* Folder container for Projects info */
+// =====================================================================
+//  Projects modal — the file folders (keep the folder interaction!)
+// =====================================================================
+
 .folder-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-top: 20px;
-  overflow-x: auto; 
+  gap: 12px;
+  margin-top: 24px;
+  overflow-x: auto;
   max-width: 100%;
-  padding-bottom: 10px; 
+  padding-bottom: 10px;
 }
 
-/* Folder Icon Styles */
 .folder {
-  padding: 10px;
-  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Align icons to the top */
+  justify-content: flex-start;
   text-align: center;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-  width: 100%; 
+  width: 100%;
   min-height: 120px;
-  height: 160px; /* Adjust height as needed */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  height: 168px;
+  padding: 14px 8px;
+  border-radius: $r-panel;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: transform 0.25s ease, background-color 0.25s ease,
+    border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .folder:hover {
-  transform: scale(1.05); /* Folder hover effect */
+  transform: translateY(-4px);
+  background: rgba(255, 253, 246, 0.6);
+  border-color: $panel-edge;
+  box-shadow: $panel-shadow;
 }
 
 .folder-name {
-  margin-top: 10px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #ffffff;
+  margin-top: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: $ink;
   flex-shrink: 0;
-}
-
-/* Hide the open folder image by default */
-.folder-icon.open {
-  display: none;
-}
-
-/* On hover, show open folder and hide closed folder */
-.folder:hover .folder-icon.closed {
-  display: none;
-}
-
-.folder:hover .folder-icon.open {
-  display: inline-block;
 }
 
 .folder-icon {
@@ -409,127 +498,116 @@
   transition: transform 0.3s ease;
 }
 
-/* Optional: slight scale on hover */
-.folder:hover .folder-icon {
-  transform: scale(1.05);
-}
+/* Hide the open folder image by default */
+.folder-icon.open { display: none; }
 
-/* Responsive layout for folder container */
+/* On hover, swap to the open folder */
+.folder:hover .folder-icon.closed { display: none; }
+.folder:hover .folder-icon.open { display: inline-block; }
+.folder:hover .folder-icon { transform: scale(1.06); }
+
+/* Responsive folder grid */
 @media (max-width: 1024px) {
-  .folder-container {
-    grid-template-columns: repeat(3, 1fr); /* 3 items per row on medium devices */
-  }
+  .folder-container { grid-template-columns: repeat(3, 1fr); }
 }
-
 @media (max-width: 768px) {
-  .folder-container {
-    grid-template-columns: repeat(2, 1fr); /* 2 items per row on small devices */
-  }
+  .folder-container { grid-template-columns: repeat(2, 1fr); }
 }
-
 @media (max-width: 480px) {
-  .folder-container {
-    grid-template-columns: 1fr; /* 1 item per row on very small devices */
-  }
+  .folder-container { grid-template-columns: 1fr; }
 }
 
-.experience.modal {
-  width: 90vw;             
-  height: auto;           
-  max-height: 90vh;       
-  aspect-ratio: 3/4;    
-  overflow: auto;
-}
+// =====================================================================
+//  Education modal
+// =====================================================================
 
-.experience.modal .resume-preview {
-  overflow: hidden;
-  width: 100%;          
-  height: auto;       
-}
-
-.experience.modal .resume-preview img {
-  width: 100%;      
-  height: 100%;   
-  object-fit: contain;    
-  display: block;
-}
-
-
-.open-resume-button:hover {
-  background: #003800;
-}
-
-
-/* Styling for the rows inside the modal (education) */
 .education-row {
+  @extend %inset-panel;
   display: flex;
-  align-items: center; /* Align the items vertically */
-  margin-bottom: 20px;
-  gap: 150px; /* Add some space between the image and description */
-
-  transition: transform 0.5s ease;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 18px;
+  padding: 20px 24px;
+  color: $ink;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-.education-row:hover{
-  transform: scale(1.05);
+.education-row:hover {
+  transform: translateY(-3px);
+  box-shadow: $lift-shadow;
 }
 
-
-
-/* Styling for the image inside the education-row */
 .education-row img {
-  width: 120px;
-  height: 120px;
+  width: 96px;
+  height: 96px;
   object-fit: cover;
-  border-radius: 100%;
-  border: 4px solid #003300; 
+  border-radius: 50%;
+  border: 4px solid $wood;
+  box-shadow: 0 6px 16px -6px rgba(45, 30, 15, 0.5);
+  flex-shrink: 0;
 }
-/* Styling for the description inside the education-row */
+
 .education-description {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  flex-grow: 1; 
+  flex-grow: 1;
+
+  h3 {
+    color: $head;
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+  }
 }
 
 .education-degree {
-  font: bold;
-  font-weight: 500;
-  margin-bottom: 5px;
+  font-weight: 600;
+  color: $ink-soft;
+  margin-bottom: 8px;
 }
-/* Styling for each bullet point inside the education-description */
+
 .education-bullet {
-  margin-bottom: 5px; 
+  list-style: none;
+  margin-bottom: 6px;
   position: relative;
-  padding-left: 20px; 
+  padding-left: 20px;
+  color: $ink;
 }
 
+.education-bullet::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: $terra;
+}
 
-/* Contact Modal Styles */
+// =====================================================================
+//  Contact modal
+// =====================================================================
+
 .contact {
-  display: none;
-  flex-direction: column;
-  align-items: flex-start;
-  background: linear-gradient(145deg, #f0f0f0, #376e41);
-  border-radius: 15px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); 
-  max-width: 350px;
-  padding: 20px;
-  color: #333;
-  gap: 15px;
-  margin: 20px auto;
+  max-width: 400px;
+  padding: 28px 30px 30px;
 
-  .modal-exit-button {
-    color:#003300;
+  .contact-row {
+    @extend %inset-panel;
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 13px 16px;
+    gap: 14px;
   }
 }
 
 .contact-title {
-  margin-bottom: 10px;
-  color:#003300;
-  font-size: 1.2rem;
-  color: #333;
-  transition: transform 0.5s ease
+  margin-bottom: 18px;
+  color: $ink-soft;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: transform 0.4s ease;
 }
 
 .contact-title:hover {
@@ -538,59 +616,55 @@
 
 .contact-row {
   display: flex;
-  align-items: center; 
-  transition: transform 0.5s ease;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contact-row:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: $lift-shadow;
 }
 
 .contact-row img {
-  width: 30px; /* Adjust icon size */
+  width: 30px;
   height: 30px;
   object-fit: cover;
   border-radius: 50%;
-  border: 2px solid #003300; 
+  border: 2px solid $wood;
 }
 
+/* Recolor the inline SVG glyphs to match the palette */
+.contact-row svg path { fill: $head; }
+
 .contact-row p {
-  font-size: 1.2rem; 
-  color: #333;
-  margin: 0; 
+  font-size: 1.1rem;
+  color: $ink;
+  margin: 0;
 }
 
 .contact-row a {
   text-decoration: none;
-  color: #003300;
-  font-weight: bold;
+  color: $terra-deep;
+  font-weight: 700;
 }
 
 .contact-row a:hover {
+  color: $terra;
   text-decoration: underline;
 }
 
-
-
-
-
-
-
-
-
-
-
-// Custom Scrollbar
+// =====================================================================
+//  Custom scrollbar (warm)
+// =====================================================================
 
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #888 transparent;
+  scrollbar-color: $wood transparent;
 }
 
-/* Chrome/Edge/Safari */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
@@ -598,21 +672,21 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #888;
+  background-color: $wood;
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
+  background-color: $head;
 }
 
 .custom-scrollbar::-webkit-scrollbar-corner {
   background-color: transparent;
 }
 
-
-
-
+// =====================================================================
+//  Loading screen (unchanged behaviour)
+// =====================================================================
 
 .loading-screen {
   display: flex;
@@ -633,7 +707,6 @@
   border-radius: 48px;
 }
 
-
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 100px;
@@ -653,9 +726,10 @@
   -webkit-mask: radial-gradient(circle 5px,#0000 90%,#000);
   animation: l8 1.5s infinite linear;
 }
-@keyframes l8 { 
-  100%{transform: rotate(1turn)}
+@keyframes l8 {
+  100% { transform: rotate(1turn); }
 }
+
 .loading-screen-button {
   font-family: "Motley Forces";
   display: flex;
@@ -668,7 +742,6 @@
   border-radius: 1.2rem;
   border: none;
   font-size: 30px;
-  
 }
 
 .instructions {
@@ -685,126 +758,106 @@
   color: #e6dede;
 }
 
-
 /* Hide .desktop-instructions on tablet and smaller screens */
-.desktop-instructions {
-  display: block;
-}
+.desktop-instructions { display: block; }
 
 @media (max-width: 768px) {
-  .desktop-instructions {
-    display: none; 
-  }
+  .desktop-instructions { display: none; }
 }
 
 /* Show .mobile-instructions only on tablet and smaller screens */
-.mobile-instructions {
-  display: none;
-}
+.mobile-instructions { display: none; }
 
 @media (max-width: 768px) {
   .mobile-instructions {
-    display: block; 
-    font-size: 28px; 
+    display: block;
+    font-size: 28px;
   }
 }
 
 @media (min-width: 768px) {
-  .mobile-instructions {
-    display: none; /* Hide on larger screens */
-  }
+  .mobile-instructions { display: none; }
 }
 
-
-
-
-
-//Styles for smalls creens
+// =====================================================================
+//  Small screens
+// =====================================================================
 
 @media (max-width: 768px) {
   .modal {
-    width: 90vw; 
+    width: 90vw;
     height: auto;
     max-height: 90vh;
-    padding: 15px; 
-    border-radius: 12px;
+    padding: 20px;
+    border-radius: 16px;
     overflow-y: auto;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
 
-  .modal p {
-    font-size: 0.7rem;
+  .modal-title { font-size: 1.6rem; margin-bottom: 18px; }
+
+  .modal p { font-size: 0.9rem; }
+
+  .project-description p { font-size: 0.92rem; }
+
+  .about-row {
+    gap: 16px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
   }
 
-  .project-description p {
-    font-size: 0.8rem;
+  .about-row img {
+    width: 84px;
+    height: 84px;
   }
 
-
-  /* Styling for the description inside the about-row */
+  /* Keep About text readable on cream (was white before) */
   .about-paragraph {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: flex-start;
-    flex-grow: 1; 
-    font-size: 0.8rem; 
-    line-height: 1.6;
-    color: white; 
+    flex-grow: 1;
     flex: 1;
-    padding-right: 10px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: $ink;
+    padding-right: 6px;
   }
 
-  .about-paragraph p {
-    font-size: 0.6rem;
-  }
-
-  .about-row{
-    margin: 0px;
-  }
-  
-
+  .about-paragraph p { font-size: 0.88rem; }
 
   .education-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    gap: 50px; 
-
-    transition: transform 0.5s ease;
-    font-size: 0.8rem;
-
+    gap: 18px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
   }
 
   .education-row img {
-  max-width: 30%;
-  height: auto;   
-}
-
-  .project span {
-    font-size: 0.7rem;
+    width: 72px;
+    height: 72px;
   }
 
-  .project a {
-    font-size: 0.7rem;
-  }
-
-  .project-description {
-    margin: 5px;
-  }
+  .image-gallery img { height: 200px; }
 
   .project-info .tags {
-    margin-top: 5px;
-    gap: 5px;
-    margin-bottom: 5px;
+    margin-top: 8px;
+    gap: 6px;
+    margin-bottom: 8px;
   }
+
+  .project-info .tags span { font-size: 0.78rem; padding: 5px 11px; }
+
+  .project-info a { font-size: 0.9rem; padding: 9px 18px; }
+
+  .project-description { margin: 6px 0 14px; }
+
+  .folder-name { font-size: 0.9rem; }
 
   .scroll-hint {
     margin-top: 5px !important;
-    font-size: 0.5rem !important;
+    font-size: 0.7rem !important;
   }
-
-
-
 }
