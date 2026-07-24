@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 560">
+  <!-- back panel edges -->
+  <path d="M 40 60 Q 40 36 64 36 L 250 36 L 330 96 L 610 96 Q 634 96 634 120 L 634 496 Q 634 520 610 520 L 64 520 Q 40 520 40 496 Z" fill="#F4B93E"/>
+  <!-- paper sticking up -->
+  <rect x="90" y="6" width="520" height="340" rx="12" fill="#FDFCF8"/>
+  <g transform="translate(350 150) scale(2.1)">
+      <polyline points="-38,22 -14,-2 6,12 38,-22" fill="none" stroke="#2F2618" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="18,-22 38,-22 38,-2" fill="none" stroke="#2F2618" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  <!-- open front flap, tilted toward the viewer -->
+  <path d="M 30 260 L 330 260 L 400 196 L 646 196 Q 668 196 669 218 L 678 496 Q 679 520 655 520 L 45 520 Q 21 520 22 496 Z" fill="#F9DC4B"/>
+</svg>

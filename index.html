@@ -77,6 +77,12 @@
     <h1 class="modal-title">Projects</h1>
     <div class="folder-container">
       <!-- Add stuff here -->
+      <div class="folder" data-project-id="college-pilot">
+        <img src="/projects/CollegePilot/FolderClosed.svg" class="folder-icon closed" />
+        <img src="/projects/CollegePilot/FolderOpen.svg" class="folder-icon open" />
+        <span class="folder-name">CollegePilot - AI College Counselor</span>
+      </div>
+
       <div class="folder" data-project-id="movie-match">
         <img src="/projects/MovieMatch/FolderClosed.webp" class="folder-icon closed" />
         <img src="/projects/MovieMatch/FolderOpen.webp" class="folder-icon open" />
@@ -104,13 +110,26 @@
       </div>
 
       <div class="folder" data-project-id="skateboard-coach">
-        <img src="public/projects/ISEF/FolderClosed.webp" class="folder-icon closed" />
+        <img src="/projects/ISEF/FolderClosed.webp" class="folder-icon closed" />
         <img src="/projects/ISEF/FolderOpen.webp" class="folder-icon open" />
         <span class="folder-name">Skateboarding Coach</span>
       </div>
 
+      <div class="folder" data-project-id="stonks-gpt">
+        <img src="/projects/StonksGPT/FolderClosed.svg" class="folder-icon closed" />
+        <img src="/projects/StonksGPT/FolderOpen.svg" class="folder-icon open" />
+        <span class="folder-name">StonksGPT - AI Trading Assistant</span>
+      </div>
 
-    
+      <div class="folder" data-project-id="chat-app">
+        <img src="/projects/ChatApp/FolderClosed.svg" class="folder-icon closed" />
+        <img src="/projects/ChatApp/FolderOpen.svg" class="folder-icon open" />
+        <span class="folder-name">Real-Time Chat App</span>
+      </div>
+
+
+
+
     </div>
     <button class="modal-exit-button">
       <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
@@ -355,6 +374,109 @@
         </p>
       </div>
       <a href="/SVM_vs_KNN.pdf" target="_blank" class="resume-link">Paper</a>
+    </div>
+    <button class="project-exit-button">
+      <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="project-info custom-scrollbar" id="college-pilot">
+    <div class="project">
+      <h1 class="project-title">CollegePilot</h1>
+      <div class="tags">
+        <span>TypeScript</span>
+        <span>React</span>
+        <span>Supabase Edge Functions</span>
+        <span>Postgres/pgvector</span>
+        <span>RAG</span>
+        <span>LLMs</span>
+      </div>
+      <div class="project-description">
+        <p>
+          CollegePilot is an AI college-counseling platform I built and independently scaled to 5K+ daily active
+          users. It guides high-school students through the whole application journey: personalized school matching
+          with reach/target labels, essay drafting and scoring, an activities finder, deadline tracking, and an AI
+          counselor that checks in on your progress.
+          <br /><br />
+          Under the hood, a RAG layer fetches only the relevant pieces of a student's essays, activities, and the
+          colleges database — Postgres/pgvector with 384-dim embeddings and cosine search — instead of pasting
+          everything into the prompt, giving sharper, grounded feedback at far lower token cost. I also ran A/B
+          tests on the UI/UX, onboarding, and funnels to improve activation and retention.
+        </p>
+      </div>
+      <a href="https://collegepilot.app/">Website</a>
+    </div>
+    <button class="project-exit-button">
+      <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="project-info custom-scrollbar" id="stonks-gpt">
+    <div class="project">
+      <h1 class="project-title">StonksGPT</h1>
+      <div class="tags">
+        <span>NextJS</span>
+        <span>TypeScript</span>
+        <span>Alpaca API</span>
+        <span>MCP</span>
+        <span>ElevenLabs</span>
+        <span>LLMs</span>
+      </div>
+      <div class="project-description">
+        <p>
+          StonksGPT is a full-stack AI trading assistant that combines real-time market data, voice-powered
+          conversations, interactive charting, and safe trade execution through the Alpaca Trading API and the
+          Model Context Protocol (MCP).
+          <br /><br />
+          Users can manage their portfolio, analyze stocks with side-by-side comparison charts, stay current with
+          market news, and place orders — all through a dashboard with natural-language chat and ElevenLabs-powered
+          voice calls. The assistant supports configurable LLM backends (OpenAI, Anthropic, Google Gemini, Dedalus
+          Labs), generates charts automatically while you chat, and keeps trading safe with position-aware order
+          management.
+        </p>
+      </div>
+      <a href="https://github.com/Tobbs2005/StonksGPT">GitHub</a>
+    </div>
+    <button class="project-exit-button">
+      <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)" />
+        <rect width="115.92" height="17.889" rx="8.94448"
+          transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="project-info custom-scrollbar" id="chat-app">
+    <div class="project">
+      <h1 class="project-title">Real-Time Chat App</h1>
+      <div class="tags">
+        <span>React</span>
+        <span>NodeJS</span>
+        <span>Express</span>
+        <span>Socket.io</span>
+      </div>
+      <div class="project-description">
+        <p>
+          A real-time chat application built as a monorepo with a React client and an Express server. It features
+          user authentication with sessions, a friend system, and instant messaging over Socket.io websockets, with
+          rate limiting protecting the backend.
+          <br /><br />
+          This was one of my earliest full-stack projects, and where I first learned how the client, server, and
+          shared packages of a production-style codebase fit together.
+        </p>
+      </div>
+      <a href="https://github.com/Tobbs2005/chat_app">GitHub</a>
     </div>
     <button class="project-exit-button">
       <svg width="98" height="96" viewBox="0 0 98 96" class="exit-button-svg" fill="currentColor">

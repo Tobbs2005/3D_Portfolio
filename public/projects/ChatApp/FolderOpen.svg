@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 560">
+  <!-- back panel edges -->
+  <path d="M 40 60 Q 40 36 64 36 L 250 36 L 330 96 L 610 96 Q 634 96 634 120 L 634 496 Q 634 520 610 520 L 64 520 Q 40 520 40 496 Z" fill="#F4B93E"/>
+  <!-- paper sticking up -->
+  <rect x="90" y="6" width="520" height="340" rx="12" fill="#FDFCF8"/>
+  <g transform="translate(350 150) scale(2.1)">
+      <path d="M -40 -24 h 42 a 8 8 0 0 1 8 8 v 16 a 8 8 0 0 1 -8 8 h -26 l -10 10 v -10 h -6 a 8 8 0 0 1 -8 -8 v -16 a 8 8 0 0 1 8 -8 Z"
+        fill="#FDFCF8" stroke="#2F2618" stroke-width="6.5" stroke-linejoin="round"/>
+      <path d="M 4 -6 h 30 a 8 8 0 0 1 8 8 v 12 a 8 8 0 0 1 -8 8 h -4 v 9 l -9 -9 h -17 a 8 8 0 0 1 -8 -8 v -12 a 8 8 0 0 1 8 -8 Z"
+        fill="#FDFCF8" stroke="#2F2618" stroke-width="6.5" stroke-linejoin="round"/>
+    </g>
+  <!-- open front flap, tilted toward the viewer -->
+  <path d="M 30 260 L 330 260 L 400 196 L 646 196 Q 668 196 669 218 L 678 496 Q 679 520 655 520 L 45 520 Q 21 520 22 496 Z" fill="#F9DC4B"/>
+</svg>
