@@ -4,6 +4,10 @@ import { OrbitControls } from './utils/OrbitControls.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import gsap from "gsap";
+import { createElement } from "react";
+import { createRoot } from "react-dom/client";
+import IntroScreen from "./intro/IntroScreen";
+import { markAssetsReady } from "./lib/preloadImages";
 
 
 const clock = new THREE.Clock();
@@ -20,55 +24,23 @@ const sizes = {
 const manager = new THREE.LoadingManager();
 
 const loadingScreen = document.querySelector(".loading-screen");
-const loadingScreenButton = document.querySelector(".loading-screen-button");
+
+// IntroScreen is copied line-for-line from the ziyue repo (React + R3F).
+// It waits for typing to finish AND preloadResumeProjectImages() to resolve,
+// which here is wired to the room's LoadingManager via markAssetsReady().
+const introRoot = createRoot(loadingScreen);
+introRoot.render(
+  createElement(IntroScreen, {
+    onEnter: () => {
+      // Autoplay policies may reject play() when entering via scroll — ignore.
+      backgroundMusic.play().catch(() => {});
+      playReveal();
+    },
+  })
+);
 
 manager.onLoad = function () {
-  loadingScreenButton.style.border = "8px solid #003800";
-  loadingScreenButton.style.background = "#0b470b";
-  loadingScreenButton.style.color = "#e6dede";
-  loadingScreenButton.style.boxShadow = "rgba(0, 0, 0, 0.24) 0px 3px 8px";
-  loadingScreenButton.textContent = "Enter!";
-  loadingScreenButton.style.cursor = "pointer";
-  loadingScreenButton.style.transition =
-    "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
-  let isDisabled = false;
-
-  function handleEnter() {
-    if (isDisabled) return;
-
-    loadingScreenButton.style.cursor = "default";
-    loadingScreenButton.style.border = "8px solid #514b48";
-    loadingScreenButton.style.background = "#441600";
-    loadingScreenButton.style.color = "#514b48";
-    loadingScreenButton.style.boxShadow = "none";
-    loadingScreenButton.textContent = "~ Welcome ~";
-    loadingScreen.style.background = "#441600";
-    isDisabled = true;
-    backgroundMusic.play();
-
-    playReveal();
-  }
-
-  loadingScreenButton.addEventListener("mouseenter", () => {
-    loadingScreenButton.style.transform = "scale(1.3)";
-  });
-
-  loadingScreenButton.addEventListener("touchend", (e) => {
-    touchHappened = true;
-    e.preventDefault();
-    handleEnter();
-  });
-
-  loadingScreenButton.addEventListener("click", (e) => {
-    if (touchHappened) return;
-    handleEnter();
-  });
-
-  loadingScreenButton.addEventListener("mouseleave", () => {
-    loadingScreenButton.style.transform = "none";
-  });
-
-
+  markAssetsReady();
 };
 
 function playReveal() {
@@ -91,6 +63,7 @@ function playReveal() {
       ease: "power4.inOut",  
       onComplete: () => {
         modalOpen = false;
+        introRoot.unmount();
         loadingScreen.remove();
       },
     },
