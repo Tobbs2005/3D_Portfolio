@@ -25,6 +25,10 @@ const manager = new THREE.LoadingManager();
 
 const loadingScreen = document.querySelector(".loading-screen");
 
+// The room idles (no rendering, raycasting, or video decode) until the user
+// enters, so the intro animation gets the whole frame budget.
+let roomActive = false;
+
 // IntroScreen is copied line-for-line from the ziyue repo (React + R3F).
 // It waits for typing to finish AND preloadResumeProjectImages() to resolve,
 // which here is wired to the room's LoadingManager via markAssetsReady().
@@ -32,6 +36,9 @@ const introRoot = createRoot(loadingScreen);
 introRoot.render(
   createElement(IntroScreen, {
     onEnter: () => {
+      roomActive = true;
+      videoElement.play().catch(() => {});
+      videoElement2.play().catch(() => {});
       // Autoplay policies may reject play() when entering via scroll — ignore.
       backgroundMusic.play().catch(() => {});
       playReveal();
@@ -351,8 +358,7 @@ videoElement.src = "/textures/video/Screen.mp4";
 videoElement.loop = true;
 videoElement.muted = true;
 videoElement.playsInline = true;
-videoElement.autoplay = true;
-videoElement.play();
+videoElement.preload = "auto"; // fetch during the intro, but don't decode frames until enter
 
 const videoTexture = new THREE.VideoTexture(videoElement);
 videoTexture.colorSpace = THREE.SRGBColorSpace;
@@ -363,8 +369,7 @@ videoElement2.src = "/textures/video/TV.mp4";
 videoElement2.loop = true;
 videoElement2.muted = true;
 videoElement2.playsInline = true;
-videoElement2.autoplay = true;
-videoElement2.play();
+videoElement2.preload = "auto";
 
 const videoTexture2 = new THREE.VideoTexture(videoElement2);
 videoTexture2.colorSpace = THREE.SRGBColorSpace;
@@ -655,6 +660,13 @@ function playHoverAnimation(object, isHovering) {
 let objectUnderHitbox = undefined;
 // Animation Loop
 const render = () => {
+  // While the intro screen is up, idle: don't raycast or draw the room so
+  // the metaball intro gets the whole frame budget.
+  if (!roomActive) {
+    requestAnimationFrame(render);
+    return;
+  }
+
   controls.update();
 
   const elapsedTime = clock.getElapsedTime();

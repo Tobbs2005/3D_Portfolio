@@ -52,7 +52,7 @@ const IntroScreen = ({ onEnter }: IntroScreenProps) => {
     };
   }, [typingComplete, assetsReady, onEnter]);
 
-  const introTexts = ["Hi, I'm Ziyue.", "I build things.", "Welcome to my resume."];
+  const introTexts = ["Hi, I'm Ziyue.", "I build things.", "Welcome to my portfolio."];
 
   return (
     <motion.div
