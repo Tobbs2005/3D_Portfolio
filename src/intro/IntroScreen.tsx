@@ -12,6 +12,7 @@ interface IntroScreenProps {
 const IntroScreen = ({ onEnter }: IntroScreenProps) => {
   const [typingComplete, setTypingComplete] = useState(false);
   const [assetsReady, setAssetsReady] = useState(false);
+  const [entering, setEntering] = useState(false);
   const enteredRef = useRef(false);
 
   // Preload images ASAP (and keep the intro screen until they're decoded).
@@ -25,6 +26,9 @@ const IntroScreen = ({ onEnter }: IntroScreenProps) => {
     const enterOnce = () => {
       if (enteredRef.current) return;
       enteredRef.current = true;
+      // Show the small spinner while the room warms up behind the intro —
+      // the blobs keep animating in their own canvas the whole time.
+      setEntering(true);
       onEnter();
     };
 
@@ -86,6 +90,8 @@ const IntroScreen = ({ onEnter }: IntroScreenProps) => {
               <span className="text-sm font-body tracking-wider uppercase">
                 Loading images...
               </span>
+            ) : entering ? (
+              <div className="intro-spinner" />
             ) : (
               <>
                 <span className="text-sm font-body tracking-wider uppercase">

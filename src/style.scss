@@ -751,6 +751,20 @@ $r-panel: 16px;
   @media (min-width: 768px) {
     .md\:text-6xl { font-size: 3.75rem; line-height: 1; }
   }
+
+  /* Small spinner shown while the room warms up behind the intro */
+  .intro-spinner {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 3px solid rgba(122, 106, 79, 0.25);
+    border-top-color: $ink-soft;
+    border-radius: 50%;
+    animation: intro-spin 0.8s linear infinite;
+  }
+}
+
+@keyframes intro-spin {
+  to { transform: rotate(1turn); }
 }
 
 // =====================================================================

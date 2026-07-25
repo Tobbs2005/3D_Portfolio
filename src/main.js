@@ -29,6 +29,13 @@ const loadingScreen = document.querySelector(".loading-screen");
 // enters, so the intro animation gets the whole frame budget.
 let roomActive = false;
 
+// On enter, the room first renders a few frames BEHIND the intro screen so
+// the one-time jank (shader compilation, video decode spin-up) happens while
+// the blobs + a small spinner are still showing; only then does the reveal
+// animation start.
+let warmupFramesLeft = 0;
+let onRoomWarm = null;
+
 // IntroScreen is copied line-for-line from the ziyue repo (React + R3F).
 // It waits for typing to finish AND preloadResumeProjectImages() to resolve,
 // which here is wired to the room's LoadingManager via markAssetsReady().
@@ -36,12 +43,15 @@ const introRoot = createRoot(loadingScreen);
 introRoot.render(
   createElement(IntroScreen, {
     onEnter: () => {
-      roomActive = true;
       videoElement.play().catch(() => {});
       videoElement2.play().catch(() => {});
-      // Autoplay policies may reject play() when entering via scroll — ignore.
-      backgroundMusic.play().catch(() => {});
-      playReveal();
+      roomActive = true;
+      warmupFramesLeft = 15;
+      onRoomWarm = () => {
+        // Autoplay policies may reject play() when entering via scroll — ignore.
+        backgroundMusic.play().catch(() => {});
+        playReveal();
+      };
     },
   })
 );
@@ -739,6 +749,18 @@ const render = () => {
 
 
   renderer.render(scene, camera);
+
+  // Count down the warm-up frames rendered behind the intro screen, then
+  // start the reveal once the heavy first-frame work is done.
+  if (warmupFramesLeft > 0) {
+    warmupFramesLeft--;
+    if (warmupFramesLeft === 0 && onRoomWarm) {
+      const ready = onRoomWarm;
+      onRoomWarm = null;
+      ready();
+    }
+  }
+
   requestAnimationFrame(render);
 };
 
