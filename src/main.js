@@ -63,59 +63,73 @@ introRoot.render(
   })
 );
 
+// Warms the room's GPU state ONE TEXTURE PER FRAME. Doing it in a single
+// pass blocks the main thread for ~2s (each 2K baked atlas costs ~40ms to
+// upload + mipmap), which freezes the intro's blob animation. Yielding to
+// a real animation frame between uploads keeps the blobs running; a promise
+// chain would NOT, because .then() continuations are microtasks that run
+// inside the same task.
+const nextFrame = () => new Promise((resolve) => requestAnimationFrame(() => resolve()));
+
+async function warmUpRoom() {
+  // Shaders: compiled in parallel by the driver, doesn't block the main thread.
+  try {
+    await renderer.compileAsync(scene, camera);
+  } catch (e) {
+    /* fall through — never block entering on the warm-up */
+  }
+  await nextFrame();
+
+  // Textures: collect once (materials share textures, so dedupe), then
+  // upload one per frame.
+  const textures = new Set();
+  scene.traverse((obj) => {
+    const mats = Array.isArray(obj.material) ? obj.material : obj.material ? [obj.material] : [];
+    for (const mat of mats) {
+      for (const key of ["map", "emissiveMap", "lightMap", "aoMap", "normalMap", "roughnessMap", "metalnessMap", "alphaMap"]) {
+        const tex = mat[key];
+        if (tex && !tex.isVideoTexture) textures.add(tex);
+      }
+    }
+  });
+
+  for (const tex of textures) {
+    try {
+      renderer.initTexture(tex);
+    } catch (e) {
+      /* skip a bad texture rather than stall the intro */
+    }
+    await nextFrame();
+  }
+
+  // Geometry: only a real draw creates the GPU buffers for the draco-decoded
+  // meshes (compileAsync/initTexture don't). controls.update() first so this
+  // warm frame uses the real camera target — OrbitControls ran its initial
+  // update() before controls.target was set, and a stale frustum would cull
+  // meshes that the first visible frame needs.
+  try {
+    controls.update();
+    renderer.render(scene, camera);
+  } catch (e) {
+    /* never block entering on the warm-up */
+  }
+}
+
+let warmUpStarted = false;
+
 manager.onLoad = function () {
+  // LoadingManager fires onLoad once per "wave" of loads, so guard against
+  // repeating the whole warm-up.
+  if (warmUpStarted) return;
+  warmUpStarted = true;
+
   // Do the room's one-time GPU work NOW, while the intro text is still
-  // typing: the muted screen videos start decoding on the hardware decoder,
-  // shaders compile in parallel WITHOUT blocking the main thread
-  // (compileAsync uses KHR_parallel_shader_compile), and every baked
-  // texture is uploaded to the GPU up front. "Scroll to explore" only
-  // appears once all of that is done, so entering doesn't jank the blobs.
+  // typing, spread across frames so the blobs keep animating. The muted
+  // screen videos also start decoding here. "Scroll to explore" only appears
+  // once all of it is done, so entering is instant.
   videoElement.play().catch(() => {});
   videoElement2.play().catch(() => {});
-  renderer
-    .compileAsync(scene, camera)
-    .then(() => {
-      scene.traverse((obj) => {
-        const mats = Array.isArray(obj.material)
-          ? obj.material
-          : obj.material
-            ? [obj.material]
-            : [];
-        for (const mat of mats) {
-          for (const key of [
-            "map",
-            "emissiveMap",
-            "lightMap",
-            "aoMap",
-            "normalMap",
-            "roughnessMap",
-            "metalnessMap",
-            "alphaMap",
-          ]) {
-            const tex = mat[key];
-            if (tex && !tex.isVideoTexture) renderer.initTexture(tex);
-          }
-        }
-      });
-    })
-    .catch(() => {})
-    .finally(() => {
-      try {
-        // Snap the camera to its real target first (OrbitControls was
-        // constructed before controls.target was set, so without this the
-        // warm render aims at the origin and frustum-culls meshes that the
-        // real first frame needs, deferring their GPU buffer uploads).
-        controls.update();
-        // One real render, hidden behind the opaque intro screen: this is
-        // what actually creates the GPU buffers for the draco-decoded room
-        // geometry (compileAsync/initTexture don't). The full first-frame
-        // cost lands HERE, mid-typing, instead of on the user's click.
-        renderer.render(scene, camera);
-      } catch (e) {
-        /* never block entering on the warm-up */
-      }
-      markAssetsReady();
-    });
+  warmUpRoom().finally(() => markAssetsReady());
 };
 
 function playReveal() {
