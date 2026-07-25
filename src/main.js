@@ -43,15 +43,22 @@ const introRoot = createRoot(loadingScreen);
 introRoot.render(
   createElement(IntroScreen, {
     onEnter: () => {
-      roomActive = true;
-      // Shaders and textures are already warm (see manager.onLoad), so a
-      // few frames cover the remaining first-draw setup, then reveal.
-      warmupFramesLeft = 3;
-      onRoomWarm = () => {
-        // Autoplay policies may reject play() when entering via scroll — ignore.
-        backgroundMusic.play().catch(() => {});
-        playReveal();
-      };
+      // Double-rAF: let the browser PAINT the spinner first (frame 1), only
+      // then wake the room's loop. Without this, the room's first frame runs
+      // in the rAF phase before the spinner ever reaches the screen.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          roomActive = true;
+          // The room is fully warm (shaders, textures, geometry, envMap —
+          // see manager.onLoad), so a couple of frames of margin, then reveal.
+          warmupFramesLeft = 2;
+          onRoomWarm = () => {
+            // Autoplay policies may reject play() when entering via scroll — ignore.
+            backgroundMusic.play().catch(() => {});
+            playReveal();
+          };
+        });
+      });
     },
   })
 );
@@ -93,6 +100,20 @@ manager.onLoad = function () {
     })
     .catch(() => {})
     .finally(() => {
+      try {
+        // Snap the camera to its real target first (OrbitControls was
+        // constructed before controls.target was set, so without this the
+        // warm render aims at the origin and frustum-culls meshes that the
+        // real first frame needs, deferring their GPU buffer uploads).
+        controls.update();
+        // One real render, hidden behind the opaque intro screen: this is
+        // what actually creates the GPU buffers for the draco-decoded room
+        // geometry (compileAsync/initTexture don't). The full first-frame
+        // cost lands HERE, mid-typing, instead of on the user's click.
+        renderer.render(scene, camera);
+      } catch (e) {
+        /* never block entering on the warm-up */
+      }
       markAssetsReady();
     });
 };
@@ -334,7 +355,11 @@ dracoLoader.setDecoderPath('/draco/');
 const loader = new GLTFLoader(manager);
 loader.setDRACOLoader(dracoLoader);
 
-const environmentMap = new THREE.CubeTextureLoader()
+// Must use the shared manager: the glass material's envMap has to be loaded
+// BEFORE manager.onLoad runs compileAsync + the warm render, or three will
+// synchronously recompile the glass shader (and generate the PMREM) on the
+// first frame after the cube completes — i.e. right after the user clicks.
+const environmentMap = new THREE.CubeTextureLoader(manager)
   .setPath('textures/skybox/')
   .load([
     'px.webp',
