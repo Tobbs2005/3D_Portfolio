@@ -43,10 +43,10 @@ const introRoot = createRoot(loadingScreen);
 introRoot.render(
   createElement(IntroScreen, {
     onEnter: () => {
-      videoElement.play().catch(() => {});
-      videoElement2.play().catch(() => {});
       roomActive = true;
-      warmupFramesLeft = 15;
+      // Shaders and textures are already warm (see manager.onLoad), so a
+      // few frames cover the remaining first-draw setup, then reveal.
+      warmupFramesLeft = 3;
       onRoomWarm = () => {
         // Autoplay policies may reject play() when entering via scroll — ignore.
         backgroundMusic.play().catch(() => {});
@@ -57,7 +57,44 @@ introRoot.render(
 );
 
 manager.onLoad = function () {
-  markAssetsReady();
+  // Do the room's one-time GPU work NOW, while the intro text is still
+  // typing: the muted screen videos start decoding on the hardware decoder,
+  // shaders compile in parallel WITHOUT blocking the main thread
+  // (compileAsync uses KHR_parallel_shader_compile), and every baked
+  // texture is uploaded to the GPU up front. "Scroll to explore" only
+  // appears once all of that is done, so entering doesn't jank the blobs.
+  videoElement.play().catch(() => {});
+  videoElement2.play().catch(() => {});
+  renderer
+    .compileAsync(scene, camera)
+    .then(() => {
+      scene.traverse((obj) => {
+        const mats = Array.isArray(obj.material)
+          ? obj.material
+          : obj.material
+            ? [obj.material]
+            : [];
+        for (const mat of mats) {
+          for (const key of [
+            "map",
+            "emissiveMap",
+            "lightMap",
+            "aoMap",
+            "normalMap",
+            "roughnessMap",
+            "metalnessMap",
+            "alphaMap",
+          ]) {
+            const tex = mat[key];
+            if (tex && !tex.isVideoTexture) renderer.initTexture(tex);
+          }
+        }
+      });
+    })
+    .catch(() => {})
+    .finally(() => {
+      markAssetsReady();
+    });
 };
 
 function playReveal() {
@@ -368,7 +405,7 @@ videoElement.src = "/textures/video/Screen.mp4";
 videoElement.loop = true;
 videoElement.muted = true;
 videoElement.playsInline = true;
-videoElement.preload = "auto"; // fetch during the intro, but don't decode frames until enter
+videoElement.preload = "auto"; // fetched during the intro; playback starts once assets load
 
 const videoTexture = new THREE.VideoTexture(videoElement);
 videoTexture.colorSpace = THREE.SRGBColorSpace;
