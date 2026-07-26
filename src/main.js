@@ -113,6 +113,12 @@ async function warmUpRoom() {
   } catch (e) {
     /* never block entering on the warm-up */
   }
+
+  // Only now start pulling the screen videos, so their ~4.7MB doesn't slow
+  // down the assets the intro is actually waiting on. Deliberately not
+  // awaited: entering must never wait on video buffering.
+  videoElement.play().catch(() => {});
+  videoElement2.play().catch(() => {});
 }
 
 let warmUpStarted = false;
@@ -124,11 +130,8 @@ manager.onLoad = function () {
   warmUpStarted = true;
 
   // Do the room's one-time GPU work NOW, while the intro text is still
-  // typing, spread across frames so the blobs keep animating. The muted
-  // screen videos also start decoding here. "Scroll to explore" only appears
-  // once all of it is done, so entering is instant.
-  videoElement.play().catch(() => {});
-  videoElement2.play().catch(() => {});
+  // typing, spread across frames so the blobs keep animating. "Scroll to
+  // explore" only appears once all of it is done, so entering is instant.
   warmUpRoom().finally(() => markAssetsReady());
 };
 
@@ -444,7 +447,12 @@ videoElement.src = "/textures/video/Screen.mp4";
 videoElement.loop = true;
 videoElement.muted = true;
 videoElement.playsInline = true;
-videoElement.preload = "auto"; // fetched during the intro; playback starts once assets load
+// The two screen videos are ~4.7MB combined — the largest asset group on a
+// cold load — and nothing shows them until the user is inside the room. With
+// preload="auto" they competed for bandwidth with the GLB and textures that
+// actually gate the intro, so they're held back until the room is warm (see
+// warmUpRoom), which still leaves the rest of the intro for them to buffer.
+videoElement.preload = "none";
 
 const videoTexture = new THREE.VideoTexture(videoElement);
 videoTexture.colorSpace = THREE.SRGBColorSpace;
@@ -455,7 +463,7 @@ videoElement2.src = "/textures/video/TV.mp4";
 videoElement2.loop = true;
 videoElement2.muted = true;
 videoElement2.playsInline = true;
-videoElement2.preload = "auto";
+videoElement2.preload = "none"; // see videoElement above
 
 const videoTexture2 = new THREE.VideoTexture(videoElement2);
 videoTexture2.colorSpace = THREE.SRGBColorSpace;
