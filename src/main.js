@@ -30,11 +30,22 @@ const loadingScreen = document.querySelector(".loading-screen");
 let roomActive = false;
 
 // On enter, the room first renders a few frames BEHIND the intro screen so
-// the one-time jank (shader compilation, video decode spin-up) happens while
-// the blobs + a small spinner are still showing; only then does the reveal
-// animation start.
+// any residual first-draw cost happens while the blobs + spinner are still
+// showing; only then does the reveal animation start.
 let warmupFramesLeft = 0;
 let onRoomWarm = null;
+
+// The blobs own the main thread until the user asks to enter. The room's GPU
+// warm-up runs in whatever time is left over between blob frames (see
+// yieldToBlobs), so it can't cost them frames. `roomWarm` resolves when the
+// room is actually ready to draw; entering waits on it behind the spinner.
+let markRoomWarm;
+const roomWarm = new Promise((resolve) => {
+  markRoomWarm = resolve;
+});
+// Flips once the user tries to enter: from then on there is nothing to
+// protect, so the remaining warm-up runs flat out instead of idle-paced.
+let enterRequested = false;
 
 // IntroScreen is copied line-for-line from the ziyue repo (React + R3F).
 // It waits for typing to finish AND preloadResumeProjectImages() to resolve,
@@ -43,40 +54,63 @@ const introRoot = createRoot(loadingScreen);
 introRoot.render(
   createElement(IntroScreen, {
     onEnter: () => {
-      // Double-rAF: let the browser PAINT the spinner first (frame 1), only
-      // then wake the room's loop. Without this, the room's first frame runs
-      // in the rAF phase before the spinner ever reaches the screen.
-      requestAnimationFrame(() => {
+      // Stop pacing the warm-up around the blobs and finish it as fast as
+      // possible — the spinner is up now, so throughput beats smoothness.
+      enterRequested = true;
+
+      // Never let the spinner become a dead end: if the warm-up somehow never
+      // finishes (a failed asset, a stalled decode), enter anyway after a few
+      // seconds and let the room pay its first-draw cost then.
+      Promise.race([roomWarm, new Promise((r) => setTimeout(r, 6000))]).then(() => {
+        // Double-rAF: let the browser PAINT the spinner first, only then wake
+        // the room's loop. Without this, the room's first frame runs in the
+        // rAF phase before the spinner ever reaches the screen.
         requestAnimationFrame(() => {
-          roomActive = true;
-          // The room is fully warm (shaders, textures, geometry, envMap —
-          // see manager.onLoad), so a couple of frames of margin, then reveal.
-          warmupFramesLeft = 2;
-          onRoomWarm = () => {
-            // Autoplay policies may reject play() when entering via scroll — ignore.
-            backgroundMusic.play().catch(() => {});
-            playReveal();
-          };
+          requestAnimationFrame(() => {
+            roomActive = true;
+            warmupFramesLeft = 2;
+            onRoomWarm = () => {
+              // Autoplay policies may reject play() when entering via scroll.
+              backgroundMusic.play().catch(() => {});
+              playReveal();
+            };
+          });
         });
       });
     },
   })
 );
 
-// Warms the room's GPU state ONE TEXTURE PER FRAME. Doing it in a single
-// pass blocks the main thread for ~2s (each 2K baked atlas costs ~40ms to
-// upload + mipmap), which freezes the intro's blob animation. Yielding to
-// a real animation frame between uploads keeps the blobs running; a promise
-// chain would NOT, because .then() continuations are microtasks that run
-// inside the same task.
-const nextFrame = () =>
+// Yield between warm-up steps so the room's GPU work can't cost the blobs
+// frames. Texture uploads have to run on the main thread (~40ms per 2K
+// atlas), so the goal is to only run them in time the blobs aren't using.
+//
+// Note a promise chain would NOT yield at all: .then() continuations are
+// microtasks, which run inside the same task. Only a real callback does.
+const yieldToBlobs = () =>
   new Promise((resolve) => {
-    // requestAnimationFrame never fires in a background tab, which would stall
-    // the warm-up (and so "Scroll to explore") for as long as the page is
-    // hidden — e.g. when opened via cmd-click into a new tab. Fall back to a
-    // timer in that case; there are no frames to protect while hidden anyway.
-    if (document.visibilityState === "hidden") setTimeout(resolve, 16);
-    else requestAnimationFrame(() => resolve());
+    // Once the user has asked to enter, the spinner is up and there are no
+    // blob frames worth protecting — finish as fast as the event loop allows.
+    if (enterRequested) {
+      setTimeout(resolve, 0);
+      return;
+    }
+    // requestAnimationFrame never fires in a background tab, which would
+    // stall the warm-up for as long as the page is hidden (e.g. opened via
+    // cmd-click). Nothing to protect while hidden, so use a timer.
+    if (document.visibilityState === "hidden") {
+      setTimeout(resolve, 16);
+      return;
+    }
+    // The good case: requestIdleCallback hands us the slack left over after
+    // the blobs have rendered their frame, so uploads fill the gaps rather
+    // than competing. The timeout keeps the warm-up progressing even if the
+    // blobs never leave idle time.
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(() => resolve(), { timeout: 500 });
+    } else {
+      requestAnimationFrame(() => resolve());
+    }
   });
 
 async function warmUpRoom() {
@@ -86,10 +120,10 @@ async function warmUpRoom() {
   } catch (e) {
     /* fall through — never block entering on the warm-up */
   }
-  await nextFrame();
+  await yieldToBlobs();
 
   // Textures: collect once (materials share textures, so dedupe), then
-  // upload one per frame.
+  // upload one per yield.
   const textures = new Set();
   scene.traverse((obj) => {
     const mats = Array.isArray(obj.material) ? obj.material : obj.material ? [obj.material] : [];
@@ -107,7 +141,7 @@ async function warmUpRoom() {
     } catch (e) {
       /* skip a bad texture rather than stall the intro */
     }
-    await nextFrame();
+    await yieldToBlobs();
   }
 
   // Geometry: only a real draw creates the GPU buffers for the draco-decoded
@@ -137,10 +171,12 @@ manager.onLoad = function () {
   if (warmUpStarted) return;
   warmUpStarted = true;
 
-  // Do the room's one-time GPU work NOW, while the intro text is still
-  // typing, spread across frames so the blobs keep animating. "Scroll to
-  // explore" only appears once all of it is done, so entering is instant.
-  warmUpRoom().finally(() => markAssetsReady());
+  // Downloads are done, so the intro can offer "Scroll to explore" straight
+  // away. The GPU warm-up that follows is deliberately NOT gated on: it runs
+  // in the blobs' idle time, and if the user enters before it finishes they
+  // get the spinner (see onEnter) rather than a stalled intro.
+  markAssetsReady();
+  warmUpRoom().finally(() => markRoomWarm());
 };
 
 function playReveal() {
