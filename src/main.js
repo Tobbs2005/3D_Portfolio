@@ -135,6 +135,30 @@ async function warmUpRoom() {
     }
   });
 
+  // Decode everything BEFORE uploading any of it. A loaded <img> is not
+  // necessarily a decoded one, and texImage2D on an undecoded image forces
+  // the decode to run synchronously on the main thread — that was the bulk of
+  // the ~80ms per 2K atlas that dropped blob frames. decode() does the same
+  // work on a browser-managed thread instead.
+  //
+  // Kicked off together rather than one-at-a-time so the wait is the slowest
+  // decode, not the sum, and capped overall: decode() is not guaranteed to
+  // settle promptly (it is deprioritised in background tabs and can sit
+  // pending indefinitely). If the cap wins we upload anyway and simply eat
+  // the synchronous decode, which is no worse than not having tried.
+  await Promise.race([
+    Promise.allSettled(
+      [...textures].map((tex) => {
+        try {
+          return tex.image?.decode?.() ?? Promise.resolve();
+        } catch (e) {
+          return Promise.resolve();
+        }
+      })
+    ),
+    new Promise((r) => setTimeout(r, 3000)),
+  ]);
+
   for (const tex of textures) {
     try {
       renderer.initTexture(tex);
