@@ -105,11 +105,11 @@ function ProceduralEnvironment() {
 function Scene({ gravity }: { gravity: [number, number, number] }) {
   return (
     <Physics gravity={gravity}>
-      {/* resolution drives an O(n^3) field evaluation on the main thread every
-          frame (80 -> 512k voxels, 56 -> 176k), so it dominates the cost of
-          dragging the blobs around. 56 keeps these large, rounded shapes
-          looking identical while making interaction ~3x cheaper. */}
-      <MarchingCubes resolution={56} maxPolyCount={10000} enableUvs={false} enableColors>
+      {/* resolution controls how finely the blob surface is tessellated; too
+          low and the silhouette goes visibly polygonal. Kept at the original
+          80 — the interaction lag it was lowered for turned out to be the
+          room's texture uploads and the external HDR, both since fixed. */}
+      <MarchingCubes resolution={80} maxPolyCount={10000} enableUvs={false} enableColors>
         <meshStandardMaterial vertexColors roughness={0.4} />
         <MetaBall color="indianred" position={[1, 1, 0.5]} />
         <MetaBall color="skyblue" position={[-1, -1, -0.5]} />
