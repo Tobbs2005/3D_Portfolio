@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import { useRef, useEffect, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { MarchingCubes, MarchingCube, Environment, Bounds } from "@react-three/drei";
+import { MarchingCubes, MarchingCube, Bounds } from "@react-three/drei";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { Physics, RigidBody, BallCollider, RapierRigidBody } from "@react-three/rapier";
 
 interface MetaBallProps {
@@ -74,6 +75,30 @@ function TiltGravity() {
     // This is handled externally via the Physics component's gravity prop
   });
   
+  return null;
+}
+
+// Builds three's procedural RoomEnvironment into a PMREM once and applies it
+// as the scene environment. Replaces drei's <Environment files={...} />, which
+// downloaded a 1.62MB HDR from a third-party CDN on every load and then paid
+// HDR-decode + PMREM cost on the main thread.
+function ProceduralEnvironment() {
+  const { scene, gl } = useThree();
+
+  useEffect(() => {
+    const pmrem = new THREE.PMREMGenerator(gl);
+    const roomEnv = new RoomEnvironment();
+    const envRT = pmrem.fromScene(roomEnv, 0.04);
+    scene.environment = envRT.texture;
+
+    return () => {
+      scene.environment = null;
+      envRT.dispose();
+      roomEnv.dispose?.();
+      pmrem.dispose();
+    };
+  }, [scene, gl]);
+
   return null;
 }
 
@@ -189,7 +214,10 @@ export default function SmileyBall() {
         <color attach="background" args={["#efe6cf"]} />
         <ambientLight intensity={1} />
         <Scene gravity={gravity} />
-        <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/industrial_workshop_foundry_1k.hdr" />
+        {/* Procedural studio environment instead of the original's 1.62MB
+            HDR fetched from polyhaven.org on every page load — same soft
+            neutral lighting, but no download and no third-party dependency. */}
+        <ProceduralEnvironment />
         <Bounds fit clip observe margin={1}>
           <mesh visible={false}>
             <boxGeometry />

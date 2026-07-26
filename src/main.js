@@ -69,7 +69,15 @@ introRoot.render(
 // a real animation frame between uploads keeps the blobs running; a promise
 // chain would NOT, because .then() continuations are microtasks that run
 // inside the same task.
-const nextFrame = () => new Promise((resolve) => requestAnimationFrame(() => resolve()));
+const nextFrame = () =>
+  new Promise((resolve) => {
+    // requestAnimationFrame never fires in a background tab, which would stall
+    // the warm-up (and so "Scroll to explore") for as long as the page is
+    // hidden — e.g. when opened via cmd-click into a new tab. Fall back to a
+    // timer in that case; there are no frames to protect while hidden anyway.
+    if (document.visibilityState === "hidden") setTimeout(resolve, 16);
+    else requestAnimationFrame(() => resolve());
+  });
 
 async function warmUpRoom() {
   // Shaders: compiled in parallel by the driver, doesn't block the main thread.
