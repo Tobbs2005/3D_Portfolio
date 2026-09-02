@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback, Suspense } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { MarchingCubes, MarchingCube, Bounds } from "@react-three/drei";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
@@ -102,7 +102,31 @@ function ProceduralEnvironment() {
   return null;
 }
 
-function Scene({ gravity }: { gravity: [number, number, number] }) {
+// Links the scene's shaders in the background before the first frame. Drawing
+// a material whose program hasn't finished linking blocks the main thread
+// until it has (~200ms per program on a cold shader cache), and the blob
+// material's first draw used to land exactly when Rapier finished loading —
+// mid-way through the intro text. compileAsync polls the driver instead.
+function CompileThenStart({ onReady }: { onReady: () => void }) {
+  const { gl, scene, camera } = useThree();
+
+  useEffect(() => {
+    let done = false;
+    const start = () => {
+      if (done) return;
+      done = true;
+      onReady();
+    };
+    // Never let a driver quirk keep the blobs hidden.
+    const fallback = window.setTimeout(start, 2000);
+    gl.compileAsync(scene, camera).then(start, start).finally(() => window.clearTimeout(fallback));
+    return () => window.clearTimeout(fallback);
+  }, [gl, scene, camera, onReady]);
+
+  return null;
+}
+
+function Scene({ gravity, onReady }: { gravity: [number, number, number]; onReady: () => void }) {
   return (
     <Physics gravity={gravity}>
       {/* resolution controls how finely the blob surface is tessellated; too
@@ -119,6 +143,8 @@ function Scene({ gravity }: { gravity: [number, number, number] }) {
         <MetaBall color="aquamarine" position={[-3, -3, -0.5]} />
         <Pointer />
       </MarchingCubes>
+      {/* After MarchingCubes so its material is attached when this runs. */}
+      <CompileThenStart onReady={onReady} />
     </Physics>
   );
 }
@@ -126,7 +152,12 @@ function Scene({ gravity }: { gravity: [number, number, number] }) {
 export default function SmileyBall() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [gravity, setGravity] = useState<[number, number, number]>([0, 2, 0]);
-  
+  // No frames until the shaders are linked (see CompileThenStart). Held in
+  // state rather than set on the R3F store directly because Canvas re-applies
+  // its frameloop prop on every render.
+  const [frameloop, setFrameloop] = useState<"never" | "always">("never");
+  const startLoop = useCallback(() => setFrameloop("always"), []);
+
   useEffect(() => {
     // Touch event handlers
     const handleTouchMove = (e: TouchEvent) => {
@@ -210,10 +241,15 @@ export default function SmileyBall() {
   
   return (
     <div ref={containerRef} className="w-full h-full touch-none">
-      <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 5], fov: 25 }}>
+      <Canvas frameloop={frameloop} dpr={[1, 1.5]} camera={{ position: [0, 0, 5], fov: 25 }}>
         <color attach="background" args={["#efe6cf"]} />
         <ambientLight intensity={1} />
-        <Scene gravity={gravity} />
+        {/* Physics suspends while Rapier's WASM loads. Its own boundary lets
+            the environment below build right away (while the page is still
+            blank) instead of together with the blobs' first frame. */}
+        <Suspense fallback={null}>
+          <Scene gravity={gravity} onReady={startLoop} />
+        </Suspense>
         {/* Procedural studio environment instead of the original's 1.62MB
             HDR fetched from polyhaven.org on every page load — same soft
             neutral lighting, but no download and no third-party dependency. */}

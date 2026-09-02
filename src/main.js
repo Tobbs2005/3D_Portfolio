@@ -114,11 +114,43 @@ const yieldToBlobs = () =>
   });
 
 async function warmUpRoom() {
+  // Glass env map first. Left to three, the cube map gets converted to a
+  // PMREM synchronously inside compileAsync (a shader-link stall on a cold
+  // shader cache); doing it here, with the cubemap shader's link already
+  // issued at startup (see pmremGenerator), keeps that off the blobs' frames
+  // and lets compileAsync below find a ready-to-sample texture.
+  try {
+    const envRT = pmremGenerator.fromCubemap(environmentMap);
+    glassMaterial.envMap = envRT.texture;
+    environmentMap.dispose();
+    pmremGenerator.dispose();
+  } catch (e) {
+    /* fall back to three's implicit conversion */
+  }
+  await yieldToBlobs();
+
   // Shaders: compiled in parallel by the driver, doesn't block the main thread.
   try {
     await renderer.compileAsync(scene, camera);
   } catch (e) {
     /* fall through — never block entering on the warm-up */
+  }
+  await yieldToBlobs();
+
+  // The transmission pass (glass) re-renders every opaque mesh into a
+  // linear-colour-space render target, which needs a second program variant
+  // per material. compile() only produces variants for the render target
+  // bound at call time, so compile once more with a throwaway target bound —
+  // the polling half of compileAsync doesn't care what is bound afterwards.
+  try {
+    const target = new THREE.WebGLRenderTarget(1, 1);
+    renderer.setRenderTarget(target);
+    const linearVariants = renderer.compileAsync(scene, camera);
+    renderer.setRenderTarget(null);
+    await linearVariants;
+    target.dispose();
+  } catch (e) {
+    renderer.setRenderTarget(null);
   }
   await yieldToBlobs();
 
@@ -135,30 +167,8 @@ async function warmUpRoom() {
     }
   });
 
-  // Decode everything BEFORE uploading any of it. A loaded <img> is not
-  // necessarily a decoded one, and texImage2D on an undecoded image forces
-  // the decode to run synchronously on the main thread — that was the bulk of
-  // the ~80ms per 2K atlas that dropped blob frames. decode() does the same
-  // work on a browser-managed thread instead.
-  //
-  // Kicked off together rather than one-at-a-time so the wait is the slowest
-  // decode, not the sum, and capped overall: decode() is not guaranteed to
-  // settle promptly (it is deprioritised in background tabs and can sit
-  // pending indefinitely). If the cap wins we upload anyway and simply eat
-  // the synchronous decode, which is no worse than not having tried.
-  await Promise.race([
-    Promise.allSettled(
-      [...textures].map((tex) => {
-        try {
-          return tex.image?.decode?.() ?? Promise.resolve();
-        } catch (e) {
-          return Promise.resolve();
-        }
-      })
-    ),
-    new Promise((r) => setTimeout(r, 3000)),
-  ]);
-
+  // The images are already-decoded, GPU-backed bitmaps (see loadTexture), so
+  // each upload is a GPU-side copy rather than a ~50ms main-thread conversion.
   for (const tex of textures) {
     try {
       renderer.initTexture(tex);
@@ -432,7 +442,43 @@ const socialLinks = {
 }
 
 // Loaders
-const textureLoader = new THREE.TextureLoader(manager);
+
+// Textures are fetched and decoded off the main thread as ImageBitmaps, then
+// drawn through a GPU-accelerated OffscreenCanvas so the image three uploads
+// is GPU-backed. Uploading an <img> or a plain ImageBitmap into an sRGB
+// texStorage2D texture goes through a CPU conversion in Chrome (~50ms per 2K
+// atlas, measured — the biggest source of dropped blob frames); a GPU-backed
+// bitmap is a GPU-side copy that costs the main thread nothing.
+const bitmapLoader = new THREE.ImageBitmapLoader(manager);
+bitmapLoader.setOptions({ premultiplyAlpha: "none", colorSpaceConversion: "none" });
+
+// None of these textures carry alpha, so an opaque canvas is safe and avoids
+// a premultiply/unpremultiply round trip.
+function toGpuBitmap(bitmap) {
+  if (typeof OffscreenCanvas === "undefined") return bitmap;
+  try {
+    const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+    const ctx = canvas.getContext("2d", { alpha: false });
+    if (!ctx) return bitmap;
+    ctx.drawImage(bitmap, 0, 0);
+    const gpuBitmap = canvas.transferToImageBitmap();
+    bitmap.close();
+    return gpuBitmap;
+  } catch (e) {
+    return bitmap;
+  }
+}
+
+function loadTexture(path) {
+  const texture = new THREE.Texture();
+  texture.flipY = false;
+  texture.colorSpace = THREE.SRGBColorSpace;
+  bitmapLoader.load(path, (bitmap) => {
+    texture.image = toGpuBitmap(bitmap);
+    texture.needsUpdate = true;
+  });
+  return texture;
+}
 
 const dracoLoader = new DRACOLoader(manager);
 dracoLoader.setDecoderPath('/draco/');
@@ -441,19 +487,22 @@ const loader = new GLTFLoader(manager);
 loader.setDRACOLoader(dracoLoader);
 
 // Must use the shared manager: the glass material's envMap has to be loaded
-// BEFORE manager.onLoad runs compileAsync + the warm render, or three will
-// synchronously recompile the glass shader (and generate the PMREM) on the
-// first frame after the cube completes — i.e. right after the user clicks.
-const environmentMap = new THREE.CubeTextureLoader(manager)
-  .setPath('textures/skybox/')
-  .load([
-    'px.webp',
-    'nx.webp',
-    'py.webp',
-    'ny.webp',
-    'pz.webp',
-    'nz.webp'
-  ]);
+// BEFORE manager.onLoad runs the PMREM conversion + compileAsync + the warm
+// render, or three will synchronously recompile the glass shader (and
+// generate the PMREM) on the first frame after the cube completes — i.e.
+// right after the user clicks. Faces go through the same GPU-backed bitmap
+// path as the atlases (CubeTextureLoader would upload them as <img>s).
+const environmentMap = new THREE.CubeTexture();
+{
+  const faces = ['px', 'nx', 'py', 'ny', 'pz', 'nz'];
+  let facesLoaded = 0;
+  faces.forEach((face, i) => {
+    bitmapLoader.load(`textures/skybox/${face}.webp`, (bitmap) => {
+      environmentMap.images[i] = toGpuBitmap(bitmap);
+      if (++facesLoaded === faces.length) environmentMap.needsUpdate = true;
+    });
+  });
+}
 
 // Texture map
 const textureMap = {
@@ -472,10 +521,7 @@ const textureMap = {
 // Load day textures only
 const loadedTextures = {};
 Object.entries(textureMap).forEach(([key, path]) => {
-  const texture = textureLoader.load(path);
-  texture.flipY = false;
-  texture.colorSpace = THREE.SRGBColorSpace;
-  loadedTextures[key] = texture;
+  loadedTextures[key] = loadTexture(path);
 });
 
 const light = new THREE.DirectionalLight(0xffffff, 2);
@@ -537,25 +583,11 @@ const videoTexture2 = new THREE.VideoTexture(videoElement2);
 videoTexture2.colorSpace = THREE.SRGBColorSpace;
 videoTexture2.flipY = false;
 
-const imageTexture = textureLoader.load("/images/CodeEditor.webp");
-imageTexture.flipY = false;
-imageTexture.colorSpace = THREE.SRGBColorSpace;
-
-const imageTexture2 = textureLoader.load("/images/LinkedIn_Photo.webp");
-imageTexture2.flipY = false;
-imageTexture2.colorSpace = THREE.SRGBColorSpace;
-
-const imageTexture3 = textureLoader.load("/images/Beach_Photo.webp");
-imageTexture3.flipY = false;
-imageTexture3.colorSpace = THREE.SRGBColorSpace;
-
-const imageTexture4 = textureLoader.load("/images/Ghibli_Painting.webp");
-imageTexture4.flipY = false;
-imageTexture4.colorSpace = THREE.SRGBColorSpace;
-
-const imageTexture5 = textureLoader.load("/images/Cats.webp");
-imageTexture5.flipY = false;
-imageTexture5.colorSpace = THREE.SRGBColorSpace;
+const imageTexture = loadTexture("/images/CodeEditor.webp");
+const imageTexture2 = loadTexture("/images/LinkedIn_Photo.webp");
+const imageTexture3 = loadTexture("/images/Beach_Photo.webp");
+const imageTexture4 = loadTexture("/images/Ghibli_Painting.webp");
+const imageTexture5 = loadTexture("/images/Cats.webp");
 
 const meowAudio = new Audio('/audio/Meow.mp3');
 const backgroundMusic = new Audio("/audio/Background.mp3");
@@ -697,8 +729,15 @@ camera.position.set(26.21131907253588, 20.195938194296943, 26.82068416591988);
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-renderer.setSize(sizes.width, sizes.height);
+// setPixelRatio re-runs setSize, so ratio first = one backbuffer allocation.
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(sizes.width, sizes.height);
+
+// Issues the PMREM cubemap shader's link now; with KHR_parallel_shader_compile
+// the driver links in the background, so it's ready by the time warmUpRoom
+// converts the glass env map.
+const pmremGenerator = new THREE.PMREMGenerator(renderer);
+pmremGenerator.compileCubemapShader();
 
 // Controls
 const controls = new OrbitControls(camera, renderer.domElement);
