@@ -120,10 +120,7 @@ async function warmUpRoom() {
   // issued at startup (see pmremGenerator), keeps that off the blobs' frames
   // and lets compileAsync below find a ready-to-sample texture.
   try {
-    const envRT = pmremGenerator.fromCubemap(environmentMap);
-    glassMaterial.envMap = envRT.texture;
-    environmentMap.dispose();
-    pmremGenerator.dispose();
+    applyGlassEnvMap(pmremGenerator);
   } catch (e) {
     /* fall back to three's implicit conversion */
   }
@@ -172,6 +169,7 @@ async function warmUpRoom() {
   for (const tex of textures) {
     try {
       renderer.initTexture(tex);
+      releaseTextureImage(tex);
     } catch (e) {
       /* skip a bad texture rather than stall the intro */
     }
@@ -469,15 +467,51 @@ function toGpuBitmap(bitmap) {
   }
 }
 
+// Texture -> URL, so images can be re-fetched after a lost context.
+const textureSources = new Map();
+
 function loadTexture(path) {
   const texture = new THREE.Texture();
   texture.flipY = false;
   texture.colorSpace = THREE.SRGBColorSpace;
+  textureSources.set(texture, path);
+  fetchTextureImage(texture, path);
+  return texture;
+}
+
+function fetchTextureImage(texture, path) {
   bitmapLoader.load(path, (bitmap) => {
+    // three allocates immutable storage sized to the first image it uploads
+    // (the 1x1 placeholder, after a restore), so drop that allocation before
+    // handing it a full-size image. No-op before the first upload.
+    texture.dispose();
     texture.image = toGpuBitmap(bitmap);
     texture.needsUpdate = true;
   });
-  return texture;
+}
+
+// Once a texture is on the GPU its bitmap is dead weight (~16MB of GPU memory
+// per 2K atlas). Swap in a 1x1 stand-in so three still has something valid
+// to upload if the context is ever restored; the real image is re-fetched
+// then (see webglcontextrestored below).
+const placeholderImage = document.createElement("canvas");
+placeholderImage.width = placeholderImage.height = 1;
+
+function releaseTextureImage(texture) {
+  const image = texture.image;
+  if (image && typeof image.close === "function") {
+    image.close();
+    texture.image = placeholderImage;
+  }
+}
+
+function applyGlassEnvMap(generator) {
+  const envRT = generator.fromCubemap(environmentMap);
+  glassMaterial.envMap = envRT.texture;
+  glassMaterial.needsUpdate = true;
+  // The PMREM has its own copy; the cube texture itself is no longer sampled.
+  environmentMap.dispose();
+  generator.dispose();
 }
 
 const dracoLoader = new DRACOLoader(manager);
@@ -738,6 +772,19 @@ renderer.setSize(sizes.width, sizes.height);
 // converts the glass env map.
 const pmremGenerator = new THREE.PMREMGenerator(renderer);
 pmremGenerator.compileCubemapShader();
+
+// A lost context (GPU reset, mobile memory pressure) wipes every GPU resource.
+// three re-uploads textures from texture.image on its own, but by then the
+// atlases only hold the 1x1 placeholder and the glass env map is a render
+// target with nothing in it, so re-fetch the images and rebuild the PMREM.
+canvas.addEventListener("webglcontextrestored", () => {
+  for (const [texture, path] of textureSources) fetchTextureImage(texture, path);
+  try {
+    applyGlassEnvMap(new THREE.PMREMGenerator(renderer));
+  } catch (e) {
+    /* glass keeps whatever env it has */
+  }
+});
 
 // Controls
 const controls = new OrbitControls(camera, renderer.domElement);
